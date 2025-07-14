@@ -1,6 +1,8 @@
 services:
   app:
-    image: tech-challenge-fiap-01:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: ms-users
     ports:
       - "8080:8080"

@@ -1,27 +1,15 @@
 package com.fiap.tech_challenge.parte1.ms_users.services;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.ChangePasswordRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UpdateUserDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersResponseDTO;
-import com.fiap.tech_challenge.parte1.ms_users.domain.exception.EmailAlreadyExistsException;
-import com.fiap.tech_challenge.parte1.ms_users.domain.exception.LoginAlreadyExistsException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserNotFoundException;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.repositories.UserRepository;
 import com.fiap.tech_challenge.parte1.ms_users.services.validation.PasswordValidationService;
-import com.fiap.tech_challenge.parte1.ms_users.services.validation.UsersValidationService;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Service class responsible for managing user operations such as
@@ -31,54 +19,14 @@ import java.util.stream.Collectors;
 public class UsersService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final AddressesService addressesService;
-    private final UsersValidationService usersValidationService;
     private final PasswordValidationService passwordValidationService;
     private final PasswordEncoder passwordEncoder;
 
-    public UsersService(UserRepository userRepository, UserMapper userMapper, AddressesService addressesService,
-                        UsersValidationService usersValidationService, PasswordValidationService passwordValidationService,
+    public UsersService(UserRepository userRepository, PasswordValidationService passwordValidationService,
                         PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.addressesService = addressesService;
-        this.usersValidationService = usersValidationService;
         this.passwordValidationService = passwordValidationService;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    /**
-     * Retrieves a user by ID, including their associated addresses.
-     *
-     * @param id the user ID
-     * @return the user response DTO
-     * @throws UserNotFoundException if the user is not found
-     */
-    public UsersResponseDTO findById(UUID id) {
-        User user = userRepository
-                .findById(id)
-                .orElseThrow(() -> new UserNotFoundException(String.format("Usuário com id %s não encontrado.", id)));
-        List<Address> addressList = addressesService.findAllByUserId(id);
-        user.setAddress(addressList);
-        return userMapper.toResponseDTO(user);
-    }
-
-    /**
-     * Retrieves a paginated list of all users and their addresses.
-     *
-     * @param size page size
-     * @param page page number
-     * @return list of user response DTOs
-     */
-    public List<UsersResponseDTO> findAllUsers(int size, int page) {
-        var offset = (page - 1) * size;
-        var listUsers = userRepository.findAll(size, offset);
-        Set<UUID> userIdSet = listUsers.stream().map(User::getId).collect(Collectors.toSet());
-        Map<String, List<Address>> addressByUserMap = addressesService.findAllByUserIds(userIdSet);
-
-        listUsers.forEach(user -> user.setAddress(addressByUserMap.getOrDefault(user.getId().toString(), List.of())));
-        return userMapper.toResponseDTO(listUsers);
     }
 
     /**
@@ -125,52 +73,6 @@ public class UsersService {
         passwordValidationService.validate(oldPasswordMatches, isSameAsOld);
         String newPasswordEncoded = passwordEncoder.encode(dto.newPassword());
         userRepository.changePassword(id, newPasswordEncoded);
-    }
-
-    /**
-     * Updates user information including name, email, login, and address.
-     *
-     * @param id  the user ID
-     * @param dto the update user DTO
-     * @return the updated user response DTO
-     */
-    @Transactional
-    public UsersResponseDTO updateUser(UUID id, UpdateUserDTO dto) {
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User with id %s not found.".formatted(id)));
-
-        userUpdateValidations(dto, existingUser);
-
-        userRepository.update(
-                existingUser.getId(),
-                dto.name(),
-                dto.email(),
-                dto.login(),
-                existingUser.getPassword());
-
-        if (dto.address() != null && !dto.address().isEmpty()) {
-            addressesService.update(dto.address(), existingUser.getId());
-        }
-
-        return findById(id);
-    }
-
-    /**
-     * Validates user update data for email and login conflicts.
-     *
-     * @param dto          the update user DTO
-     * @param existingUser the current user entity
-     * @throws EmailAlreadyExistsException if the email is already used by another user
-     * @throws LoginAlreadyExistsException if the login is already used by another user
-     */
-    private void userUpdateValidations(UpdateUserDTO dto, User existingUser) {
-        if (userRepository.emailAlreadyExistsForDifferentUsers(dto.email(), existingUser.getId())) {
-            throw new EmailAlreadyExistsException("O e-mail informado já está em uso.");
-        }
-
-        if (userRepository.loginAlreadyExistsForDifferentUsers(dto.login(), existingUser.getId())) {
-            throw new LoginAlreadyExistsException("O login informado já está em uso.");
-        }
     }
 
 }

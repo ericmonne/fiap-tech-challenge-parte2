@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -110,5 +111,15 @@ public class JdbcUserRepository {
                 .query()
                 .optionalValue()
                 .isPresent();
+    }
+
+    public List<User> findAll(int size, int offset) {
+        return jdbcClient.sql("""
+                         SELECT * FROM users LIMIT :size OFFSET :offset
+                        """)
+                .param("size", size)
+                .param("offset", offset)
+                .query(User.class)
+                .list();
     }
 }

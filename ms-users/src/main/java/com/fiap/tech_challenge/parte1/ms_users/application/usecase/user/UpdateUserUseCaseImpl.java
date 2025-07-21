@@ -1,8 +1,8 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.usecase;
+package com.fiap.tech_challenge.parte1.ms_users.application.usecase.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.UpdateUserUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.output.AddressGateway;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.output.UserGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.EmailAlreadyExistsException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.LoginAlreadyExistsException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserNotFoundException;

@@ -1,6 +1,8 @@
 package com.fiap.tech_challenge.parte1.ms_users.interface_adapter.controller;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUserCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindListUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.UpdateUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
@@ -42,14 +44,18 @@ public class UsersController {
     private final UsersService service;
     private final RegisterUserUseCase registerUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
+    private final FindListUserUseCase findListUserUseCase;
+    private final FindByIdUserUserCase findByIdUserUserCase;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
 
-    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
+    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, FindListUserUseCase findListUserUseCase, FindByIdUserUserCase findByIdUserUserCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
         this.service = service;
         this.registerUserUseCase = registerUserUseCase;
         this.updateUserUseCase = updateUserUseCase;
+        this.findListUserUseCase = findListUserUseCase;
+        this.findByIdUserUserCase = findByIdUserUserCase;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.userMapper = userMapper;
@@ -84,7 +90,8 @@ public class UsersController {
     )
     public ResponseEntity<UsersResponseDTO> getById(@PathVariable UUID id) {
         logger.info("/findById -> {}", id);
-        return ResponseEntity.ok(service.findById(id));
+        User userEntity = findByIdUserUserCase.execute(id);
+        return ResponseEntity.ok(userMapper.toResponseDTO(userEntity));
     }
 
     /**
@@ -115,8 +122,8 @@ public class UsersController {
             @RequestParam int page
     ) {
         logger.info("/findAllUsers -> size: {} ,  offset: {}", size, page);
-        var allUsers = this.service.findAllUsers(size, page);
-        return ResponseEntity.ok(allUsers);
+        List<User> allUsers = findListUserUseCase.execute(size, page);
+        return ResponseEntity.ok(userMapper.toResponseDTO(allUsers));
     }
 
     /**

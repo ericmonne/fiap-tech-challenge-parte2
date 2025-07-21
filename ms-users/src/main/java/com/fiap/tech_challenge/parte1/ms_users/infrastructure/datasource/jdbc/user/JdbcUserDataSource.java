@@ -1,9 +1,10 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.output.UserDataSource;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,5 +48,10 @@ public class JdbcUserDataSource implements UserDataSource {
     @Override
     public boolean loginAlreadyExistsForDifferentUsers(String login, UUID userId) {
         return jdbcUserRepository.loginAlreadyExistsForDifferentUsers(login, userId);
+    }
+
+    @Override
+    public List<User> findAll(int size, int offset) {
+        return jdbcUserRepository.findAll(size, offset);
     }
 }

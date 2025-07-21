@@ -1,12 +1,12 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.port.output;
+package com.fiap.tech_challenge.parte1.ms_users.application.port.output.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserGateway {
-
+public interface UserDataSource {
     UUID createUser(User user);
 
     Optional<User> findById(UUID userId);
@@ -18,4 +18,6 @@ public interface UserGateway {
     boolean emailAlreadyExistsForDifferentUsers(String email, UUID userId);
 
     boolean loginAlreadyExistsForDifferentUsers(String login, UUID userId);
+
+    List<User> findAll(int size, int offset);
 }

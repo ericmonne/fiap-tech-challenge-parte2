@@ -1,12 +1,16 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.user;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUserCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindListUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.UpdateUserUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.output.AddressGateway;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.output.UserDataSource;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.output.UserGateway;
-import com.fiap.tech_challenge.parte1.ms_users.application.usecase.RegisterUserUseCaseImpl;
-import com.fiap.tech_challenge.parte1.ms_users.application.usecase.UpdateUserUseCaseImpl;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserDataSource;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.FindByIdUserUserCaseImpl;
+import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.FindListUserUseCaseImpl;
+import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.RegisterUserUseCaseImpl;
+import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.UpdateUserUseCaseImpl;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserRepository;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.gateway.user.UserGatewayImpl;
@@ -36,6 +40,16 @@ public class UserBeanConfig {
     @Bean
     public UpdateUserUseCase registerUpdateUserUseCase(UserGateway userGateway, AddressGateway addressGateway) {
         return new UpdateUserUseCaseImpl(userGateway, addressGateway);
+    }
+
+    @Bean
+    public FindListUserUseCase registerFindListUserUseCase(UserGateway userGateway, AddressGateway addressGateway) {
+        return new FindListUserUseCaseImpl(userGateway, addressGateway);
+    }
+
+    @Bean
+    public FindByIdUserUserCase registerFindByIdUserUserCase(UserGateway userGateway, AddressGateway addressGateway) {
+        return new FindByIdUserUserCaseImpl(userGateway, addressGateway);
     }
 
 }

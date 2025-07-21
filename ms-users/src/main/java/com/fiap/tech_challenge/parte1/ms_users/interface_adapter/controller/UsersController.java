@@ -1,7 +1,8 @@
 package com.fiap.tech_challenge.parte1.ms_users.interface_adapter.controller;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.RegisterUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.UpdateUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.services.TokenService;
@@ -40,13 +41,15 @@ public class UsersController {
 
     private final UsersService service;
     private final RegisterUserUseCase registerUserUseCase;
+    private final UpdateUserUseCase updateUserUseCase;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
 
-    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
+    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
         this.service = service;
         this.registerUserUseCase = registerUserUseCase;
+        this.updateUserUseCase = updateUserUseCase;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.userMapper = userMapper;
@@ -340,8 +343,9 @@ public class UsersController {
             @PathVariable UUID id,
             @RequestBody @Valid UpdateUserDTO dto) {
         logger.info("/updateUser -> id: {}, body: {}", id, dto);
-        var updatedUser = service.updateUser(id, dto);
-        return ResponseEntity.ok(updatedUser);
+        User userEntity = userMapper.toEntity(dto, id);
+        User userAfterUpdate = updateUserUseCase.execute(userEntity);
+        return ResponseEntity.ok(userMapper.toResponseDTO(userAfterUpdate));
     }
 
 }

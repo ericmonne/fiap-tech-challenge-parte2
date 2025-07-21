@@ -11,4 +11,11 @@ public interface UserGateway {
 
     Optional<User> findById(UUID userId);
 
+    void update(User user);
+
+    boolean existsById(UUID id);
+
+    boolean emailAlreadyExistsForDifferentUsers(String email, UUID userId);
+
+    boolean loginAlreadyExistsForDifferentUsers(String login, UUID userId);
 }

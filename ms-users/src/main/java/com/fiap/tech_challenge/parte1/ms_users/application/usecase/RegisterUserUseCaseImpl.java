@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.RegisterUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.AddressGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserNotFoundException;

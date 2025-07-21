@@ -1,5 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UpdateUserDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
@@ -7,6 +8,7 @@ import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.us
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Mapper component responsible for converting {@link User} entities
@@ -78,4 +80,15 @@ public class UserMapper {
         user.setAddress(addressMapper.toEntity(dto.address()));
         return user;
     }
+
+    public User toEntity(UpdateUserDTO dto, UUID userId) {
+        User user = new User();
+        user.setId(userId);
+        user.setEmail(dto.email());
+        user.setName(dto.name());
+        user.setLogin(dto.login());
+        user.setAddress(addressMapper.toEntity(dto.address()));
+        return user;
+    }
+
 }

@@ -2,14 +2,12 @@ package com.fiap.tech_challenge.parte1.ms_users.services;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.ChangePasswordRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UpdateUserDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersResponseDTO;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.Role;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.EmailAlreadyExistsException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.LoginAlreadyExistsException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserNotFoundException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.repositories.UserRepository;
 import com.fiap.tech_challenge.parte1.ms_users.services.validation.PasswordValidationService;
@@ -81,19 +79,6 @@ public class UsersService {
 
         listUsers.forEach(user -> user.setAddress(addressByUserMap.getOrDefault(user.getId().toString(), List.of())));
         return userMapper.toResponseDTO(listUsers);
-    }
-
-    /**
-     * Creates a new user and saves their associated addresses.
-     *
-     * @param dto the user request DTO
-     * @return the created user response DTO
-     */
-    @Transactional
-    public UsersResponseDTO createUser(UsersRequestDTO dto) {
-        UUID generatedUserId = handleUserCreation(dto);
-        handleUserRelatedAddressCreation(dto, generatedUserId);
-        return findById(generatedUserId);
     }
 
     /**
@@ -188,36 +173,4 @@ public class UsersService {
         }
     }
 
-    /**
-     * Saves addresses associated with a user.
-     *
-     * @param dto  the user DTO containing addresses
-     * @param userId the user ID
-     */
-    private void handleUserRelatedAddressCreation(UsersRequestDTO dto, UUID userId) {
-        if (dto.address() != null && !dto.address().isEmpty()) {
-            addressesService.save(dto.address(), userId);
-        }
-    }
-
-    /**
-     * Validates and creates the user in the repository.
-     *
-     * @param dto the user DTO
-     * @return the generated user ID
-     */
-    private UUID handleUserCreation(UsersRequestDTO dto) {
-        usersValidationService.validateAll(dto);
-        String encodedPassword = passwordEncoder.encode(dto.password());
-
-        User user = new User(
-                dto.name(),
-                dto.email(),
-                dto.login(),
-                encodedPassword,
-                Role.valueOf(dto.role())
-        );
-
-        return userRepository.save(user);
-    }
 }

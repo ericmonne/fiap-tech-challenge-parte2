@@ -27,4 +27,25 @@ public class JdbcUserDataSource implements UserDataSource {
     public Optional<User> findById(UUID userId) {
         return jdbcUserRepository.findById(userId);
     }
+
+    @Override
+    public void update(User user) {
+        JdbcUserEntity jdbcUserEntity = userMapper.toJdbcUserEntity(user);
+        jdbcUserRepository.update(jdbcUserEntity);
+    }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return jdbcUserRepository.existsById(id);
+    }
+
+    @Override
+    public boolean emailAlreadyExistsForDifferentUsers(String email, UUID userId) {
+        return jdbcUserRepository.emailAlreadyExistsForDifferentUsers(email, userId);
+    }
+
+    @Override
+    public boolean loginAlreadyExistsForDifferentUsers(String login, UUID userId) {
+        return jdbcUserRepository.loginAlreadyExistsForDifferentUsers(login, userId);
+    }
 }

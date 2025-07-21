@@ -19,4 +19,9 @@ public class AddressGatewayImpl implements AddressGateway {
     public void save(List<Address> addresses, UUID generatedUserId) {
         addressDataSource.save(addresses, generatedUserId);
     }
+
+    @Override
+    public void update(List<Address> addresses, UUID id) {
+        addressDataSource.update(addresses, id);
+    }
 }

@@ -4,6 +4,7 @@ import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -54,4 +55,60 @@ public class JdbcUserRepository {
                 .optional();
     }
 
+    public void update(JdbcUserEntity jdbcUserEntity) {
+        jdbcClient.sql("""
+                            UPDATE users
+                            SET name = :name,
+                                email = :email,
+                                login = :login,
+                                last_modified_date = :last_modified_date
+                            WHERE id = :id
+                        """)
+                .param("id", jdbcUserEntity.getId())
+                .param("name", jdbcUserEntity.getName())
+                .param("email", jdbcUserEntity.getEmail())
+                .param("login", jdbcUserEntity.getLogin())
+                .param("last_modified_date", new Timestamp(System.currentTimeMillis()))
+                .update();
+    }
+
+    public boolean existsById(UUID id) {
+        Integer count = jdbcClient.sql("""
+                        SELECT
+                            COUNT(1)
+                        FROM
+                            users
+                        WHERE email = :email
+                        """)
+                .param("id", id)
+                .query(Integer.class)
+                .single();
+        return count > 0;
+    }
+
+    public boolean emailAlreadyExistsForDifferentUsers(String email, UUID userId) {
+        return jdbcClient.sql("""
+                            SELECT 1 FROM users
+                            WHERE email = :login AND id <> :id
+                            LIMIT 1
+                        """)
+                .param("email", email)
+                .param("id", userId)
+                .query()
+                .optionalValue()
+                .isPresent();
+    }
+
+    public boolean loginAlreadyExistsForDifferentUsers(String login, UUID userId) {
+        return jdbcClient.sql("""
+                            SELECT 1 FROM users
+                            WHERE login = :login AND id <> :id
+                            LIMIT 1
+                        """)
+                .param("login", login)
+                .param("id", userId)
+                .query()
+                .optionalValue()
+                .isPresent();
+    }
 }

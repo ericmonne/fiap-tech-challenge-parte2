@@ -25,4 +25,24 @@ public class UserGatewayImpl implements UserGateway {
     public Optional<User> findById(UUID userId) {
         return userDataSource.findById(userId);
     }
+
+    @Override
+    public void update(User user) {
+        userDataSource.update(user);
+    }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return userDataSource.existsById(id);
+    }
+
+    @Override
+    public boolean emailAlreadyExistsForDifferentUsers(String email, UUID userId) {
+        return userDataSource.emailAlreadyExistsForDifferentUsers(email, userId);
+    }
+
+    @Override
+    public boolean loginAlreadyExistsForDifferentUsers(String login, UUID userId) {
+        return userDataSource.loginAlreadyExistsForDifferentUsers(login, userId);
+    }
 }

@@ -19,7 +19,18 @@ public class JdbcAddressDataSource implements AddressDataSource {
 
     @Override
     public void save(List<Address> addresses, UUID generatedUserId) {
-        List<JdbcAddressEntity> jdbcAddressEntity = addressMapper.toJdbcAddressEntity(addresses);
-        jdbcAddressRepository.save(jdbcAddressEntity, generatedUserId);
+        updateAddressList(addresses, generatedUserId);
     }
+
+    @Override
+    public void update(List<Address> addresses, UUID id) {
+        updateAddressList(addresses, id);
+    }
+
+    private void updateAddressList(List<Address> addresses, UUID id) {
+        List<JdbcAddressEntity> jdbcAddressEntity = addressMapper.toJdbcAddressEntity(addresses);
+        jdbcAddressRepository.save(jdbcAddressEntity, id);
+    }
+
+
 }

@@ -9,4 +9,5 @@ public interface AddressDataSource {
 
     void save(List<Address> addresses, UUID generatedUserId);
 
+    void update(List<Address> addresses, UUID id);
 }

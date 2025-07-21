@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.services.validation;
 
-import com.fiap.tech_challenge.parte1.ms_users.exceptions.InvalidPasswordException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.InvalidPasswordException;
 import com.fiap.tech_challenge.parte1.ms_users.validators.PasswordValidator;
 import org.springframework.stereotype.Component;
 

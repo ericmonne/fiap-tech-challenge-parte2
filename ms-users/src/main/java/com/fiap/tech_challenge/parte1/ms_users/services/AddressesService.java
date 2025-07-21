@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.services;
 
-import com.fiap.tech_challenge.parte1.ms_users.dtos.AddressRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.entities.Address;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.repositories.AddressesRepository;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,28 @@
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.gateway.user;
+
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.UserDataSource;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.UserGateway;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public class UserGatewayImpl implements UserGateway {
+
+    private final UserDataSource userDataSource;
+
+    public UserGatewayImpl(UserDataSource userDataSource) {
+        this.userDataSource = userDataSource;
+    }
+
+
+    @Override
+    public UUID createUser(User user) {
+        return userDataSource.createUser(user);
+    }
+
+    @Override
+    public Optional<User> findById(UUID userId) {
+        return userDataSource.findById(userId);
+    }
+}

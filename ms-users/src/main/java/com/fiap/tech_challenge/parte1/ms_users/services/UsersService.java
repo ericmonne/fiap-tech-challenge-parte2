@@ -1,16 +1,16 @@
 package com.fiap.tech_challenge.parte1.ms_users.services;
 
-import com.fiap.tech_challenge.parte1.ms_users.dtos.ChangePasswordRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.dtos.UpdateUserDTO;
-import com.fiap.tech_challenge.parte1.ms_users.dtos.UsersRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.dtos.UsersResponseDTO;
-import com.fiap.tech_challenge.parte1.ms_users.entities.Address;
-import com.fiap.tech_challenge.parte1.ms_users.entities.Role;
-import com.fiap.tech_challenge.parte1.ms_users.entities.User;
-import com.fiap.tech_challenge.parte1.ms_users.exceptions.EmailAlreadyExistsException;
-import com.fiap.tech_challenge.parte1.ms_users.exceptions.LoginAlreadyExistsException;
-import com.fiap.tech_challenge.parte1.ms_users.exceptions.UserNotFoundException;
-import com.fiap.tech_challenge.parte1.ms_users.mappers.UserMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.ChangePasswordRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UpdateUserDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.Role;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.EmailAlreadyExistsException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.LoginAlreadyExistsException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserNotFoundException;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.repositories.UserRepository;
 import com.fiap.tech_challenge.parte1.ms_users.services.validation.PasswordValidationService;
 import com.fiap.tech_challenge.parte1.ms_users.services.validation.UsersValidationService;

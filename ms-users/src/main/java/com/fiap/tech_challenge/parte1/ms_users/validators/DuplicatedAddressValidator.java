@@ -1,8 +1,8 @@
 package com.fiap.tech_challenge.parte1.ms_users.validators;
 
-import com.fiap.tech_challenge.parte1.ms_users.dtos.AddressRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.dtos.UsersRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.exceptions.DuplicatedAddressException;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.DuplicatedAddressException;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;

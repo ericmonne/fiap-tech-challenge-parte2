@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.repositories;
 
-import com.fiap.tech_challenge.parte1.ms_users.entities.User;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 

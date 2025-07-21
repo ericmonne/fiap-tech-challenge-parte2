@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.repositories;
 
-import com.fiap.tech_challenge.parte1.ms_users.entities.User;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 

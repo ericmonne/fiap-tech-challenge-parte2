@@ -1,0 +1,30 @@
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user;
+
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.UserDataSource;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public class JdbcUserDataSource implements UserDataSource {
+
+    private final JdbcUserRepository jdbcUserRepository;
+    private final UserMapper userMapper;
+
+    public JdbcUserDataSource(JdbcUserRepository jdbcUserRepository, UserMapper userMapper) {
+        this.jdbcUserRepository = jdbcUserRepository;
+        this.userMapper = userMapper;
+    }
+
+    @Override
+    public UUID createUser(User user) {
+        JdbcUserEntity jdbcUserEntity = userMapper.toJdbcUserEntity(user);
+        return jdbcUserRepository.save(jdbcUserEntity);
+    }
+
+    @Override
+    public Optional<User> findById(UUID userId) {
+        return jdbcUserRepository.findById(userId);
+    }
+}

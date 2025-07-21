@@ -1,0 +1,26 @@
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.user;
+
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.AddressDataSource;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.AddressGateway;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address.JdbcAddressDataSource;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address.JdbcAddressRepository;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.gateway.address.AddressGatewayImpl;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.AddressMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AddressBeanConfig {
+
+    @Bean
+    AddressDataSource registerAddressDataSource(JdbcAddressRepository jdbcAddressRepository, AddressMapper addressMapper) {
+        return new JdbcAddressDataSource(jdbcAddressRepository, addressMapper);
+    }
+
+    @Bean
+    public AddressGateway registerAddressGateway(AddressDataSource addressDataSource) {
+        return new AddressGatewayImpl(addressDataSource);
+    }
+
+}
+

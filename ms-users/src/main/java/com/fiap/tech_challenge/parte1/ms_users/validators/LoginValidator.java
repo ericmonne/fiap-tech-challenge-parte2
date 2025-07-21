@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.validators;
 
-import com.fiap.tech_challenge.parte1.ms_users.dtos.UsersRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.exceptions.LoginAlreadyExistsException;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.LoginAlreadyExistsException;
 import com.fiap.tech_challenge.parte1.ms_users.repositories.UserRepository;
 import org.springframework.stereotype.Component;
 

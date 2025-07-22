@@ -5,7 +5,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.A
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address.JdbcAddressDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address.JdbcAddressRepository;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.gateway.address.AddressGatewayImpl;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.AddressMapper;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.IAddressMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 public class AddressBeanConfig {
 
     @Bean
-    AddressDataSource registerAddressDataSource(JdbcAddressRepository jdbcAddressRepository, AddressMapper addressMapper) {
-        return new JdbcAddressDataSource(jdbcAddressRepository, addressMapper);
+    AddressDataSource registerAddressDataSource(JdbcAddressRepository jdbcAddressRepository, IAddressMapper iAddressMapper) {
+        return new JdbcAddressDataSource(jdbcAddressRepository, iAddressMapper);
     }
 
     @Bean

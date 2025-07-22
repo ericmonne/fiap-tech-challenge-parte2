@@ -1,7 +1,11 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.user;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.controller.UsersControllerInputPortImpl;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.controller.UsersControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.*;
@@ -12,6 +16,7 @@ import com.fiap.tech_challenge.parte1.ms_users.infrastructure.gateway.user.UserG
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -28,8 +33,8 @@ public class UserBeanConfig {
     }
 
     @Bean
-    public RegisterUserUseCase registerStudentUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder) {
-        return new RegisterUserUseCaseImpl(userGateway, addressGateway, passwordEncoder);
+    public RegisterUserUseCase registerStudentUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper) {
+        return new RegisterUserUseCaseImpl(userGateway, addressGateway, passwordEncoder, tokenProvider, iUserMapper);
     }
 
     @Bean
@@ -65,6 +70,16 @@ public class UserBeanConfig {
     @Bean
     public ChangePasswordUserUseCase registerChangePasswordUserUseCase(UserGateway userGateway, PasswordEncoder passwordEncoder, PasswordPolicy passwordPolicy) {
         return new ChangePasswordUserUseCaseImpl(userGateway, passwordEncoder, passwordPolicy);
+    }
+
+    @Bean
+    public AuthenticateUserUseCase registerAuthenticateUserUseCase(AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
+        return new AuthenticateUserUseCaseImpl(authenticationManager, tokenProvider);
+    }
+
+    @Bean
+    public UsersControllerInputPort registerUsersControllerInputPort(RegisterUserUseCase registerStudentUseCase, UpdateUserUseCase registerUpdateUserUseCase, FindListUserUseCase registerFindListUserUseCase, FindByIdUserUseCase registerFindByIdUserUserCase, DeactivateUserUseCase registerDeactivateUserUseCase, ReactivateUserUseCase registerReactivateUserUseCase, ChangePasswordUserUseCase registerChangePasswordUserUseCase, AuthenticateUserUseCase registerAuthenticateUserUseCase, IUserMapper iUserMapper) {
+        return new UsersControllerInputPortImpl(registerStudentUseCase, registerUpdateUserUseCase, registerFindListUserUseCase, registerFindByIdUserUserCase, registerDeactivateUserUseCase, registerReactivateUserUseCase, registerChangePasswordUserUseCase, registerAuthenticateUserUseCase, iUserMapper);
     }
 
 }

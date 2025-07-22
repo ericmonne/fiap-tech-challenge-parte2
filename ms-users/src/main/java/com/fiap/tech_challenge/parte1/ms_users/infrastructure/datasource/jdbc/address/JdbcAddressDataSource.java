@@ -1,8 +1,8 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.AddressMapper;
 
 import java.util.List;
 import java.util.Set;
@@ -11,11 +11,11 @@ import java.util.UUID;
 public class JdbcAddressDataSource implements AddressDataSource {
 
     private final JdbcAddressRepository jdbcAddressRepository;
-    private final AddressMapper addressMapper;
+    private final IAddressMapper iAddressMapper;
 
-    public JdbcAddressDataSource(JdbcAddressRepository jdbcAddressRepository, AddressMapper addressMapper) {
+    public JdbcAddressDataSource(JdbcAddressRepository jdbcAddressRepository, IAddressMapper iAddressMapper) {
         this.jdbcAddressRepository = jdbcAddressRepository;
-        this.addressMapper = addressMapper;
+        this.iAddressMapper = iAddressMapper;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class JdbcAddressDataSource implements AddressDataSource {
     }
 
     private void updateAddressList(List<Address> addresses, UUID id) {
-        List<JdbcAddressEntity> jdbcAddressEntity = addressMapper.toJdbcAddressEntity(addresses);
+        List<JdbcAddressEntity> jdbcAddressEntity = iAddressMapper.toJdbcAddressEntity(addresses);
         jdbcAddressRepository.save(jdbcAddressEntity, id);
     }
 

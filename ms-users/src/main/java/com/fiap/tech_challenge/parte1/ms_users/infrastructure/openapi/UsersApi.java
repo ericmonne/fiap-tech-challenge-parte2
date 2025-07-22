@@ -1,10 +1,7 @@
-package com.fiap.tech_challenge.parte1.ms_users.interface_adapter.controller;
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.openapi;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
-import com.fiap.tech_challenge.parte1.ms_users.services.TokenService;
+import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,61 +9,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-/**
- * REST controller for managing users.
- * <p>
- * Provides endpoints to create, update, retrieve, activate/deactivate users,
- * and handle authentication-related operations.
- * </p>
- */
-@RestController
 @RequestMapping("/users")
-public class UsersController {
+public interface UsersApi {
 
-    private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
-
-    private final RegisterUserUseCase registerUserUseCase;
-    private final UpdateUserUseCase updateUserUseCase;
-    private final FindListUserUseCase findListUserUseCase;
-    private final FindByIdUserUseCase findByIdUserUseCase;
-    private final DeactivateUserUseCase deactivateUserUseCase;
-    private final ReactivateUserUseCase reactivateUserUseCase;
-    private final ChangePasswordUserUseCase changePasswordUserUseCase;
-    private final TokenService tokenService;
-    private final AuthenticationManager authenticationManager;
-    private final UserMapper userMapper;
-
-    public UsersController(RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, FindListUserUseCase findListUserUseCase, FindByIdUserUseCase findByIdUserUseCase, DeactivateUserUseCase deactivateUserUseCase, ReactivateUserUseCase reactivateUserUseCase, ChangePasswordUserUseCase changePasswordUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
-        this.registerUserUseCase = registerUserUseCase;
-        this.updateUserUseCase = updateUserUseCase;
-        this.findListUserUseCase = findListUserUseCase;
-        this.findByIdUserUseCase = findByIdUserUseCase;
-        this.deactivateUserUseCase = deactivateUserUseCase;
-        this.reactivateUserUseCase = reactivateUserUseCase;
-        this.changePasswordUserUseCase = changePasswordUserUseCase;
-        this.tokenService = tokenService;
-        this.authenticationManager = authenticationManager;
-        this.userMapper = userMapper;
-    }
-
-    /**
-     * Retrieves a user by their unique ID.
-     *
-     * @param id UUID of the user to retrieve
-     * @return ResponseEntity containing the user data if found
-     */
     @GetMapping("/{id}")
     @Operation(
             summary = "Busca",
@@ -81,26 +32,13 @@ public class UsersController {
                                     schema = @Schema(implementation = UsersResponseDTO.class)
                             )
                     ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "NOT FOUND",
-                            content = @Content(schema = @Schema(hidden = true))
-                    )
+                    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true)))
             }
     )
-    public ResponseEntity<UsersResponseDTO> getById(@PathVariable UUID id) {
-        logger.info("/findById -> {}", id);
-        User userEntity = findByIdUserUseCase.execute(id);
-        return ResponseEntity.ok(userMapper.toResponseDTO(userEntity));
+    default ResponseEntity<UsersResponseDTO> getById(@PathVariable UUID id) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
-    /**
-     * Retrieves a paginated list of users.
-     *
-     * @param size number of users per page
-     * @param page page index (zero-based)
-     * @return ResponseEntity with the list of users
-     */
     @GetMapping
     @Operation(
             summary = "Lista usuários",
@@ -117,21 +55,12 @@ public class UsersController {
                     )
             }
     )
-    public ResponseEntity<List<UsersResponseDTO>> findAllUsers(
+    default ResponseEntity<List<UsersResponseDTO>> findAllUsers(
             @RequestParam int size,
-            @RequestParam int page
-    ) {
-        logger.info("/findAllUsers -> size: {} ,  offset: {}", size, page);
-        List<User> allUsers = findListUserUseCase.execute(size, page);
-        return ResponseEntity.ok(userMapper.toResponseDTO(allUsers));
+            @RequestParam int page) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
-    /**
-     * Creates a new user.
-     *
-     * @param dto User creation request data validated automatically
-     * @return ResponseEntity containing the created user and a generated JWT token
-     */
     @PostMapping
     @Operation(
             summary = "Cadastro",
@@ -144,8 +73,7 @@ public class UsersController {
             ),
             @ApiResponse(responseCode = "400", description = "Invalid input data",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(
-                                    example = """
+                            schema = @Schema(example = """
                                             {
                                               "timestamp": "2025-05-31T15:00:00Z",
                                               "status": 400,
@@ -160,19 +88,10 @@ public class UsersController {
             ),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true)))
     })
-    public ResponseEntity<CreateUserDTO> create(@RequestBody @Valid UsersRequestDTO dto) {
-        logger.info("/createUser -> {}", dto);
-        User userEntity = userMapper.toEntity(dto);
-        User userEntityAfterCreation = registerUserUseCase.execute(userEntity);
-        return ResponseEntity.ok(new CreateUserDTO(userMapper.toResponseDTO(userEntityAfterCreation), tokenService.generateToken(dto.login())));
+    default ResponseEntity<CreateUserDTO> create(@RequestBody @Valid UsersRequestDTO dto) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
-    /**
-     * Authenticates a user and returns a JWT token if successful.
-     *
-     * @param data User login credentials validated automatically
-     * @return ResponseEntity containing the JWT token
-     */
     @PostMapping("/login")
     @Operation(
             summary = "Login",
@@ -185,8 +104,7 @@ public class UsersController {
             ),
             @ApiResponse(responseCode = "400", description = "Invalid input data",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(
-                                    example = """
+                            schema = @Schema(example = """
                                             {
                                               "timestamp": "2025-05-31T15:00:00Z",
                                               "status": 400,
@@ -201,8 +119,7 @@ public class UsersController {
             ),
             @ApiResponse(responseCode = "401", description = "Authentication failed",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(
-                                    example = """
+                            schema = @Schema(example = """
                                             {
                                               "timestamp": "2025-05-31T15:00:00Z",
                                               "status": 401,
@@ -215,22 +132,10 @@ public class UsersController {
             ),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true)))
     })
-    public ResponseEntity<TokenJWTInfoDTO> executeLogin(@RequestBody @Valid AuthenticationDataDTO data) {
-        logger.info("/login -> {}", data);
-        var authenticationToken = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-
-        var tokenJWT = tokenService.generateToken(((User) authentication.getPrincipal()).getLogin());
-        return ResponseEntity.ok(new TokenJWTInfoDTO(tokenJWT));
+    default ResponseEntity<TokenJWTInfoDTO> executeLogin(@RequestBody @Valid AuthenticationDataDTO data) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
-    /**
-     * Toggles user activation status.
-     *
-     * @param id       UUID of the user to activate/deactivate
-     * @param activate true to activate, false to deactivate
-     * @return ResponseEntity with confirmation message
-     */
     @PatchMapping("/{id}")
     @Operation(
             summary = "Ativa/Inativa usuário",
@@ -239,37 +144,19 @@ public class UsersController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User activated / User deactivated",
-                    content = @io.swagger.v3.oas.annotations.media.Content(
-                            mediaType = "text/plain",
-                            schema = @io.swagger.v3.oas.annotations.media.Schema(type = "string")
-                    )
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string"))
             ),
             @ApiResponse(responseCode = "400", description = "Invalid UUID or parameter", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true)))
     })
-    public ResponseEntity<String> toggleActivation(
+    default ResponseEntity<String> toggleActivation(
             @PathVariable UUID id,
-            @RequestParam boolean activate
-    ) {
-        logger.info("/toggleActivation -> id: {}, activate: {}", id, activate);
-
-        if (activate) {
-            reactivateUserUseCase.execute(id);
-            return ResponseEntity.ok("User activated!");
-        } else {
-            deactivateUserUseCase.execute(id);
-            return ResponseEntity.ok("User deactivated!");
-        }
+            @RequestParam boolean activate) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
-    /**
-     * Changes the password of a user.
-     *
-     * @param id  UUID of the user whose password is to be changed
-     * @param dto Change password request containing old and new passwords
-     * @return ResponseEntity with confirmation message
-     */
     @PatchMapping("/{id}/password")
     @Operation(
             summary = "Altera senha",
@@ -283,8 +170,7 @@ public class UsersController {
             ),
             @ApiResponse(responseCode = "400", description = "Invalid input data",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(
-                                    example = """
+                            schema = @Schema(example = """
                                             {
                                               "timestamp": "2025-05-31T15:00:00Z",
                                               "status": 400,
@@ -300,22 +186,12 @@ public class UsersController {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true)))
     })
-    public ResponseEntity<String> changePassword(
+    default ResponseEntity<String> changePassword(
             @PathVariable UUID id,
-            @RequestBody @Valid ChangePasswordRequestDTO dto
-    ) {
-        logger.info("/changePassword -> id: {}", id);
-        changePasswordUserUseCase.execute(id, new ChangePasswordCommand(dto.oldPassword(), dto.newPassword()));
-        return ResponseEntity.ok("Password updated successfully!");
+            @RequestBody @Valid ChangePasswordRequestDTO dto) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
-    /**
-     * Updates user details.
-     *
-     * @param id  UUID of the user to update
-     * @param dto Update user request data validated automatically
-     * @return ResponseEntity containing the updated user data
-     */
     @PutMapping("/{id}")
     @Operation(
             summary = "Atualiza",
@@ -329,8 +205,7 @@ public class UsersController {
             ),
             @ApiResponse(responseCode = "400", description = "Invalid input data",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(
-                                    example = """
+                            schema = @Schema(example = """
                                             {
                                               "timestamp": "2025-05-31T15:00:00Z",
                                               "status": 400,
@@ -346,13 +221,9 @@ public class UsersController {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true)))
     })
-    public ResponseEntity<UsersResponseDTO> updateUser(
+    default ResponseEntity<UsersResponseDTO> updateUser(
             @PathVariable UUID id,
             @RequestBody @Valid UpdateUserDTO dto) {
-        logger.info("/updateUser -> id: {}, body: {}", id, dto);
-        User userEntity = userMapper.toEntity(dto, id);
-        User userAfterUpdate = updateUserUseCase.execute(userEntity);
-        return ResponseEntity.ok(userMapper.toResponseDTO(userAfterUpdate));
+        throw new UnsupportedOperationException("Not implemented");
     }
-
 }

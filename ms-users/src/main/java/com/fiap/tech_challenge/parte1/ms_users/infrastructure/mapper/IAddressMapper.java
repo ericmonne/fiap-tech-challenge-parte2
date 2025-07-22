@@ -16,7 +16,7 @@ import java.util.List;
  * to {@link AddressResponseDTO} data transfer objects.
  */
 @Component
-public class AddressMapper {
+public class IAddressMapper implements com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper {
 
     /**
      * Converts a single {@link Address} entity to an {@link AddressResponseDTO}.
@@ -24,6 +24,7 @@ public class AddressMapper {
      * @param address the {@link Address} entity to convert
      * @return the corresponding {@link AddressResponseDTO}
      */
+    @Override
     public AddressResponseDTO toAddressRequestDTO(Address address) {
         return new AddressResponseDTO(
                 address.getId(),
@@ -43,12 +44,14 @@ public class AddressMapper {
      * @param addresses the list of {@link Address} entities to convert
      * @return a list of corresponding {@link AddressResponseDTO}s
      */
+    @Override
     public List<AddressResponseDTO> toAddressRequestDTO(List<Address> addresses) {
         return addresses.stream()
                 .map(this::toAddressRequestDTO)
                 .toList();
     }
 
+    @Override
     public List<Address> toEntity(@Valid @NotEmpty(message = "User must have at least one Address") List<AddressRequestDTO> address) {
         List<Address> addresses = new ArrayList<>();
         for (AddressRequestDTO addressRequestDTO : address) {
@@ -65,6 +68,7 @@ public class AddressMapper {
         return addresses;
     }
 
+    @Override
     public List<JdbcAddressEntity> toJdbcAddressEntity(List<Address> addresses) {
         return addresses.stream().map(this::toJdbcAddressEntity).toList();
     }

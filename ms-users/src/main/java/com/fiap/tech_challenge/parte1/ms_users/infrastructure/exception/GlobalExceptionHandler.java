@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.shared.exception;
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.exception;
 
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.*;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.services;
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.security;
 
 import com.fiap.tech_challenge.parte1.ms_users.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

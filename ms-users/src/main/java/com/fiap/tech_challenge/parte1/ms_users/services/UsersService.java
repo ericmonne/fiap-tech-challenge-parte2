@@ -30,32 +30,6 @@ public class UsersService {
     }
 
     /**
-     * Deactivates a user by ID.
-     *
-     * @param id the user ID
-     * @throws UserNotFoundException if the user is not found
-     */
-    public void deactivateUser(UUID id) {
-        User user = userRepository
-                .findById(id)
-                .orElseThrow(() -> new UserNotFoundException(String.format("Usuário com id %s não encontrado.", id)));
-        userRepository.deactivate(user.getId());
-    }
-
-    /**
-     * Reactivates a previously deactivated user.
-     *
-     * @param id the user ID
-     * @throws UserNotFoundException if the user is not found
-     */
-    public void reactivateUser(UUID id) {
-        User user = userRepository
-                .findById(id)
-                .orElseThrow(() -> new UserNotFoundException(String.format("Usuário com id %s não encontrado.", id)));
-        userRepository.reactivate(user.getId());
-    }
-
-    /**
      * Changes the password of a user after validating the old password.
      *
      * @param id  the user ID

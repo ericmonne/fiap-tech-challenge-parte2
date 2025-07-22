@@ -51,4 +51,14 @@ public class UserGatewayImpl implements UserGateway {
     public List<User> findAll(int size, int offset) {
         return userDataSource.findAll(size, offset);
     }
+
+    @Override
+    public void reactivate(UUID id) {
+        userDataSource.reactivate(id);
+    }
+
+    @Override
+    public void deactivate(UUID id) {
+        userDataSource.deactivate(id);
+    }
 }

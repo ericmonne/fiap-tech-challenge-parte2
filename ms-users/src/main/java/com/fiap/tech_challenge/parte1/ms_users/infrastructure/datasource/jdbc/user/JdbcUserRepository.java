@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -122,4 +123,25 @@ public class JdbcUserRepository {
                 .query(User.class)
                 .list();
     }
+
+    public void reactivate(UUID id) {
+        jdbcClient.sql("UPDATE users SET active = :active, last_modified_date = :last_modified_date WHERE id = :id")
+                .param("id", id)
+                .param("active", true)
+                .param("last_modified_date", now())
+                .update();
+    }
+
+    public void deactivate(UUID id) {
+        jdbcClient.sql("UPDATE users SET active = :active, last_modified_date = :last_modified_date WHERE id = :id")
+                .param("id", id)
+                .param("active", false)
+                .param("last_modified_date", now())
+                .update();
+    }
+
+    private Timestamp now() {
+        return Timestamp.from(Instant.now());
+    }
+
 }

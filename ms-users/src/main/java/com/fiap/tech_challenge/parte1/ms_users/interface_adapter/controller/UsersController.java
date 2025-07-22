@@ -1,10 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.interface_adapter.controller;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindListUserUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.UpdateUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.services.TokenService;
@@ -46,16 +43,20 @@ public class UsersController {
     private final UpdateUserUseCase updateUserUseCase;
     private final FindListUserUseCase findListUserUseCase;
     private final FindByIdUserUseCase findByIdUserUseCase;
+    private final DeactivateUserUseCase deactivateUserUseCase;
+    private final ReactivateUserUseCase reactivateUserUseCase;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
 
-    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, FindListUserUseCase findListUserUseCase, FindByIdUserUseCase findByIdUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
+    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, FindListUserUseCase findListUserUseCase, FindByIdUserUseCase findByIdUserUseCase, DeactivateUserUseCase deactivateUserUseCase, ReactivateUserUseCase reactivateUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
         this.service = service;
         this.registerUserUseCase = registerUserUseCase;
         this.updateUserUseCase = updateUserUseCase;
         this.findListUserUseCase = findListUserUseCase;
         this.findByIdUserUseCase = findByIdUserUseCase;
+        this.deactivateUserUseCase = deactivateUserUseCase;
+        this.reactivateUserUseCase = reactivateUserUseCase;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.userMapper = userMapper;
@@ -255,10 +256,10 @@ public class UsersController {
         logger.info("/toggleActivation -> id: {}, activate: {}", id, activate);
 
         if (activate) {
-            service.reactivateUser(id);
+            reactivateUserUseCase.execute(id);
             return ResponseEntity.ok("User activated!");
         } else {
-            service.deactivateUser(id);
+            deactivateUserUseCase.execute(id);
             return ResponseEntity.ok("User deactivated!");
         }
     }

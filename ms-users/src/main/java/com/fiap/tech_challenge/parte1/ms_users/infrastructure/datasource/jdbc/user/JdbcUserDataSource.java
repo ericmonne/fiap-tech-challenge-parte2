@@ -54,4 +54,14 @@ public class JdbcUserDataSource implements UserDataSource {
     public List<User> findAll(int size, int offset) {
         return jdbcUserRepository.findAll(size, offset);
     }
+
+    @Override
+    public void reactivate(UUID id) {
+        jdbcUserRepository.reactivate(id);
+    }
+
+    @Override
+    public void deactivate(UUID id) {
+        jdbcUserRepository.deactivate(id);
+    }
 }

@@ -21,4 +21,8 @@ public interface UserGateway {
     boolean loginAlreadyExistsForDifferentUsers(String login, UUID userId);
 
     List<User> findAll(int size, int offset);
+
+    void reactivate(UUID id);
+
+    void deactivate(UUID id);
 }

@@ -1,15 +1,9 @@
 package com.fiap.tech_challenge.parte1.ms_users.domain.model;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Represents a user entity with authentication and authorization details.
- * Implements {@link UserDetails} to integrate with Spring Security.
- */
 public class User {
 
     private UUID id;

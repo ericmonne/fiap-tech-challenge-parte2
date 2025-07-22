@@ -1,32 +1,27 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.user;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AuthenticatedUser;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AuthenticationDataDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AuthenticationRequest;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.TokenJWTInfoDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.AuthenticateUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.Authenticator;
 
 public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
 
-    private final AuthenticationManager authenticationManager;
     private final TokenProvider tokenProvider;
+    private final Authenticator authenticator;
 
-    public AuthenticateUserUseCaseImpl(AuthenticationManager authenticationManager,
-                                       TokenProvider tokenProvider) {
-        this.authenticationManager = authenticationManager;
+    public AuthenticateUserUseCaseImpl(TokenProvider tokenProvider, Authenticator authenticator) {
         this.tokenProvider = tokenProvider;
+        this.authenticator = authenticator;
     }
 
     @Override
     public TokenJWTInfoDTO execute(AuthenticationDataDTO credentials) {
-        var authToken = new UsernamePasswordAuthenticationToken(
-                credentials.login(), credentials.password()
-        );
-        Authentication auth = authenticationManager.authenticate(authToken);
-        String token = tokenProvider.generateToken(((User) auth.getPrincipal()).getLogin());
+        AuthenticatedUser authenticatedUser = authenticator.authenticate(new AuthenticationRequest(credentials.login(), credentials.password()));
+        String token = tokenProvider.generateToken(authenticatedUser.login());
         return new TokenJWTInfoDTO(token);
     }
 }

@@ -1,23 +1,23 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.controller.UsersControllerInputPortImpl;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.UsersControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.UsersControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.Authenticator;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.domain.service.PasswordPolicy;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.user.UserGatewayImpl;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserRepository;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.user.UserGatewayImpl;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -76,8 +76,8 @@ public class UserBeanConfig {
     }
 
     @Bean
-    public AuthenticateUserUseCase registerAuthenticateUserUseCase(AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
-        return new AuthenticateUserUseCaseImpl(authenticationManager, tokenProvider);
+    public AuthenticateUserUseCase registerAuthenticateUserUseCase(TokenProvider tokenProvider, Authenticator authenticator) {
+        return new AuthenticateUserUseCaseImpl(tokenProvider, authenticator);
     }
 
     @Bean

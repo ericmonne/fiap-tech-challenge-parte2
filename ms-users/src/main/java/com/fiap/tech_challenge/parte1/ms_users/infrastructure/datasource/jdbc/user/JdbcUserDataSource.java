@@ -64,4 +64,9 @@ public class JdbcUserDataSource implements UserDataSource {
     public void deactivate(UUID id) {
         jdbcUserRepository.deactivate(id);
     }
+
+    @Override
+    public void changePassword(UUID id, String newPasswordEncoded) {
+        jdbcUserRepository.changePassword(id, newPasswordEncoded);
+    }
 }

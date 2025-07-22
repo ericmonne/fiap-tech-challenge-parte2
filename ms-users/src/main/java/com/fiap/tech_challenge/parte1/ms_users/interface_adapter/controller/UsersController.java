@@ -5,7 +5,6 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.services.TokenService;
-import com.fiap.tech_challenge.parte1.ms_users.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,25 +37,25 @@ public class UsersController {
 
     private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
-    private final UsersService service;
     private final RegisterUserUseCase registerUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final FindListUserUseCase findListUserUseCase;
     private final FindByIdUserUseCase findByIdUserUseCase;
     private final DeactivateUserUseCase deactivateUserUseCase;
     private final ReactivateUserUseCase reactivateUserUseCase;
+    private final ChangePasswordUserUseCase changePasswordUserUseCase;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
 
-    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, FindListUserUseCase findListUserUseCase, FindByIdUserUseCase findByIdUserUseCase, DeactivateUserUseCase deactivateUserUseCase, ReactivateUserUseCase reactivateUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
-        this.service = service;
+    public UsersController(RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, FindListUserUseCase findListUserUseCase, FindByIdUserUseCase findByIdUserUseCase, DeactivateUserUseCase deactivateUserUseCase, ReactivateUserUseCase reactivateUserUseCase, ChangePasswordUserUseCase changePasswordUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
         this.registerUserUseCase = registerUserUseCase;
         this.updateUserUseCase = updateUserUseCase;
         this.findListUserUseCase = findListUserUseCase;
         this.findByIdUserUseCase = findByIdUserUseCase;
         this.deactivateUserUseCase = deactivateUserUseCase;
         this.reactivateUserUseCase = reactivateUserUseCase;
+        this.changePasswordUserUseCase = changePasswordUserUseCase;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.userMapper = userMapper;
@@ -306,7 +305,7 @@ public class UsersController {
             @RequestBody @Valid ChangePasswordRequestDTO dto
     ) {
         logger.info("/changePassword -> id: {}", id);
-        service.changePassword(id, dto);
+        changePasswordUserUseCase.execute(id, new ChangePasswordCommand(dto.oldPassword(), dto.newPassword()));
         return ResponseEntity.ok("Password updated successfully!");
     }
 

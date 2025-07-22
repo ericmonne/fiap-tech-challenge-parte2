@@ -144,4 +144,11 @@ public class JdbcUserRepository {
         return Timestamp.from(Instant.now());
     }
 
+    public void changePassword(UUID id, String newPasswordEncoded) {
+        jdbcClient.sql("UPDATE users SET password = :password, last_modified_date = :last_modified_date WHERE id = :id")
+                .param("id", id)
+                .param("password", newPasswordEncoded)
+                .param("last_modified_date", now())
+                .update();
+    }
 }

@@ -25,4 +25,6 @@ public interface UserGateway {
     void reactivate(UUID id);
 
     void deactivate(UUID id);
+
+    void changePassword(UUID id, String newPasswordEncoded);
 }

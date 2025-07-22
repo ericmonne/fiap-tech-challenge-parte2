@@ -61,4 +61,9 @@ public class UserGatewayImpl implements UserGateway {
     public void deactivate(UUID id) {
         userDataSource.deactivate(id);
     }
+
+    @Override
+    public void changePassword(UUID id, String newPasswordEncoded) {
+        userDataSource.changePassword(id, newPasswordEncoded);
+    }
 }

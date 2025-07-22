@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.interface_adapter.controller;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUserCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindListUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.UpdateUserUseCase;
@@ -45,17 +45,17 @@ public class UsersController {
     private final RegisterUserUseCase registerUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final FindListUserUseCase findListUserUseCase;
-    private final FindByIdUserUserCase findByIdUserUserCase;
+    private final FindByIdUserUseCase findByIdUserUseCase;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
 
-    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, FindListUserUseCase findListUserUseCase, FindByIdUserUserCase findByIdUserUserCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
+    public UsersController(UsersService service, RegisterUserUseCase registerUserUseCase, UpdateUserUseCase updateUserUseCase, FindListUserUseCase findListUserUseCase, FindByIdUserUseCase findByIdUserUseCase, TokenService tokenService, AuthenticationManager authenticationManager, UserMapper userMapper) {
         this.service = service;
         this.registerUserUseCase = registerUserUseCase;
         this.updateUserUseCase = updateUserUseCase;
         this.findListUserUseCase = findListUserUseCase;
-        this.findByIdUserUserCase = findByIdUserUserCase;
+        this.findByIdUserUseCase = findByIdUserUseCase;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.userMapper = userMapper;
@@ -90,7 +90,7 @@ public class UsersController {
     )
     public ResponseEntity<UsersResponseDTO> getById(@PathVariable UUID id) {
         logger.info("/findById -> {}", id);
-        User userEntity = findByIdUserUserCase.execute(id);
+        User userEntity = findByIdUserUseCase.execute(id);
         return ResponseEntity.ok(userMapper.toResponseDTO(userEntity));
     }
 

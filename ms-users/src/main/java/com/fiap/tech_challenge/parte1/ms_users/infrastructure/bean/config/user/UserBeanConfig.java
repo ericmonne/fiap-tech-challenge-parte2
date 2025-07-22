@@ -1,13 +1,13 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.user;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUserCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindListUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.UpdateUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
-import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.FindByIdUserUserCaseImpl;
+import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.FindByIdUserUseCaseImpl;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.FindListUserUseCaseImpl;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.RegisterUserUseCaseImpl;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.UpdateUserUseCaseImpl;
@@ -48,8 +48,8 @@ public class UserBeanConfig {
     }
 
     @Bean
-    public FindByIdUserUserCase registerFindByIdUserUserCase(UserGateway userGateway, AddressGateway addressGateway) {
-        return new FindByIdUserUserCaseImpl(userGateway, addressGateway);
+    public FindByIdUserUseCase registerFindByIdUserUserCase(UserGateway userGateway, AddressGateway addressGateway) {
+        return new FindByIdUserUseCaseImpl(userGateway, addressGateway);
     }
 
 }

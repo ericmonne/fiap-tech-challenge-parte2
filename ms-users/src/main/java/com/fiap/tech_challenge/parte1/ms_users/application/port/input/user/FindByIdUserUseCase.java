@@ -4,6 +4,6 @@ import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 
 import java.util.UUID;
 
-public interface FindByIdUserUserCase {
+public interface FindByIdUserUseCase {
     User execute(UUID id);
 }

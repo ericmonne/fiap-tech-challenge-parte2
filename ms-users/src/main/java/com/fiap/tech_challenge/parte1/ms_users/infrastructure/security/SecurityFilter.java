@@ -50,6 +50,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (tokenJWT != null) {
             String subject = tokenProvider.extractUserLoginFromToken(tokenJWT);
             UserDetails userDetails = userGateway.findByLogin(subject)
+                    .map(UserDetailsAdapter::new)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found: " + subject));
             var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

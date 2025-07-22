@@ -30,6 +30,7 @@ public class AuthenticationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userGateway.findByLogin(username)
+                .map(UserDetailsAdapter::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }

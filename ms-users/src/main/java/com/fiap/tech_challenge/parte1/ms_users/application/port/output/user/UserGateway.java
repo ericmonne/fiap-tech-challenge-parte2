@@ -27,4 +27,8 @@ public interface UserGateway {
     void deactivate(UUID id);
 
     void changePassword(UUID id, String newPasswordEncoded);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByLogin(String login);
 }

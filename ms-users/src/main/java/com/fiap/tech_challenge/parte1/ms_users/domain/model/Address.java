@@ -10,7 +10,7 @@ public class Address {
     private UUID id;
     private String zipcode;
     private String street;
-    private int number;
+    private Integer number;
     private String complement;
     private String neighborhood;
     private String city;
@@ -55,7 +55,7 @@ public class Address {
      *
      * @return the street number as an int
      */
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 

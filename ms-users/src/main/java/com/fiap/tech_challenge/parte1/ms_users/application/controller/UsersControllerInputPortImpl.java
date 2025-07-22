@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.controller;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.controller.UsersControllerInputPort;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.UsersControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;

@@ -1,13 +1,14 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.controller.UsersControllerInputPortImpl;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.controller.UsersControllerInputPort;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.UsersControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.domain.service.PasswordPolicy;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserDataSource;
@@ -18,6 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 @Configuration
 public class UserBeanConfig {
@@ -33,8 +36,8 @@ public class UserBeanConfig {
     }
 
     @Bean
-    public RegisterUserUseCase registerStudentUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper) {
-        return new RegisterUserUseCaseImpl(userGateway, addressGateway, passwordEncoder, tokenProvider, iUserMapper);
+    public RegisterUserUseCase registerStudentUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators) {
+        return new RegisterUserUseCaseImpl(userGateway, addressGateway, passwordEncoder, tokenProvider, iUserMapper, userValidators);
     }
 
     @Bean

@@ -1,8 +1,10 @@
-package com.fiap.tech_challenge.parte1.ms_users.validators;
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.validators;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserValidator;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.DuplicatedAddressException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -18,15 +20,9 @@ import java.util.Set;
 @Component
 public class DuplicatedAddressValidator implements UserValidator {
 
-    /**
-     * Validates the list of addresses in the given {@link UsersRequestDTO} to ensure no duplicates exist.
-     *
-     * @param dto the DTO containing user data, including the list of addresses.
-     * @throws DuplicatedAddressException if duplicate addresses are found.
-     */
     @Override
-    public void validate(UsersRequestDTO dto) {
-        List<AddressRequestDTO> addresses = dto.address();
+    public void validate(User user) {
+        List<Address> addresses = user.getAddress();
         validateAddress(addresses);
     }
 
@@ -36,9 +32,9 @@ public class DuplicatedAddressValidator implements UserValidator {
      * @param addresses the list of addresses to validate.
      * @throws DuplicatedAddressException if any duplicate addresses are detected.
      */
-    public void validateAddress(List<AddressRequestDTO> addresses) {
+    public void validateAddress(List<Address> addresses) {
         Set<String> uniqueAddressKeys = new HashSet<>();
-        for (AddressRequestDTO address : addresses) {
+        for (Address address : addresses) {
             String key = generateAddressKey(address);
 
             if (!uniqueAddressKeys.add(key)) {
@@ -55,15 +51,15 @@ public class DuplicatedAddressValidator implements UserValidator {
      * @param address the address object to generate the key for.
      * @return a string key representing the address.
      */
-    public String generateAddressKey(AddressRequestDTO address) {
+    public String generateAddressKey(Address address) {
         return String.join("|",
-                normalize(address.zipcode()),
-                normalize(address.street()),
-                normalize(address.number() != null ? address.number().toString() : null),
-                normalize(address.complement()),
-                normalize(address.neighborhood()),
-                normalize(address.city()),
-                normalize(address.state())
+                normalize(address.getZipcode()),
+                normalize(address.getStreet()),
+                normalize(address.getNumber() != null ? address.getNumber().toString() : null),
+                normalize(address.getComplement()),
+                normalize(address.getNeighborhood()),
+                normalize(address.getCity()),
+                normalize(address.getState())
         );
     }
 

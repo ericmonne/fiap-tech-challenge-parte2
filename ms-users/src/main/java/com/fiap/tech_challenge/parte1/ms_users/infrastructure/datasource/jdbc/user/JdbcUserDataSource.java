@@ -69,4 +69,14 @@ public class JdbcUserDataSource implements UserDataSource {
     public void changePassword(UUID id, String newPasswordEncoded) {
         jdbcUserRepository.changePassword(id, newPasswordEncoded);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return jdbcUserRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByLogin(String login) {
+        return jdbcUserRepository.existsByLogin(login);
+    }
 }

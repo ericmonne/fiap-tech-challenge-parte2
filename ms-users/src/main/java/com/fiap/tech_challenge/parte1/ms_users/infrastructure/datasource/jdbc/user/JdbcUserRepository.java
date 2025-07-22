@@ -75,17 +75,7 @@ public class JdbcUserRepository {
     }
 
     public boolean existsById(UUID id) {
-        Integer count = jdbcClient.sql("""
-                        SELECT
-                            COUNT(1)
-                        FROM
-                            users
-                        WHERE email = :email
-                        """)
-                .param("id", id)
-                .query(Integer.class)
-                .single();
-        return count > 0;
+        return existsByColumn("id", id);
     }
 
     public boolean emailAlreadyExistsForDifferentUsers(String email, UUID userId) {
@@ -151,4 +141,29 @@ public class JdbcUserRepository {
                 .param("last_modified_date", now())
                 .update();
     }
+
+    public boolean existsByEmail(String email) {
+        return existsByColumn("email", email);
+    }
+
+    public boolean existsByLogin(String login) {
+        return existsByColumn("login", login);
+    }
+
+    public boolean existsByColumn(String columnName, Object columnValue) {
+        String sql = """
+                SELECT
+                    COUNT(1)
+                FROM
+                    users
+                WHERE %s = :value
+                """.formatted(columnName);
+
+        Integer count = jdbcClient.sql(sql)
+                .param("value", columnValue)
+                .query(Integer.class)
+                .single();
+        return count > 0;
+    }
+
 }

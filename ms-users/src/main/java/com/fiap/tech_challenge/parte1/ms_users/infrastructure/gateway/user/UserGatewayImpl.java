@@ -66,4 +66,14 @@ public class UserGatewayImpl implements UserGateway {
     public void changePassword(UUID id, String newPasswordEncoded) {
         userDataSource.changePassword(id, newPasswordEncoded);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userDataSource.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByLogin(String login) {
+        return userDataSource.existsByLogin(login);
+    }
 }

@@ -30,4 +30,6 @@ public interface UserDataSource {
     boolean existsByEmail(String email);
 
     boolean existsByLogin(String login);
+
+    Optional<User> findByLogin(String username);
 }

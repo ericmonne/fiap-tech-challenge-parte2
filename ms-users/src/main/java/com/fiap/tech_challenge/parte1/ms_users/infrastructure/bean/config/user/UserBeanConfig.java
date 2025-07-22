@@ -13,7 +13,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.domain.service.PasswordPolicy;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserRepository;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.gateway.user.UserGatewayImpl;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.user.UserGatewayImpl;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.UserMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

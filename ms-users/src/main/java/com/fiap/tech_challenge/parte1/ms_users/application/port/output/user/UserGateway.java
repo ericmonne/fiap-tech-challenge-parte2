@@ -31,4 +31,6 @@ public interface UserGateway {
     boolean existsByEmail(String email);
 
     boolean existsByLogin(String login);
+
+    Optional<User> findByLogin(String username);
 }

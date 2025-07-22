@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.security;
 
-import com.fiap.tech_challenge.parte1.ms_users.repositories.UserRepository;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,15 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserGateway userGateway;
 
-    /**
-     * Constructs an AuthenticationService with the given UserRepository.
-     *
-     * @param userRepository the user repository used to load user data
-     */
-    public AuthenticationService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AuthenticationService(UserGateway userGateway) {
+        this.userGateway = userGateway;
     }
 
     /**
@@ -34,7 +29,7 @@ public class AuthenticationService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByLogin(username)
+        return userGateway.findByLogin(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }

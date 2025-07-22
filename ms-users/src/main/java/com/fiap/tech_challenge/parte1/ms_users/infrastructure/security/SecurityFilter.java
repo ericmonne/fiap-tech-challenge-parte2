@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.security;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
-import com.fiap.tech_challenge.parte1.ms_users.repositories.UserRepository;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,13 +26,13 @@ import java.io.IOException;
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
+    private final UserGateway userGateway;
 
-    private final UserRepository repository;
-
-    public SecurityFilter(TokenProvider tokenProvider, UserRepository repository) {
+    public SecurityFilter(TokenProvider tokenProvider, UserGateway userGateway) {
         this.tokenProvider = tokenProvider;
-        this.repository = repository;
+        this.userGateway = userGateway;
     }
+
 
     /**
      * Filters incoming HTTP requests to authenticate users based on the JWT token provided in the Authorization header.
@@ -49,7 +49,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String tokenJWT = retrieveToken(request);
         if (tokenJWT != null) {
             String subject = tokenProvider.extractUserLoginFromToken(tokenJWT);
-            UserDetails userDetails = repository.findByLogin(subject)
+            UserDetails userDetails = userGateway.findByLogin(subject)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found: " + subject));
             var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

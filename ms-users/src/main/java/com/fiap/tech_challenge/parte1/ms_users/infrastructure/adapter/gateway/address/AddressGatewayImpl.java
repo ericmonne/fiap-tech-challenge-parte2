@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.infrastructure.gateway.address;
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.address;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;

@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.infrastructure.gateway.user;
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
@@ -75,5 +75,10 @@ public class UserGatewayImpl implements UserGateway {
     @Override
     public boolean existsByLogin(String login) {
         return userDataSource.existsByLogin(login);
+    }
+
+    @Override
+    public Optional<User> findByLogin(String username) {
+        return userDataSource.findByLogin(username);
     }
 }

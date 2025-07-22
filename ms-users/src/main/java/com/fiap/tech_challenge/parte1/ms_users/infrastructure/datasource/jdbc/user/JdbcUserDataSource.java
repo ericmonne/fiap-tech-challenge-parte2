@@ -79,4 +79,9 @@ public class JdbcUserDataSource implements UserDataSource {
     public boolean existsByLogin(String login) {
         return jdbcUserRepository.existsByLogin(login);
     }
+
+    @Override
+    public Optional<User> findByLogin(String username) {
+        return jdbcUserRepository.findByLogin(username);
+    }
 }

@@ -166,4 +166,13 @@ public class JdbcUserRepository {
         return count > 0;
     }
 
+    public Optional<User> findByLogin(String username) {
+        return jdbcClient.sql("""
+                        SELECT * FROM users
+                        WHERE login = :login
+                        """)
+                .param("login", username)
+                .query(User.class)
+                .optional();
+    }
 }

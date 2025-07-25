@@ -2,12 +2,14 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.u
 
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class JdbcUserTypeRepository {
 
     // declarando o atributo para injeção de dependecia

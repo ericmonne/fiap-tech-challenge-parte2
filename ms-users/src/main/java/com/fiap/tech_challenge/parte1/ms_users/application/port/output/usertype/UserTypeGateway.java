@@ -5,7 +5,7 @@ import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserTypeGataway {
+public interface UserTypeGateway {
 
     void createUserType(final UserType userType);
 

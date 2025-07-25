@@ -11,7 +11,11 @@ public class UserType {
     private Date created;
     private Date updated;
 
-    public UserType(final String name, String description, Boolean active, Date created, Date updated) {
+    public UserType() {
+
+    }
+
+    public UserType(String name, String description, Boolean active) {
         this.name = name;
         this.description = description;
         this.active = true;
@@ -21,6 +25,10 @@ public class UserType {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -4,7 +4,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.Me
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.ChangeMenuItemAvailabilityUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
-import com.fiap.tech_challenge.parte1.ms_users.domain.exception.ResourceNotFoundException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.MenuItemNotFoundException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 
 import java.util.UUID;
@@ -21,7 +21,7 @@ public class ChangeMenuItemAvailabilityUseCaseImpl implements ChangeMenuItemAvai
 
     @Override
     public MenuItemResponseDTO execute(UUID id, Boolean availableOnlyOnSite) {
-        MenuItem menuItem = menuItemGateway.findById(id).orElseThrow(() -> new ResourceNotFoundException("Menu item not found for id: " + id));
+        MenuItem menuItem = menuItemGateway.findById(id).orElseThrow(() -> new MenuItemNotFoundException(id));
 
         if (availableOnlyOnSite == null) throw new IllegalArgumentException("availableOnlyOnSite cannot be null");
 

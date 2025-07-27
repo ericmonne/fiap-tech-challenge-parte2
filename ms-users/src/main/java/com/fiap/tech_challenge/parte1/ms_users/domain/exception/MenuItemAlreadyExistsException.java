@@ -1,5 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.domain.exception;
 
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -13,11 +14,7 @@ public class MenuItemAlreadyExistsException extends RuntimeException {
         super(message);
     }
 
-    public MenuItemAlreadyExistsException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public MenuItemAlreadyExistsException() {
-        super("A menu item with the given name already exists");
+    public MenuItemAlreadyExistsException(MenuItem menuItem) {
+        super("A menu item with name '" + menuItem.getName() + "' already exists");
     }
 }

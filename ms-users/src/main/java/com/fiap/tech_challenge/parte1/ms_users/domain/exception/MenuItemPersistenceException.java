@@ -7,15 +7,7 @@ public class MenuItemPersistenceException extends PersistenceException {
         super(s);
     }
 
-    public MenuItemPersistenceException() {
-        super("Menu item persistence exception");
-    }
-
-    public MenuItemPersistenceException(String s, DataAccessException e) {
-        super(s, e);
-    }
-
     public MenuItemPersistenceException(DataAccessException e) {
-        super("Menu item persistence exception", e);
+        super("Failed to save menu item.", e);
     }
 }

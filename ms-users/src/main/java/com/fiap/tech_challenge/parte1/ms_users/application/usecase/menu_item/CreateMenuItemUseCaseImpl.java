@@ -8,15 +8,9 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItem
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemValidator;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Use case for creating a new menu item.
- * Handles the business logic for menu item creation including validation.
- */
-@Service
 public class CreateMenuItemUseCaseImpl implements CreateMenuItemUseCase {
 
     private final MenuItemGateway menuItemGateway;

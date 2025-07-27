@@ -12,7 +12,6 @@ import com.fiap.tech_challenge.parte1.ms_users.domain.validator.UniqueMenuItemNa
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.menu_item.MenuItemGatewayImpl;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.menu_item.JdbcMenuItemDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.menu_item.JdbcMenuItemRepository;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.MenuItemMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,11 +28,6 @@ public class MenuItemBeanConfig {
     @Bean
     public MenuItemGateway registerMenuItemGateway(MenuItemDataSource menuItemDataSource) {
         return new MenuItemGatewayImpl(menuItemDataSource);
-    }
-
-    @Bean
-    public IMenuItemMapper registerMenuItemMapper() {
-        return new MenuItemMapper();
     }
 
     @Bean

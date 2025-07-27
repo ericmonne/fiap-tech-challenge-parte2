@@ -8,7 +8,6 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItem
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.MenuItemMapper;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -31,8 +30,6 @@ import java.util.List;
  * param offset the starting point for the items to retrieve
  * return a list of menu items as response DTOs within the given pagination window
  */
-
-@Service
 public class ReadPaginatedMenuItemsUseCaseImpl implements ReadPaginatedMenuItemsUseCase {
 
     private final MenuItemGateway menuItemGateway;

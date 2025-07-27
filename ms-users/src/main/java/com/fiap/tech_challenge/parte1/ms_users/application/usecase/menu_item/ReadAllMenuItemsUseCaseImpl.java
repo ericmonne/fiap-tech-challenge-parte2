@@ -6,7 +6,6 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItem
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.MenuItemMapper;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -26,8 +25,6 @@ import java.util.List;
  * - Data export or backup operations
  * - Audit or reporting features
  */
-
-@Service
 public class ReadAllMenuItemsUseCaseImpl implements ReadAllMenuItemsUseCase {
     private final MenuItemGateway menuItemGateway;
     private final IMenuItemMapper mapper;

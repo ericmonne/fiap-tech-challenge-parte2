@@ -4,16 +4,11 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.Me
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.FindMenuItemByIdUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
-import com.fiap.tech_challenge.parte1.ms_users.domain.exception.ResourceNotFoundException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.MenuItemNotFoundException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-/**
- * Use case for retrieving a single menu item by its ID.
- */
-@Service
 public class FindMenuItemByIdUseCaseImpl implements FindMenuItemByIdUseCase {
 
     private final MenuItemGateway menuItemGateway;
@@ -29,11 +24,11 @@ public class FindMenuItemByIdUseCaseImpl implements FindMenuItemByIdUseCase {
      *
      * @param id the ID of the menu item to retrieve
      * @return the menu item as a response DTO
-     * @throws ResourceNotFoundException if no menu item is found with the given ID
+     * @throws MenuItemNotFoundException if no menu item is found with the given ID
      */
     public MenuItemResponseDTO execute(UUID id) {
         MenuItem menuItem = menuItemGateway.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Menu item not found for id: " + id));
+                .orElseThrow(() -> new MenuItemNotFoundException(id));
 
         return mapper.toResponseDTO(menuItem);
     }

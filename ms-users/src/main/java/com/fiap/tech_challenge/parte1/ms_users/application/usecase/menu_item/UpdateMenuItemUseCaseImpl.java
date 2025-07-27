@@ -7,9 +7,8 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItem
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.updater.MenuItemUpdater;
-import com.fiap.tech_challenge.parte1.ms_users.domain.exception.ResourceNotFoundException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.MenuItemNotFoundException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.UUID;
 /**
  * Use case for updating an existing menu item.
  */
-@Service
 public class UpdateMenuItemUseCaseImpl implements UpdateMenuItemUseCase {
 
     private final MenuItemGateway menuItemGateway;
@@ -40,7 +38,7 @@ public class UpdateMenuItemUseCaseImpl implements UpdateMenuItemUseCase {
         // Find the existing menu item
         MenuItem existingItem = menuItemGateway.findById(id)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Menu item not found for id: " + id)
+                        () -> new MenuItemNotFoundException(id)
                 );
 
         MenuItem previewItem = mapper.toEntity(updateMenuItemDTO).withId(id);

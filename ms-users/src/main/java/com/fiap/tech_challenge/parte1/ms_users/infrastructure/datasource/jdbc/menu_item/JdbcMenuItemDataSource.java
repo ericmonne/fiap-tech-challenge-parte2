@@ -37,7 +37,7 @@ public class JdbcMenuItemDataSource implements MenuItemDataSource {
         try {
             return jdbcMenuItemRepository.save(menuItemMapper.toJdbcMenuItemEntity(menuItem));
         } catch (DataAccessException e) {
-            throw new MenuItemPersistenceException("Failed to save menu item.", e);
+            throw new MenuItemPersistenceException(e);
         }
     }
 

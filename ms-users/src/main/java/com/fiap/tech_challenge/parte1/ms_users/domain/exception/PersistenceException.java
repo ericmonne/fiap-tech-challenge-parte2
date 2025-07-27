@@ -7,10 +7,6 @@ public class PersistenceException extends RuntimeException {
         super(s);
     }
 
-    public PersistenceException() {
-        super("Error persisting the object");
-    }
-
     public PersistenceException(String s, DataAccessException e) {
         super(s, e);
     }

@@ -27,7 +27,7 @@ public class UniqueMenuItemNameValidator implements MenuItemValidator {
         menuItemGateway.findByName(menuItem.getName())
                 .ifPresent(existingItem -> {
                     if (!existingItem.getId().equals(menuItem.getId())) {
-                        throw new MenuItemAlreadyExistsException("A menu item with name '" + menuItem.getName() + "' already exists");
+                        throw new MenuItemAlreadyExistsException(menuItem);
                     }
                 });
     }

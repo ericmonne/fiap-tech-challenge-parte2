@@ -36,7 +36,7 @@ public class UserBeanConfig {
     }
 
     @Bean
-    public RegisterUserUseCase registerStudentUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators) {
+    public RegisterUserUseCase registerUserUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators) {
         return new RegisterUserUseCaseImpl(userGateway, addressGateway, passwordEncoder, tokenProvider, iUserMapper, userValidators);
     }
 

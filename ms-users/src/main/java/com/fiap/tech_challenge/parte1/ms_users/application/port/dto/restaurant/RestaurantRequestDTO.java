@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
-import java.util.UUID;
 
 public record RestaurantRequestDTO(
         @NotBlank(message = "Restaurant field 'name' is required")

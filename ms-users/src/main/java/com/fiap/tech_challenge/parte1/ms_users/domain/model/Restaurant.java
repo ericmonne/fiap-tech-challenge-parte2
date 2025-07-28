@@ -9,17 +9,17 @@ public class Restaurant {
     private String name;
     private Address address;
     private List<CuisineType> cousineType;
-    private List<OpeningHours> openingHoursList;
+    private List<OpeningHour> openingHours;
     private User user;
 
     public Restaurant(){}
 
-    public Restaurant(UUID id, String name, Address address, List<CuisineType> cousineType, List<OpeningHours> openingHoursList, User user) {
+    public Restaurant(UUID id, String name, Address address, List<CuisineType> cousineType, List<OpeningHour> openingHours, User user) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.cousineType = cousineType;
-        this.openingHoursList = openingHoursList;
+        this.openingHours = openingHours;
         this.user = user;
     }
 
@@ -55,12 +55,12 @@ public class Restaurant {
         this.cousineType = cousineType;
     }
 
-    public List<OpeningHours> getOpeningHoursList() {
-        return openingHoursList;
+    public List<OpeningHour> getOpeningHours() {
+        return openingHours;
     }
 
-    public void setOpeningHoursList(List<OpeningHours> openingHoursList) {
-        this.openingHoursList = openingHoursList;
+    public void setOpeningHours(List<OpeningHour> openingHours) {
+        this.openingHours = openingHours;
     }
 
     public User getUser() {

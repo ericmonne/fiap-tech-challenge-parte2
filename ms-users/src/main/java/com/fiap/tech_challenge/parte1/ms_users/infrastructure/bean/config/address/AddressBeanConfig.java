@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.user;
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.address;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;

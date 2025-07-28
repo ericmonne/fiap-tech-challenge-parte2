@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user;
+package com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.address;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressResponseDTO;
@@ -8,11 +8,13 @@ import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.ad
 import java.util.List;
 
 public interface IAddressMapper {
-    AddressResponseDTO toAddressRequestDTO(Address address);
+    AddressResponseDTO toAddressResponseDTO(Address address);
 
-    List<AddressResponseDTO> toAddressRequestDTO(List<Address> addresses);
+    List<AddressResponseDTO> toAddressResponseDTO(List<Address> addresses);
 
     List<Address> toEntity(List<AddressRequestDTO> address);
+
+    Address toEntity(AddressRequestDTO address);
 
     List<JdbcAddressEntity> toJdbcAddressEntity(List<Address> addresses);
 }

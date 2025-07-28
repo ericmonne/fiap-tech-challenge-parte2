@@ -3,6 +3,7 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UpdateUserDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.address.IAddressMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserEntity;
@@ -18,9 +19,9 @@ import java.util.UUID;
 @Component
 public class UserMapper implements IUserMapper {
 
-    private final com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IAddressMapper iAddressMapper;
+    private final IAddressMapper iAddressMapper;
 
-    public UserMapper(com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IAddressMapper iAddressMapper) {
+    public UserMapper(IAddressMapper iAddressMapper) {
         this.iAddressMapper = iAddressMapper;
     }
 
@@ -44,7 +45,7 @@ public class UserMapper implements IUserMapper {
                 user.getEmail(),
                 user.getLogin(),
                 user.getRole().name(),
-                iAddressMapper.toAddressRequestDTO(user.getAddresses()));
+                iAddressMapper.toAddressResponseDTO(user.getAddresses()));
     }
 
     /**

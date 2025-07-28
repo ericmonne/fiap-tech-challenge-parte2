@@ -2,6 +2,7 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.address.IAddressMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address.JdbcAddressEntity;
 import jakarta.validation.Valid;
@@ -16,7 +17,7 @@ import java.util.List;
  * to {@link AddressResponseDTO} data transfer objects.
  */
 @Component
-public class AddressMapper implements com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IAddressMapper {
+public class AddressMapper implements IAddressMapper {
 
     /**
      * Converts a single {@link Address} entity to an {@link AddressResponseDTO}.
@@ -25,7 +26,7 @@ public class AddressMapper implements com.fiap.tech_challenge.parte1.ms_users.ap
      * @return the corresponding {@link AddressResponseDTO}
      */
     @Override
-    public AddressResponseDTO toAddressRequestDTO(Address address) {
+    public AddressResponseDTO toAddressResponseDTO(Address address) {
         return new AddressResponseDTO(
                 address.getId(),
                 address.getZipcode(),
@@ -45,9 +46,9 @@ public class AddressMapper implements com.fiap.tech_challenge.parte1.ms_users.ap
      * @return a list of corresponding {@link AddressResponseDTO}s
      */
     @Override
-    public List<AddressResponseDTO> toAddressRequestDTO(List<Address> addresses) {
+    public List<AddressResponseDTO> toAddressResponseDTO(List<Address> addresses) {
         return addresses.stream()
-                .map(this::toAddressRequestDTO)
+                .map(this::toAddressResponseDTO)
                 .toList();
     }
 
@@ -66,6 +67,19 @@ public class AddressMapper implements com.fiap.tech_challenge.parte1.ms_users.ap
             addresses.add(addressEntity);
         }
         return addresses;
+    }
+
+    @Override
+    public Address toEntity(AddressRequestDTO addressRequestDTO) {
+        Address addressEntity = new Address();
+        addressEntity.setZipcode(addressRequestDTO.zipcode());
+        addressEntity.setStreet(addressRequestDTO.street());
+        addressEntity.setNumber(addressRequestDTO.number());
+        addressEntity.setComplement(addressRequestDTO.complement());
+        addressEntity.setNeighborhood(addressRequestDTO.neighborhood());
+        addressEntity.setCity(addressRequestDTO.city());
+        addressEntity.setState(addressRequestDTO.state());
+        return addressEntity;
     }
 
     @Override

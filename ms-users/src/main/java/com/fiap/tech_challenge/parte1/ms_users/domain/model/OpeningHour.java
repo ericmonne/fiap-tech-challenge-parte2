@@ -3,16 +3,16 @@ package com.fiap.tech_challenge.parte1.ms_users.domain.model;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public class OpeningHours {
+public class OpeningHour {
     private UUID id;
     private WeekDay weekDay;
     private LocalTime openingTime;
     private LocalTime closingTime;
     private Restaurant restaurant;
 
-    public OpeningHours(){}
+    public OpeningHour(){}
 
-    public OpeningHours(UUID id, WeekDay weekDay, LocalTime openingTime, LocalTime closingTime, Restaurant restaurant) {
+    public OpeningHour(UUID id, WeekDay weekDay, LocalTime openingTime, LocalTime closingTime, Restaurant restaurant) {
         this.id = id;
         this.weekDay = weekDay;
         this.openingTime = openingTime;

@@ -3,6 +3,7 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UpdateUserDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserEntity;
@@ -18,17 +19,12 @@ import java.util.UUID;
 @Component
 public class UserMapper implements IUserMapper {
 
-    private final com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper iAddressMapper;
+    private final IAddressMapper iAddressMapper;
 
-    public UserMapper(com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper iAddressMapper) {
+    public UserMapper(IAddressMapper iAddressMapper) {
         this.iAddressMapper = iAddressMapper;
     }
 
-    /**
-     * Constructs a {@code UserMapper} with the specified {@link IAddressMapper}.
-     *
-     * @param iAddressMapper the address mapper used to convert user addresses
-     */
 
     /**
      * Converts a single {@link User} entity to a {@link UsersResponseDTO}.

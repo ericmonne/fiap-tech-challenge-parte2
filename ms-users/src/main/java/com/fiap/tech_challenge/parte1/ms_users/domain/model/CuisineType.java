@@ -6,6 +6,8 @@ public enum CuisineType {
     JAPONESA,
     MEXICANA,
     CHINESA,
+    ARABE,
+    INDIANA,
     FAST_FOOD,
     VEGETARIANA,
     VEGANA

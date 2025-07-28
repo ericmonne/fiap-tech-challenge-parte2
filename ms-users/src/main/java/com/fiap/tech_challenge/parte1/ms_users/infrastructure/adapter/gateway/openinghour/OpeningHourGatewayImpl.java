@@ -33,6 +33,6 @@ public class OpeningHourGatewayImpl implements OpeningHourGateway {
 
     @Override
     public List<OpeningHour> findByRestaurantId(UUID restaurantId) {
-        return this.findByRestaurantId(restaurantId);
+        return this.openingHourDataSource.findByRestaurantId(restaurantId);
     }
 }

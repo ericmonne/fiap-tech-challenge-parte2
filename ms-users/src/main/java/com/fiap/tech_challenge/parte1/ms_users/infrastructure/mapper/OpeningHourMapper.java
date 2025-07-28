@@ -4,9 +4,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.openinghour.
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.openinghour.OpeningHourResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.openinghour.IOpeningHourMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.OpeningHour;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.openinghour.JdbcOpeningHourEntity;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant.JdbcRestaurantEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

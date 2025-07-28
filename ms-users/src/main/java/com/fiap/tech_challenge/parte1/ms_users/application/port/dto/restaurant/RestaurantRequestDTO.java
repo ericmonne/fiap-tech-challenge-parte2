@@ -1,9 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.cuisinetype.CuisineTypeRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.openinghour.OpeningHourRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.CuisineType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

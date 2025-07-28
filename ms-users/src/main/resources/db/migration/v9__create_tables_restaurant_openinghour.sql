@@ -5,6 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE TABLE restaurants (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
+  cuisine_type TEXT NOT NULL,
   owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -18,21 +19,8 @@ CREATE TABLE restaurant_addresses (
   zip TEXT NOT NULL
 );
 
--- Tipos de Cozinha (domínio aberto)
-CREATE TABLE cuisine_types (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL UNIQUE
-);
-
--- Relacionamento Restaurante x Tipos de Cozinha (N:N)
-CREATE TABLE restaurant_cuisine_types (
-  restaurant_id UUID NOT NULL REFERENCES restaurants(id) ON DELETE CASCADE,
-  cuisine_type_id UUID NOT NULL REFERENCES cuisine_types(id) ON DELETE CASCADE,
-  PRIMARY KEY (restaurant_id, cuisine_type_id)
-);
-
 -- Horários de Funcionamento (1:N)
-CREATE TABLE restaurant_opening_hour (
+CREATE TABLE opening_hour (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   restaurant_id UUID NOT NULL REFERENCES restaurants(id) ON DELETE CASCADE,
   weekday TEXT NOT NULL CHECK (

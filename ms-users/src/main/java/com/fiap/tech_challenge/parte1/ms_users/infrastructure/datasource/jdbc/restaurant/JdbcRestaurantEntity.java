@@ -1,11 +1,14 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant;
 
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.CuisineType;
+
 import java.util.UUID;
 
 public class JdbcRestaurantEntity {
 
     private UUID id;
     private String name;
+    private CuisineType cuisineType;
     private UUID userId;
 
     public UUID getId() {
@@ -22,6 +25,14 @@ public class JdbcRestaurantEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public CuisineType getCuisineType() {
+        return cuisineType;
+    }
+
+    public void setCuisineType(CuisineType cuisineType) {
+        this.cuisineType = cuisineType;
     }
 
     public UUID getUserId() {

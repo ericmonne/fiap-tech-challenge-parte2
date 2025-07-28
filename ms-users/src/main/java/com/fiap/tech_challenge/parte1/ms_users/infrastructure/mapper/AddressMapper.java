@@ -99,5 +99,4 @@ public class AddressMapper implements IAddressMapper {
         jdbcAddressEntity.setState(address.getState());
         return jdbcAddressEntity;
     }
-
 }

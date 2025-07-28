@@ -3,16 +3,19 @@ package com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.openingh
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.openinghour.OpeningHourRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.openinghour.OpeningHourResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.OpeningHour;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.openinghour.JdbcOpeningHourEntity;
 
 import java.util.List;
 
 public interface IOpeningHourMapper {
 
-    OpeningHourResponseDTO toOpeningHourResponseDTO(OpeningHour openinhHour);
+    OpeningHourResponseDTO toOpeningHourResponseDTO(OpeningHour openingHour);
 
-    List<OpeningHourResponseDTO> toOpeningHourResponseDTO(List<OpeningHour> openinhHours);
+    List<OpeningHourResponseDTO> toOpeningHourResponseDTO(List<OpeningHour> openingHours);
 
-    List<OpeningHour> toEntity(List<OpeningHourRequestDTO> openinhHoursRequestDTO);
+    OpeningHour toEntity(OpeningHourRequestDTO openingHoursRequestDTO);
 
-    //List<JdbcAddressEntity> toJdbcAddressEntity(List<Address> addresses);
+    List<OpeningHour> toEntity(List<OpeningHourRequestDTO> openingHoursRequestDTO);
+
+    JdbcOpeningHourEntity toJdbcOpeningHourEntity (OpeningHour openingHours);
 }

@@ -3,10 +3,10 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant.RestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant.RestaurantResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.address.IAddressMapper;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.cuisinetype.ICuisineTypeMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.openinghour.IOpeningHourMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.restaurant.IRestaurantMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant.JdbcRestaurantEntity;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +16,10 @@ import java.util.List;
 public class RestaurantMapper implements IRestaurantMapper {
 
     private final IAddressMapper iAddressMapper;
-    private final ICuisineTypeMapper iCuisineTypeMapper;
     private final IOpeningHourMapper iOpeningHourMapper;
 
-    public RestaurantMapper(IAddressMapper iAddressMapper, ICuisineTypeMapper iCuisineTypeMapper, IOpeningHourMapper iOpeningHourMapper) {
+    public RestaurantMapper(IAddressMapper iAddressMapper, IOpeningHourMapper iOpeningHourMapper) {
         this.iAddressMapper = iAddressMapper;
-        this.iCuisineTypeMapper = iCuisineTypeMapper;
         this.iOpeningHourMapper = iOpeningHourMapper;
     }
 
@@ -31,7 +29,7 @@ public class RestaurantMapper implements IRestaurantMapper {
                 restaurant.getId(),
                 restaurant.getName(),
                 iAddressMapper.toAddressResponseDTO(restaurant.getAddress()),
-                iCuisineTypeMapper.toCuisineTypeResponseDTO(restaurant.getCousineType()),
+                restaurant.getCuisineType(),
                 iOpeningHourMapper.toOpeningHourResponseDTO(restaurant.getOpeningHours()),
                 restaurant.getUser().getId()
         );
@@ -45,13 +43,13 @@ public class RestaurantMapper implements IRestaurantMapper {
     }
 
     @Override
-    public Restaurant toEntity(RestaurantRequestDTO dto) {
+    public Restaurant toEntity(RestaurantRequestDTO dto, User user) {
         Restaurant restaurant = new Restaurant();
         restaurant.setName(dto.name());
         restaurant.setAddress(iAddressMapper.toEntity(dto.address()));
-        restaurant.setCousineType(iCuisineTypeMapper.toEntity(dto.cuisineTypes()));
+        restaurant.setCuisineType(dto.cuisineType());
         restaurant.setOpeningHours(iOpeningHourMapper.toEntity(dto.openingHours()));
-        restaurant.setUser(restaurant.getUser());
+        restaurant.setUser(user);
         return restaurant;
     }
 
@@ -60,6 +58,7 @@ public class RestaurantMapper implements IRestaurantMapper {
         JdbcRestaurantEntity restaurantEntity = new JdbcRestaurantEntity();
         restaurantEntity.setId(restaurant.getId());
         restaurantEntity.setName(restaurant.getName());
+        restaurantEntity.setCuisineType(restaurant.getCuisineType());
         restaurantEntity.setUserId(restaurant.getUser().getId());
         return restaurantEntity;
     }

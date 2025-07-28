@@ -1,9 +1,13 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant;
 
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.CuisineType;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,68 +20,60 @@ public class JdbcRestaurantRepository {
     public JdbcRestaurantRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
-    public UUID save(JdbcRestaurantEntity restaurant) {
+
+    public UUID save(JdbcRestaurantEntity entity) {
         UUID id = UUID.randomUUID();
-        jdbcClient.sql("""
-                INSERT INTO restaurants (id, name, owner_id)
-                VALUES (:id, :name, :ownerId)
-            """)
-                .param("id", id)
-                .param("name", restaurant.getName())
-                .param("ownerId", restaurant.getUserId())
-                .update();
-        return id;
-    }
 
-    public void update(JdbcRestaurantEntity restaurant) {
         jdbcClient.sql("""
-                UPDATE restaurants
-                SET name = :name, owner_id = :ownerId
-                WHERE id = :id
+                INSERT INTO restaurants (id, name, cuisine_type, owner_id)
+                VALUES (:id, :name, :cuisine_type, :owner_id)
                 """)
-                .param("id", restaurant.getId())
-                .param("name", restaurant.getName())
-                .param("ownerId", restaurant.getUserId())
-                .update();
-    }
-
-    public void delete(UUID id) {
-        jdbcClient.sql("DELETE FROM restaurants WHERE id = :id")
                 .param("id", id)
+                .param("name", entity.getName())
+                .param("cuisine_type", entity.getCuisineType().name())
+                .param("owner_id", entity.getUserId())
                 .update();
+
+        return id;
     }
 
     public Optional<Restaurant> findById(UUID id) {
         return jdbcClient.sql("SELECT * FROM restaurants WHERE id = :id")
                 .param("id", id)
-                .query(Restaurant.class)
+                .query(this::toRestaurant)
                 .optional();
     }
 
     public List<Restaurant> findAll(int size, int offset) {
-        return jdbcClient.sql("""
-                SELECT * FROM restaurants
-                ORDER BY name
-                LIMIT :size OFFSET :offset
-                """)
+        return jdbcClient.sql("SELECT * FROM restaurants LIMIT :size OFFSET :offset")
                 .param("size", size)
                 .param("offset", offset)
-                .query(Restaurant.class)
+                .query(this::toRestaurant)
                 .list();
     }
 
-    public boolean existsById(UUID id) {
-        Integer count = jdbcClient.sql("SELECT COUNT(1) FROM restaurants WHERE id = :id")
-                .param("id", id)
-                .query(Integer.class)
-                .single();
-        return count > 0;
+    public void update(JdbcRestaurantEntity entity) {
+        jdbcClient.sql("""
+                UPDATE restaurants
+                SET name = :name, cuisine_type = :cuisine_type
+                WHERE id = :id
+                """)
+                .param("id", entity.getId())
+                .param("name", entity.getName())
+                .param("cuisine_type", entity.getCuisineType().name())
+                .update();
     }
 
-    public List<Restaurant> findByUserId(UUID userId) {
-        return jdbcClient.sql("SELECT * FROM restaurants WHERE owner_id = :userId")
-                .param("userId", userId)
-                .query(Restaurant.class)
-                .list();
+    private Restaurant toRestaurant(ResultSet rs, int rowNum) throws SQLException {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(UUID.fromString(rs.getString("id")));
+        restaurant.setName(rs.getString("name"));
+        restaurant.setCuisineType(CuisineType.valueOf(rs.getString("cuisine_type")));
+
+        User owner = new User();
+        owner.setId(UUID.fromString(rs.getString("owner_id")));
+        restaurant.setUser(owner);
+
+        return restaurant;
     }
 }

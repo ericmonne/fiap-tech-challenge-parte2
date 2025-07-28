@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address.JdbcAddressEntity;
 import jakarta.validation.Valid;
@@ -16,7 +16,7 @@ import java.util.List;
  * to {@link AddressResponseDTO} data transfer objects.
  */
 @Component
-public class IAddressMapper implements com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper {
+public class AddressMapper implements com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IAddressMapper {
 
     /**
      * Converts a single {@link Address} entity to an {@link AddressResponseDTO}.

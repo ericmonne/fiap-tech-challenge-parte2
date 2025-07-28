@@ -1,9 +1,9 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.user;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AuthenticatedUser;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AuthenticationDataDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AuthenticationRequest;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.TokenJWTInfoDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.AuthenticatedUser;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.AuthenticationDataDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.AuthenticationRequest;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.TokenJWTInfoDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.AuthenticateUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.Authenticator;

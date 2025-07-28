@@ -1,5 +1,6 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.port.dto;
+package com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,6 +1,5 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.validators;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserValidator;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.EmailAlreadyExistsException;

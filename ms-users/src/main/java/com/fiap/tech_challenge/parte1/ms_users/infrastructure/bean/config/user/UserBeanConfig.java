@@ -3,7 +3,7 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.user;
 import com.fiap.tech_challenge.parte1.ms_users.application.controller.UsersControllerInputPortImpl;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.UsersControllerInputPort;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.Authenticator;
@@ -36,7 +36,7 @@ public class UserBeanConfig {
     }
 
     @Bean
-    public RegisterUserUseCase registerStudentUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators) {
+    public RegisterUserUseCase registerUserUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators) {
         return new RegisterUserUseCaseImpl(userGateway, addressGateway, passwordEncoder, tokenProvider, iUserMapper, userValidators);
     }
 

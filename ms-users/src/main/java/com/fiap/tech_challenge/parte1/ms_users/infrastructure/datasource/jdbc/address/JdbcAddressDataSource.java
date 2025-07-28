@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IAddressMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 

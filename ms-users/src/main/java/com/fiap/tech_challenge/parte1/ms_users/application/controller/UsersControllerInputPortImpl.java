@@ -1,9 +1,9 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.controller;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.UsersControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.*;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

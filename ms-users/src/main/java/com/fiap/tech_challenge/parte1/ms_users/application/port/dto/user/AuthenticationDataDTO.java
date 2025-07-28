@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.port.dto;
+package com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user;
 
 /**
  * Data Transfer Object for authentication requests.

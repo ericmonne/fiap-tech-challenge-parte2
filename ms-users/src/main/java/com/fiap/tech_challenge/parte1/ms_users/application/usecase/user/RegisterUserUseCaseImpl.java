@@ -1,8 +1,8 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.user;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.CreateUserDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.CreateUserDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
@@ -39,7 +39,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         UUID userId = userGateway.createUser(user);
         List<Address> addresses = user.getAddresses();
-        addressGateway.save(addresses, userId);
+        addressGateway.saveUserAddress(addresses, userId);
         User userEntityAfterCreation = userGateway.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id %s not found.".formatted(userId)));
         return new CreateUserDTO(iUserMapper.toResponseDTO(userEntityAfterCreation), tokenProvider.generateToken(user.getLogin()));
     }

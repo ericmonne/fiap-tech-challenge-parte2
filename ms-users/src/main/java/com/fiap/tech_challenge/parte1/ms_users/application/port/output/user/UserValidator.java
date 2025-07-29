@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.port.output.user;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 
 /**

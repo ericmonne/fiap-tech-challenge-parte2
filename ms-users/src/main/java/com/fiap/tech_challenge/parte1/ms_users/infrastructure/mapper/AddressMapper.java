@@ -1,8 +1,8 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressResponseDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.address.IAddressMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address.JdbcAddressEntity;
 import jakarta.validation.Valid;
@@ -26,7 +26,7 @@ public class AddressMapper implements IAddressMapper {
      * @return the corresponding {@link AddressResponseDTO}
      */
     @Override
-    public AddressResponseDTO toAddressRequestDTO(Address address) {
+    public AddressResponseDTO toAddressResponseDTO(Address address) {
         return new AddressResponseDTO(
                 address.getId(),
                 address.getZipcode(),
@@ -35,8 +35,7 @@ public class AddressMapper implements IAddressMapper {
                 address.getComplement(),
                 address.getNeighborhood(),
                 address.getCity(),
-                address.getState(),
-                address.getUserId());
+                address.getState());
     }
 
     /**
@@ -46,9 +45,9 @@ public class AddressMapper implements IAddressMapper {
      * @return a list of corresponding {@link AddressResponseDTO}s
      */
     @Override
-    public List<AddressResponseDTO> toAddressRequestDTO(List<Address> addresses) {
+    public List<AddressResponseDTO> toAddressResponseDTO(List<Address> addresses) {
         return addresses.stream()
-                .map(this::toAddressRequestDTO)
+                .map(this::toAddressResponseDTO)
                 .toList();
     }
 
@@ -70,6 +69,19 @@ public class AddressMapper implements IAddressMapper {
     }
 
     @Override
+    public Address toEntity(AddressRequestDTO addressRequestDTO) {
+        Address addressEntity = new Address();
+        addressEntity.setZipcode(addressRequestDTO.zipcode());
+        addressEntity.setStreet(addressRequestDTO.street());
+        addressEntity.setNumber(addressRequestDTO.number());
+        addressEntity.setComplement(addressRequestDTO.complement());
+        addressEntity.setNeighborhood(addressRequestDTO.neighborhood());
+        addressEntity.setCity(addressRequestDTO.city());
+        addressEntity.setState(addressRequestDTO.state());
+        return addressEntity;
+    }
+
+    @Override
     public List<JdbcAddressEntity> toJdbcAddressEntity(List<Address> addresses) {
         return addresses.stream().map(this::toJdbcAddressEntity).toList();
     }
@@ -86,5 +98,4 @@ public class AddressMapper implements IAddressMapper {
         jdbcAddressEntity.setState(address.getState());
         return jdbcAddressEntity;
     }
-
 }

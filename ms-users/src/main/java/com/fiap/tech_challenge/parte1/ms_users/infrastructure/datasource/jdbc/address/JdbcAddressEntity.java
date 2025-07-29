@@ -11,7 +11,8 @@ public class JdbcAddressEntity {
     private String neighborhood;
     private String city;
     private String state;
-    private String userId;
+    private UUID userId;
+    private UUID restaurantId;
 
     public UUID getId() {
         return id;
@@ -77,11 +78,19 @@ public class JdbcAddressEntity {
         this.state = state;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public UUID getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(UUID restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

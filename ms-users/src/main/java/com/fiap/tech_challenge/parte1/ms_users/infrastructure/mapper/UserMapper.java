@@ -1,10 +1,10 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UpdateUserDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersResponseDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UpdateUserDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.address.IAddressMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserEntity;
 import org.springframework.stereotype.Component;
@@ -25,6 +25,11 @@ public class UserMapper implements IUserMapper {
         this.iAddressMapper = iAddressMapper;
     }
 
+    /**
+     * Constructs a {@code UserMapper} with the specified {@link AddressMapper}.
+     *
+     * @param iAddressMapper the address mapper used to convert user addresses
+     */
 
     /**
      * Converts a single {@link User} entity to a {@link UsersResponseDTO}.
@@ -40,7 +45,7 @@ public class UserMapper implements IUserMapper {
                 user.getEmail(),
                 user.getLogin(),
                 user.getRole().name(),
-                iAddressMapper.toAddressRequestDTO(user.getAddresses()));
+                iAddressMapper.toAddressResponseDTO(user.getAddresses()));
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.openapi;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.*;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

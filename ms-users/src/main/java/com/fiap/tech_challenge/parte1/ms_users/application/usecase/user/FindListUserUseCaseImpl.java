@@ -25,16 +25,18 @@ public class FindListUserUseCaseImpl implements FindListUserUseCase {
     @Override
     public List<User> execute(int size, int page) {
         List<User> listUsers = getUserList(size, page);
-        Map<String, List<Address>> addressByUserMap = getAddressByUserMap(listUsers);
+        Map<UUID, List<Address>> addressByUserMap = getAddressByUserMap(listUsers);
         linkAddressToTheCorrectUser(listUsers, addressByUserMap);
         return listUsers;
     }
 
-    private void linkAddressToTheCorrectUser(List<User> listUsers, Map<String, List<Address>> addressByUserMap) {
-        listUsers.forEach(user -> user.setAddress(addressByUserMap.getOrDefault(user.getId().toString(), List.of())));
+    private void linkAddressToTheCorrectUser(List<User> listUsers, Map<UUID, List<Address>> addressByUserMap) {
+        listUsers.forEach(user -> user.setAddress(
+                addressByUserMap.getOrDefault(user.getId(), List.of())
+        ));
     }
 
-    private Map<String, List<Address>> getAddressByUserMap(List<User> listUsers) {
+    private Map<UUID, List<Address>> getAddressByUserMap(List<User> listUsers) {
         Set<UUID> userIdSet = getUserIdSet(listUsers);
         return getAddressByUserMap(userIdSet);
     }
@@ -48,7 +50,7 @@ public class FindListUserUseCaseImpl implements FindListUserUseCase {
         return listUsers.stream().map(User::getId).collect(Collectors.toSet());
     }
 
-    private Map<String, List<Address>> getAddressByUserMap(Set<UUID> userIdSet) {
+    private Map<UUID, List<Address>> getAddressByUserMap(Set<UUID> userIdSet) {
         List<Address> addressList = addressGateway.findAllByUserIds(userIdSet);
         return addressList.stream()
                 .collect(Collectors.groupingBy(Address::getUserId));

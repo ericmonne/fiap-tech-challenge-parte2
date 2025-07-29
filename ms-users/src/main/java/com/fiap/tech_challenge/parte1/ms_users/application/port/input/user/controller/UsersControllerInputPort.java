@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.*;
 
 import java.util.List;
 import java.util.UUID;

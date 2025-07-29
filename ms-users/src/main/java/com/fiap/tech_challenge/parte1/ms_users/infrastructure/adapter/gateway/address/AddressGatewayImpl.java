@@ -5,6 +5,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.A
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,13 +18,13 @@ public class AddressGatewayImpl implements AddressGateway {
     }
 
     @Override
-    public void save(List<Address> addresses, UUID generatedUserId) {
-        addressDataSource.save(addresses, generatedUserId);
+    public void saveUserAddress(List<Address> addresses, UUID generatedUserId) {
+        addressDataSource.saveUserAddress(addresses, generatedUserId);
     }
 
     @Override
-    public void update(List<Address> addresses, UUID id) {
-        addressDataSource.update(addresses, id);
+    public void updateUserAddress(List<Address> addresses, UUID id) {
+        addressDataSource.updateUserAddress(addresses, id);
     }
 
     @Override
@@ -34,5 +35,15 @@ public class AddressGatewayImpl implements AddressGateway {
     @Override
     public List<Address> findAllByUserId(UUID id) {
         return addressDataSource.findAllByUserIds(Set.of(id));
+    }
+
+    @Override
+    public Optional<Address> findByRestaurantId(UUID id) {
+        return addressDataSource.findByRestaurantId(id);
+    }
+
+    @Override
+    public void saveRestaurantAddress(Address address, UUID restaurantId) {
+        addressDataSource.saveRestaurantAddress(address, restaurantId);
     }
 }

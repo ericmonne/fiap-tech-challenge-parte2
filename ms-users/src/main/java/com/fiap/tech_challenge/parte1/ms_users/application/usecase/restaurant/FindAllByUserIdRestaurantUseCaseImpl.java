@@ -31,11 +31,8 @@ public class FindAllByUserIdRestaurantUseCaseImpl implements FindAllByUserIdRest
         List<Restaurant> restaurantList = restaurantGateway.findAllRestaurantsByUserId(userId, size, offset);
 
         for (Restaurant restaurant : restaurantList) {
-            // Adiciona endereço, se houver
             addressGateway.findByRestaurantId(restaurant.getId())
                     .ifPresent(restaurant::setAddress);
-
-            // Adiciona horários
             List<OpeningHour> openingHours = openingHourGateway.findByRestaurantId(restaurant.getId());
             restaurant.setOpeningHours(openingHours);
         }

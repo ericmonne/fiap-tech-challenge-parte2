@@ -49,4 +49,10 @@ public class JdbcRestaurantDataSource implements RestaurantDataSource {
     public List<Restaurant> findAllRestaurantsByUserId(UUID userId, int size, int offset) {
         return jdbcRestaurantRepository.findAllByUserId(userId, size, offset);
     }
+
+    @Override
+    public boolean isRestaurantOwnedByUser(UUID restaurantId, UUID userId) {
+        Integer count = jdbcRestaurantRepository.countByUserIdAndRestaurantId(restaurantId, userId);
+        return count != null && count > 0;
+    }
 }

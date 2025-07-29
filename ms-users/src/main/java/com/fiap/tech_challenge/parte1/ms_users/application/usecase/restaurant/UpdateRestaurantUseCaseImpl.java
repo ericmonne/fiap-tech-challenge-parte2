@@ -7,12 +7,14 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.A
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openinghour.OpeningHourGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openinghour.OpeningHourValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.restaurant.RestaurantGateway;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.ForbiddenOperationException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.RestaurantNotFoundException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.OpeningHour;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 public class UpdateRestaurantUseCaseImpl implements UpdateRestaurantUseCase {
 
@@ -32,11 +34,16 @@ public class UpdateRestaurantUseCaseImpl implements UpdateRestaurantUseCase {
 
     @Transactional
     @Override
-    public RestaurantResponseDTO execute(Restaurant restaurant) {
-        if (!restaurantGateway.existsById(restaurant.getId())) {
+    public RestaurantResponseDTO execute(UUID restaurantId, UUID userId, Restaurant restaurant) {
+        if (!restaurantGateway.existsById(restaurantId)) {
             throw new RestaurantNotFoundException("Restaurante não encontrado");
         }
 
+        if (!restaurantGateway.isRestaurantOwnedByUser(restaurantId, userId)) {
+            throw new ForbiddenOperationException("Você não tem permissão para atualizar este restaurante.");
+        }
+
+        restaurant.setId(restaurantId);
         restaurantGateway.update(restaurant);
         addressGateway.updateRestaurantAddress(restaurant.getAddress(), restaurant.getId());
         updateOpeningHours(restaurant);

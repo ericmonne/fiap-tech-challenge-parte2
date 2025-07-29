@@ -13,4 +13,5 @@ public interface RestaurantDataSource {
     boolean existsById(UUID restaurantId);
     void delete(UUID restaurantId);
     List<Restaurant> findAllRestaurantsByUserId(UUID userId, int size, int offset);
+    boolean isRestaurantOwnedByUser(UUID restaurantId, UUID userId);
 }

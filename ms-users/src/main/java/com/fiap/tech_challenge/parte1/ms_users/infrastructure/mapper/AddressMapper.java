@@ -35,8 +35,7 @@ public class AddressMapper implements IAddressMapper {
                 address.getComplement(),
                 address.getNeighborhood(),
                 address.getCity(),
-                address.getState(),
-                address.getUserId());
+                address.getState());
     }
 
     /**

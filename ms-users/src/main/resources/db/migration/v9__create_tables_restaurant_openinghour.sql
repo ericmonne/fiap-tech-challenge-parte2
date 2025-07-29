@@ -9,16 +9,6 @@ CREATE TABLE restaurants (
   owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Tabela de Endereço do Restaurante (1:1)
-CREATE TABLE restaurant_addresses (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  restaurant_id UUID NOT NULL UNIQUE REFERENCES restaurants(id) ON DELETE CASCADE,
-  street TEXT NOT NULL,
-  city TEXT NOT NULL,
-  state TEXT NOT NULL,
-  zip TEXT NOT NULL
-);
-
 -- Horários de Funcionamento (1:N)
 CREATE TABLE opening_hour (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

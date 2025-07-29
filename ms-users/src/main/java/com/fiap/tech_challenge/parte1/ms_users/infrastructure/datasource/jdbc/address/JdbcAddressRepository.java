@@ -15,7 +15,7 @@ public class JdbcAddressRepository {
         this.jdbcClient = jdbcClient;
     }
 
-    public void save(List<JdbcAddressEntity> addresses, UUID generatedUserId) {
+    public void saveUserAddress(List<JdbcAddressEntity> addresses, UUID generatedUserId) {
         for (JdbcAddressEntity address : addresses) {
             jdbcClient.sql("""
                                 INSERT INTO address (
@@ -70,5 +70,42 @@ public class JdbcAddressRepository {
         return spec
                 .query(Address.class)
                 .list();
+    }
+
+    public void saveRestaurantAddress(Address address, UUID restaurantId) {
+        jdbcClient.sql("""
+            INSERT INTO address (
+                restaurant_id, zipcode, street, number, complement, neighborhood, city, state
+            ) VALUES (
+                :restaurant_id, :zipcode, :street, :number, :complement, :neighborhood, :city, :state
+            )
+        """)
+                .param("restaurant_id", restaurantId)
+                .param("zipcode", address.getZipcode())
+                .param("street", address.getStreet())
+                .param("number", address.getNumber())
+                .param("complement", address.getComplement())
+                .param("neighborhood", address.getNeighborhood())
+                .param("city", address.getCity())
+                .param("state", address.getState())
+                .update();
+    }
+
+    public Optional<Address> findByRestaurantId(UUID restaurantId) {
+        if (restaurantId == null) {
+            return Optional.empty();
+        }
+
+        return jdbcClient.sql("""
+                SELECT
+                    id, zipcode, street, number, complement, neighborhood, city, state, restaurant_id
+                FROM
+                    address
+                WHERE
+                    restaurant_id = :restaurantId
+            """)
+                .param("restaurantId", restaurantId)
+                .query(Address.class)
+                .optional();
     }
 }

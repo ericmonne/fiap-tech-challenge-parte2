@@ -15,7 +15,6 @@ import java.util.UUID;
  * @param neighborhood neighborhood name
  * @param city         city name
  * @param state        two-letter state code
- * @param userId       identifier of the user owning the address
  */
 public record AddressResponseDTO(
         UUID id,
@@ -25,7 +24,6 @@ public record AddressResponseDTO(
         String complement,
         String neighborhood,
         String city,
-        String state,
-        String userId
+        String state
 ) {
 }

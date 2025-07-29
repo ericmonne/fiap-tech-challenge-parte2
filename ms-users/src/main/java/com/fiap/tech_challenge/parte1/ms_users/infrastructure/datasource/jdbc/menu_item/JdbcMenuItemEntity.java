@@ -10,6 +10,7 @@ public class JdbcMenuItemEntity {
     private BigDecimal price;
     private Boolean availableOnlyOnSite;
     private String imagePath;
+    private UUID restaurantId;
 
     public UUID getId() {
         return id;
@@ -57,5 +58,13 @@ public class JdbcMenuItemEntity {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public UUID getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(UUID restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

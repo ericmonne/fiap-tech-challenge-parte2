@@ -3,6 +3,7 @@ package com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * DTO for receiving data for creating a menu item.
@@ -28,7 +29,12 @@ public record CreateMenuItemDTO(
 
         @NotBlank(message = "The image path is required")
         @Pattern(regexp = ".*\\.(jpg|jpeg|png|gif)$", message = "The image must be a JPG, JPEG, PNG, or GIF file")
-        String imagePath
+        String imagePath,
+
+        @NotBlank(message = "The restaurant ID is required")
+        @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = "Invalid UUID format")
+        UUID restaurantId
+
 
 ) {
 }

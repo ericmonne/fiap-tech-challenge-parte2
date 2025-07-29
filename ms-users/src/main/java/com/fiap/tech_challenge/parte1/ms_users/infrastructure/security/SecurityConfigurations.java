@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 /**
  * Security configuration class for setting up Spring Security in the application.
@@ -57,7 +58,8 @@ public class SecurityConfigurations {
      * @throws Exception in case of configuration errors
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   HandlerMappingIntrospector introspector) throws Exception {
         return http
                 .exceptionHandling(e ->
                         e.accessDeniedHandler((req, res, ex) -> {

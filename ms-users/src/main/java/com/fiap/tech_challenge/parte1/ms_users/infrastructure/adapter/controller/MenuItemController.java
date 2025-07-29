@@ -67,7 +67,7 @@ public class MenuItemController {
      *
      * @return a ResponseEntity containing the list of menu items as response DTOs
      */
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<MenuItemResponseDTO>> getAllMenuItems() {
         List<MenuItemResponseDTO> menuItems = menuItemControllerInputPort.findAll();
         return ResponseEntity.ok(menuItems);

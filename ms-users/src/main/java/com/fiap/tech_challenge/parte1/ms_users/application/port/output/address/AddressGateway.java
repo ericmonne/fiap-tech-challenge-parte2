@@ -18,6 +18,6 @@ public interface AddressGateway {
 
     Optional<Address> findByRestaurantId(UUID id);
 
-    void saveUserAddress(Address address, UUID restaurantId);
+    void saveRestaurantAddress(Address address, UUID restaurantId);
 
 }

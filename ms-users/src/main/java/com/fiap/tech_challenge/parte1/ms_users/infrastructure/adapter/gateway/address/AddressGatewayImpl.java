@@ -43,7 +43,7 @@ public class AddressGatewayImpl implements AddressGateway {
     }
 
     @Override
-    public void saveUserAddress(Address address, UUID restaurantId) {
+    public void saveRestaurantAddress(Address address, UUID restaurantId) {
         addressDataSource.saveRestaurantAddress(address, restaurantId);
     }
 }

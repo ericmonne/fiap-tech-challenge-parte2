@@ -23,7 +23,7 @@ public class JdbcOpeningHourRepository {
         UUID id = UUID.randomUUID();
 
         jdbcClient.sql("""
-                INSERT INTO restaurant_opening_hour (id, restaurant_id, weekday, opening_time, closing_time)
+                INSERT INTO opening_hour (id, restaurant_id, weekday, opening_time, closing_time)
                 VALUES (:id, :restaurant_id, :weekday, :opening_time, :closing_time)
             """)
                 .param("id", id)
@@ -38,7 +38,7 @@ public class JdbcOpeningHourRepository {
 
     public List<OpeningHour> findByRestaurantId(UUID restaurantId) {
         return jdbcClient.sql("""
-                SELECT * FROM restaurant_opening_hour WHERE restaurant_id = :restaurant_id
+                SELECT * FROM opening_hour WHERE restaurant_id = :restaurant_id
             """)
                 .param("restaurant_id", restaurantId)
                 .query(this::mapRowToOpeningHour)
@@ -46,7 +46,7 @@ public class JdbcOpeningHourRepository {
     }
 
     public Optional<OpeningHour> findById(UUID id) {
-        return jdbcClient.sql("SELECT * FROM restaurant_opening_hour WHERE id = :id")
+        return jdbcClient.sql("SELECT * FROM opening_hour WHERE id = :id")
                 .param("id", id)
                 .query(this::mapRowToOpeningHour)
                 .optional();
@@ -54,7 +54,7 @@ public class JdbcOpeningHourRepository {
 
     public void update(JdbcOpeningHourEntity entity) {
         jdbcClient.sql("""
-                UPDATE restaurant_opening_hour
+                UPDATE opening_hour
                 SET weekday = :weekday,
                     opening_time = :opening_time,
                     closing_time = :closing_time
@@ -75,5 +75,14 @@ public class JdbcOpeningHourRepository {
                 rs.getTime("closing_time").toLocalTime(),
                 null
         );
+    }
+
+    public void deleteByRestaurantId(UUID restaurantId) {
+        jdbcClient.sql("""
+            DELETE FROM opening_hour
+            WHERE restaurant_id = :restaurant_id
+        """)
+                .param("restaurant_id", restaurantId)
+                .update();
     }
 }

@@ -36,7 +36,17 @@ public class JdbcRestaurantDataSource implements RestaurantDataSource {
     }
 
     @Override
-    public List<Restaurant> findAll(int size, int offset) {
-        return jdbcRestaurantRepository.findAll(size, offset);
+    public boolean existsById(UUID restaurantId) {
+        return jdbcRestaurantRepository.existsById(restaurantId);
+    }
+
+    @Override
+    public void delete(UUID restaurantId) {
+        jdbcRestaurantRepository.delete(restaurantId);
+    }
+
+    @Override
+    public List<Restaurant> findAllRestaurantsByUserId(UUID userId, int size, int offset) {
+        return jdbcRestaurantRepository.findAllByUserId(userId, size, offset);
     }
 }

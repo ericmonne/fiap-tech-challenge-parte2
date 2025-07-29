@@ -12,7 +12,6 @@ public record RestaurantResponseDTO(
         String name,
         AddressResponseDTO address,
         CuisineType cuisineType,
-        List<OpeningHourResponseDTO> openingHours,
-        UUID userId
+        List<OpeningHourResponseDTO> openingHours
 ) {
 }

@@ -31,8 +31,17 @@ public class RestaurantGatewayImpl implements RestaurantGateway {
         restaurantDataSource.update(restaurant);
     }
 
+    public List<Restaurant> findAllRestaurantsByUserId(UUID userId, int size, int offset) {
+        return restaurantDataSource.findAllRestaurantsByUserId(userId, size, offset);
+    }
+
     @Override
-    public List<Restaurant> findAll(int size, int offset) {
-        return restaurantDataSource.findAll(size, offset);
+    public boolean existsById(UUID restaurantId) {
+        return restaurantDataSource.existsById(restaurantId);
+    }
+
+    @Override
+    public void delete(UUID restaurantId) {
+        restaurantDataSource.delete(restaurantId);
     }
 }

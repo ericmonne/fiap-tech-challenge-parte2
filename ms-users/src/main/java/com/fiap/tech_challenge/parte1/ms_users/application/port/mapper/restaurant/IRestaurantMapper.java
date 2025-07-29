@@ -2,6 +2,7 @@ package com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.restaura
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant.RestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant.RestaurantResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.OpeningHour;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant.JdbcRestaurantEntity;

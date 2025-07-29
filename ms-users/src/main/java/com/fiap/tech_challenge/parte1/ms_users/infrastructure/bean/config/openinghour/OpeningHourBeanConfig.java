@@ -20,10 +20,4 @@ public class OpeningHourBeanConfig {
         return new OpeningHourGatewayImpl(openingHourDataSource);
     }
 
-//    @Bean
-//    public OpeningHourControllerInputPort registerOpeningHourControllerInputPort(RegisterUserUseCase registerStudentUseCase, UpdateUserUseCase registerUpdateUserUseCase, FindListUserUseCase registerFindListUserUseCase, FindByIdUserUseCase registerFindByIdUserUserCase, DeactivateUserUseCase registerDeactivateUserUseCase, ReactivateUserUseCase registerReactivateUserUseCase, ChangePasswordUserUseCase registerChangePasswordUserUseCase, AuthenticateUserUseCase registerAuthenticateUserUseCase, IUserMapper iUserMapper) {
-//        return new OpeningHourControllerInputPortImpl(registerStudentUseCase, registerUpdateUserUseCase, registerFindListUserUseCase, registerFindByIdUserUserCase, registerDeactivateUserUseCase, registerReactivateUserUseCase, registerChangePasswordUserUseCase, registerAuthenticateUserUseCase, iUserMapper);
-//    }
-
-    //UseCases
 }

@@ -76,4 +76,36 @@ public class JdbcRestaurantRepository {
 
         return restaurant;
     }
+
+    public boolean existsById(UUID restaurantId) {
+        Integer count = jdbcClient.sql("SELECT 1 FROM restaurants WHERE id = :id")
+                .param("id", restaurantId)
+                .query((rs, rowNum) -> 1)
+                .optional()
+                .orElse(null);
+
+        return count != null;
+    }
+
+    public void delete(UUID restaurantId) {
+        jdbcClient.sql("""
+            DELETE FROM restaurants
+            WHERE id = :id
+            """)
+                .param("id", restaurantId)
+                .update();
+    }
+
+    public List<Restaurant> findAllByUserId(UUID userId, int size, int offset) {
+        return jdbcClient.sql("""
+                SELECT * FROM restaurants
+                WHERE user_id = :user_id
+                LIMIT :size OFFSET :offset
+            """)
+                .param("user_id", userId)
+                .param("size", size)
+                .param("offset", offset)
+                .query(this::toRestaurant)
+                .list();
+    }
 }

@@ -10,5 +10,7 @@ public interface RestaurantGateway {
     UUID createRestaurant(Restaurant restaurant);
     Optional<Restaurant> findById(UUID restaurantId);
     void update(Restaurant restaurant);
-    List<Restaurant> findAll(int size, int offset);
+    List<Restaurant> findAllRestaurantsByUserId(UUID userId, int size, int offset);
+    boolean existsById(UUID restaurantId);
+    void delete(UUID restaurantId);
 }

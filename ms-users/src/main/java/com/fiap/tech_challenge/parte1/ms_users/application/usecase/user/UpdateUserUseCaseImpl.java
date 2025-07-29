@@ -36,7 +36,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
 
         List<Address> addresses = user.getAddress();
         if (addresses != null && !addresses.isEmpty()) {
-            addressGateway.update(addresses, user.getId());
+            addressGateway.updateUserAddress(addresses, user.getId());
         }
 
         return userGateway.findById(user.getId()).orElseThrow(() -> new UserNotFoundException("User with id %s not found.".formatted(user.getId())));

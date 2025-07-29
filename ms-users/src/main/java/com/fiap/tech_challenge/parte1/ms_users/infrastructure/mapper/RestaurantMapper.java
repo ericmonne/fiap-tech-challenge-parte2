@@ -30,8 +30,7 @@ public class RestaurantMapper implements IRestaurantMapper {
                 restaurant.getName(),
                 iAddressMapper.toAddressResponseDTO(restaurant.getAddress()),
                 restaurant.getCuisineType(),
-                iOpeningHourMapper.toOpeningHourResponseDTO(restaurant.getOpeningHours()),
-                restaurant.getUser().getId()
+                iOpeningHourMapper.toOpeningHourResponseDTO(restaurant.getOpeningHours())
         );
     }
 

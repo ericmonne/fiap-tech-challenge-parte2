@@ -39,7 +39,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         UUID userId = userGateway.createUser(user);
         List<Address> addresses = user.getAddresses();
-        addressGateway.save(addresses, userId);
+        addressGateway.saveUserAddress(addresses, userId);
         User userEntityAfterCreation = userGateway.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id %s not found.".formatted(userId)));
         return new CreateUserDTO(iUserMapper.toResponseDTO(userEntityAfterCreation), tokenProvider.generateToken(user.getLogin()));
     }

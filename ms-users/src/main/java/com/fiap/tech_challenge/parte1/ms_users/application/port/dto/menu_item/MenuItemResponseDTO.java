@@ -8,6 +8,7 @@ public record MenuItemResponseDTO(UUID id,
                                   String description,
                                   BigDecimal price,
                                   Boolean availableOnlyOnSite,
-                                  String imagePath
+                                  String imagePath,
+                                  UUID restaurantId
 ) {
 }

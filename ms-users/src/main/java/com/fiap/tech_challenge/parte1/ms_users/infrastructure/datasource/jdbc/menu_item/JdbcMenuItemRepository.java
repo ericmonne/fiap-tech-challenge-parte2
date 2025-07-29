@@ -78,9 +78,9 @@ public class JdbcMenuItemRepository {
         UUID id = UUID.randomUUID();
         final String sql = """
                     INSERT INTO menu_item (
-                        id, name, description, price, available_only_on_site, image_path
+                        id, name, description, price, available_only_on_site, image_path, restaurant_id
                     ) VALUES (
-                        :id, :name, :description, :price, :availableOnlyOnSite, :imagePath
+                        :id, :name, :description, :price, :availableOnlyOnSite, :imagePath, :restaurantId
                     );
                 """;
         jdbcClient.sql(sql)
@@ -90,9 +90,10 @@ public class JdbcMenuItemRepository {
                 .param("price", jdbcMenuItemEntity.getPrice())
                 .param("availableOnlyOnSite", jdbcMenuItemEntity.getAvailableOnlyOnSite())
                 .param("imagePath", jdbcMenuItemEntity.getImagePath())
+                .param("restaurantId", jdbcMenuItemEntity.getRestaurantId())
                 .update();
 
-        return new MenuItem(id, jdbcMenuItemEntity.getName(), jdbcMenuItemEntity.getDescription(), jdbcMenuItemEntity.getPrice(), jdbcMenuItemEntity.getAvailableOnlyOnSite(), jdbcMenuItemEntity.getImagePath());
+        return new MenuItem(id, jdbcMenuItemEntity.getName(), jdbcMenuItemEntity.getDescription(), jdbcMenuItemEntity.getPrice(), jdbcMenuItemEntity.getAvailableOnlyOnSite(), jdbcMenuItemEntity.getImagePath(), jdbcMenuItemEntity.getRestaurantId());
 
     }
 

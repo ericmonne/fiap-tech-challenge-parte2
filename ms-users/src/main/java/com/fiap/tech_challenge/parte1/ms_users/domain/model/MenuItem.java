@@ -11,18 +11,20 @@ public class MenuItem {
     private BigDecimal price;
     private Boolean availableOnlyOnSite;
     private String imagePath;
+    private UUID restaurantId;
 
 
     public MenuItem() {
     }
 
-    public MenuItem(UUID id, String name, String description, BigDecimal price, Boolean availableOnlyOnSite, String imagePath) {
+    public MenuItem(UUID id, String name, String description, BigDecimal price, Boolean availableOnlyOnSite, String imagePath, UUID restaurantId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.availableOnlyOnSite = availableOnlyOnSite;
         this.imagePath = imagePath;
+        this.restaurantId = restaurantId;
     }
 
     public UUID getId() {
@@ -73,8 +75,17 @@ public class MenuItem {
         this.imagePath = imagePath;
     }
 
+    public UUID getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(UUID restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    //verificar necessidade de adicionar restaurantId
     public MenuItem withId(UUID id) {
         this.id = id;
-        return new MenuItem(id, name, description, price, availableOnlyOnSite, imagePath);
+        return new MenuItem(id, name, description, price, availableOnlyOnSite, imagePath, restaurantId);
     }
 }

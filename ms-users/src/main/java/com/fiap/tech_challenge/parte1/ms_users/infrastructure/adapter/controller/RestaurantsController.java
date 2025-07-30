@@ -1,5 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.controller;
 
+import com.fiap.tech_challenge.parte1.ms_users.api.routes.RestaurantRoutes;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
@@ -61,7 +62,7 @@ public class RestaurantsController implements RestaurantsApi {
     public ResponseEntity<RestaurantResponseDTO> createRestaurant(RestaurantRequestDTO dto) {
         UUID userId = getLoggedUserId();
         RestaurantResponseDTO response = restaurantControllerInputPort.createRestaurant(dto, userId);
-        URI location = URI.create("/restaurants/" + response.id());
+        URI location = URI.create(RestaurantRoutes.RESTAURANTS_BASE + "/" + response.id());
         return ResponseEntity.created(location).body(response);
     }
 
@@ -78,26 +79,12 @@ public class RestaurantsController implements RestaurantsApi {
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Retrieves a paginated list of menu items for a specific restaurant.
-     *
-     * @param restaurantId The ID of the restaurant to filter menu items
-     * @param size The number of items per page (default: 10, max: 50)
-     * @param offset The starting position of the pagination (default: 0)
-     * @return PaginatedResponseDTO containing the list of menu items and pagination metadata
-     */
-    @Operation(summary = "Get paginated menu items by restaurant ID",
-            description = "Retrieves a paginated list of menu items for a specific restaurant")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved menu items"),
-            @ApiResponse(responseCode = "400", description = "Invalid parameters"),
-            @ApiResponse(responseCode = "404", description = "Restaurant not found")
-    })
-    @GetMapping("/{restaurantId}")
+
+    @Override
     public ResponseEntity<PaginatedResponseDTO<MenuItemResponseDTO>> getMenuItemsByRestaurantId(
-            @Parameter(description = "ID of the restaurant") @PathVariable UUID restaurantId,
-            @Parameter(description = "Number of items per page") @RequestParam(defaultValue = "10") int size,
-            @Parameter(description = "Starting position") @RequestParam(defaultValue = "0") int offset) {
+            UUID restaurantId,
+            int size,
+            int offset) {
 
         MenuItemsByRestaurantRequestDTO request = new MenuItemsByRestaurantRequestDTO(restaurantId, size, offset);
         PaginatedResponseDTO<MenuItemResponseDTO> response =

@@ -1,5 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.openapi;
 
+import com.fiap.tech_challenge.parte1.ms_users.api.routes.UserRoutes;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.*;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/users")
+@RequestMapping(UserRoutes.USERS_BASE)
 public interface UsersApi {
 
-    @GetMapping("/{id}")
+    @GetMapping(UserRoutes.ID)
     @Operation(
             summary = "Busca",
             description = "Retorna os dados de um usuário, pesquisado por ID",
@@ -92,7 +93,7 @@ public interface UsersApi {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    @PostMapping("/login")
+    @PostMapping(UserRoutes.LOGIN)
     @Operation(
             summary = "Login",
             description = "Realiza a autenticação de um usuário no sistema e retorna um token JWT."
@@ -136,7 +137,7 @@ public interface UsersApi {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(UserRoutes.ID)
     @Operation(
             summary = "Ativa/Inativa usuário",
             description = "Ativa ou inativa um usuário com base no valor da query param activate.",
@@ -157,7 +158,7 @@ public interface UsersApi {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    @PatchMapping("/{id}/password")
+    @PatchMapping(UserRoutes.ID_AND_PASSWORD)
     @Operation(
             summary = "Altera senha",
             description = "Realiza a alteração da senha de um usuário.",
@@ -192,7 +193,7 @@ public interface UsersApi {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(UserRoutes.ID)
     @Operation(
             summary = "Atualiza",
             description = "Atualiza os dados cadastrais de um usuario, pesquisado por ID.",

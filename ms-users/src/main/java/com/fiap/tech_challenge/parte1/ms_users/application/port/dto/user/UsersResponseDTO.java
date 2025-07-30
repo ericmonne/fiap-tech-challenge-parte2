@@ -1,6 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
  * @param name    the full name of the user
  * @param email   the user's email address
  * @param login   the unique login identifier of the user
- * @param role    the user's role (e.g., OWNER or CLIENT)
+ * @param userType  the user's role (e.g., OWNER or CLIENT)
  * @param address the list of addresses associated with the user
  */
 public record UsersResponseDTO(
@@ -24,6 +25,6 @@ public record UsersResponseDTO(
         String name,
         String email,
         String login,
-        String role,
+        UserType userType,
         List<AddressResponseDTO> address) {
 }

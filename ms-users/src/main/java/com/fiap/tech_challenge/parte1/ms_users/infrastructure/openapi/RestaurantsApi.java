@@ -1,8 +1,13 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.openapi;
 
+import com.fiap.tech_challenge.parte1.ms_users.api.routes.RestaurantRoutes;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant.RestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant.RestaurantResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,10 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/restaurants")
+@RequestMapping(RestaurantRoutes.RESTAURANTS_BASE)
 public interface RestaurantsApi {
 
-    @GetMapping("/{id}")
+    @GetMapping(RestaurantRoutes.ID)
     @Operation(
             summary = "Busca",
             description = "Retorna os dados de um restaurante, pesquisado por ID",
@@ -94,7 +99,7 @@ public interface RestaurantsApi {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(RestaurantRoutes.ID)
     @Operation(
             summary = "Atualiza",
             description = "Atualiza os dados cadastrais de um restaurante, pesquisado por ID.",
@@ -129,7 +134,7 @@ public interface RestaurantsApi {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(RestaurantRoutes.ID)
     @Operation(
             summary = "Exclusão",
             description = "Exclui os dados cadastrais de um restaurante, pesquisado por ID.",
@@ -146,4 +151,32 @@ public interface RestaurantsApi {
             @PathVariable UUID id) {
         throw new UnsupportedOperationException("Not implemented");
     }
+
+
+/**
+ * Retrieves a paginated list of menu items for a specific restaurant.
+ *
+ * @param id     The unique identifier of the restaurant.
+ * @param size   The number of menu items to retrieve per page. Defaults to 10.
+ * @param offset The starting position for the pagination. Defaults to 0.
+ * @return A ResponseEntity containing a PaginatedResponseDTO with the list of MenuItemResponseDTO objects.
+ *         Returns a 200 status if the retrieval is successful, 400 if the parameters are invalid,
+ *         or 404 if the restaurant is not found.
+ */
+    @Operation(summary = "Get paginated menu items by restaurant ID",
+            description = "Retrieves a paginated list of menu items for a specific restaurant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved menu items"),
+            @ApiResponse(responseCode = "400", description = "Invalid parameters"),
+            @ApiResponse(responseCode = "404", description = "Restaurant not found")
+    })
+
+    @GetMapping(RestaurantRoutes.ID_AND_MENU_ITEMS)
+    default ResponseEntity<PaginatedResponseDTO<MenuItemResponseDTO>> getMenuItemsByRestaurantId(
+            @Parameter(description = "ID of the restaurant") @PathVariable UUID id,
+            @Parameter(description = "Number of items per page") @RequestParam(defaultValue = "10") int size,
+            @Parameter(description = "Starting position") @RequestParam(defaultValue = "0") int offset) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
 }

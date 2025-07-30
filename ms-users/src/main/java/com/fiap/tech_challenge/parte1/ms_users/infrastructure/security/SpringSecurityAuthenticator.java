@@ -25,6 +25,6 @@ public class SpringSecurityAuthenticator implements Authenticator {
         );
 
         User user = (User) auth.getPrincipal();
-        return new AuthenticatedUser(user.getLogin(), user.getRole().name());
+        return new AuthenticatedUser(user.getLogin(), user.getUserType().getName());
     }
 }

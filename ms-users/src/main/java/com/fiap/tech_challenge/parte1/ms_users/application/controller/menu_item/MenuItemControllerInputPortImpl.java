@@ -1,11 +1,12 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.controller.menu_item;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.CreateMenuItemDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.UpdateMenuItemDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.controller.MenuItemControllerInputPort;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +23,10 @@ public class MenuItemControllerInputPortImpl implements MenuItemControllerInputP
     private final UpdateMenuItemUseCase updateMenuItemUseCase;
     private final ChangeMenuItemAvailabilityUseCase changeMenuItemAvailabilityUseCase;
     private final DeleteMenuItemUseCase deleteMenuItemUseCase;
+    private final FindMenuItemsByRestaurantIdUseCase findMenuItemsByRestaurantIdUseCase;
 
 
-    public MenuItemControllerInputPortImpl(CreateMenuItemUseCase createMenuItemUseCase, FindMenuItemByIdUseCase findMenuItemByIdUseCase, ReadPaginatedMenuItemsUseCase readPaginatedMenuItemsUseCase, ReadAllMenuItemsUseCase readAllMenuItemsUseCase, UpdateMenuItemUseCase updateMenuItemUseCase, ChangeMenuItemAvailabilityUseCase changeMenuItemAvailabilityUseCase, DeleteMenuItemUseCase deleteMenuItemUseCase) {
+    public MenuItemControllerInputPortImpl(CreateMenuItemUseCase createMenuItemUseCase, FindMenuItemByIdUseCase findMenuItemByIdUseCase, ReadPaginatedMenuItemsUseCase readPaginatedMenuItemsUseCase, ReadAllMenuItemsUseCase readAllMenuItemsUseCase, UpdateMenuItemUseCase updateMenuItemUseCase, ChangeMenuItemAvailabilityUseCase changeMenuItemAvailabilityUseCase, DeleteMenuItemUseCase deleteMenuItemUseCase, FindMenuItemsByRestaurantIdUseCase findMenuItemsByRestaurantIdUseCase) {
         this.createMenuItemUseCase = createMenuItemUseCase;
         this.findMenuItemByIdUseCase = findMenuItemByIdUseCase;
         this.readPaginatedMenuItemsUseCase = readPaginatedMenuItemsUseCase;
@@ -32,6 +34,7 @@ public class MenuItemControllerInputPortImpl implements MenuItemControllerInputP
         this.updateMenuItemUseCase = updateMenuItemUseCase;
         this.changeMenuItemAvailabilityUseCase = changeMenuItemAvailabilityUseCase;
         this.deleteMenuItemUseCase = deleteMenuItemUseCase;
+        this.findMenuItemsByRestaurantIdUseCase = findMenuItemsByRestaurantIdUseCase;
     }
 
     @Override
@@ -74,5 +77,10 @@ public class MenuItemControllerInputPortImpl implements MenuItemControllerInputP
     public MenuItemResponseDTO changeAvailability(UUID id, Boolean availableOnlyOnSite) {
         logger.info("Changing menu item availability -> id: {}, availableOnlyOnSite: {}", id, availableOnlyOnSite);
         return changeMenuItemAvailabilityUseCase.execute(id, availableOnlyOnSite);
+    }
+
+    @Override
+    public PaginatedResponseDTO<MenuItemResponseDTO> findByRestaurantId(MenuItemsByRestaurantRequestDTO request) {
+        return findMenuItemsByRestaurantIdUseCase.execute(request);
     }
 }

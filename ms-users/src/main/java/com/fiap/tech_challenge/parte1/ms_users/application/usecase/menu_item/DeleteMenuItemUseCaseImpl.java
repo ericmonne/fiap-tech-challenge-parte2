@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.menu_item;
 
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.DeleteMenuItemUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.DeleteMenuItemUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.MenuItemNotFoundException;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item;
+package com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase;
 
 import java.util.UUID;
 

@@ -3,7 +3,7 @@ package com.fiap.tech_challenge.parte1.ms_users.application.usecase.menu_item;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.CreateMenuItemDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.CreateMenuItemUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.CreateMenuItemUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemValidator;

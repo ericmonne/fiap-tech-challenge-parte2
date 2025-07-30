@@ -1,5 +1,8 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResult;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 
@@ -31,4 +34,5 @@ public interface MenuItemGateway {
 
     Optional<MenuItem> findByName(String name);
 
+    PaginatedResult<MenuItem> findByRestaurantId(MenuItemsByRestaurantRequestDTO request);
 }

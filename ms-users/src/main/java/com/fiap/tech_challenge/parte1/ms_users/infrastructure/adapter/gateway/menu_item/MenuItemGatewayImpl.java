@@ -1,5 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.menu_item;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResult;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
@@ -55,5 +57,10 @@ public class MenuItemGatewayImpl implements MenuItemGateway {
     @Override
     public Optional<MenuItem> findByName(String name) {
         return menuItemDataSource.findByName(name);
+    }
+
+    @Override
+    public PaginatedResult<MenuItem> findByRestaurantId(MenuItemsByRestaurantRequestDTO request) {
+        return menuItemDataSource.findByRestaurantId(request);
     }
 }

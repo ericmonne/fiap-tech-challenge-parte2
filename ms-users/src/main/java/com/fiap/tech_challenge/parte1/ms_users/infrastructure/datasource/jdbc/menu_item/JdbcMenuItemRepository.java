@@ -1,7 +1,10 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.menu_item;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResult;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.MenuItemMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -105,12 +108,11 @@ public class JdbcMenuItemRepository {
                 .optional();
     }
 
-    public boolean deleteById(UUID id) {
+    public void deleteById(UUID id) {
         final String sql = "DELETE FROM menu_item WHERE id = :id";
-        int rowsAffected = jdbcClient.sql(sql)
+        jdbcClient.sql(sql)
                 .param("id", id)
                 .update();
-        return rowsAffected > 0;
     }
 
     public void update(JdbcMenuItemEntity jdbcMenuItemEntity) {
@@ -156,4 +158,50 @@ public class JdbcMenuItemRepository {
                 .query(MenuItem.class)
                 .optional();
     }
+
+
+    /**
+     * Retrieves a paginated list of menu items for a specific restaurant.
+     *
+     * @param restaurantRequestDTO The request containing the restaurant ID and pagination parameters.
+     * @return A paginated result containing the list of menu items and pagination metadata.
+     */
+    public PaginatedResult<MenuItem> findByRestaurantId(MenuItemsByRestaurantRequestDTO restaurantRequestDTO) {
+
+        UUID restaurantId = restaurantRequestDTO.restaurantId();
+        int size = restaurantRequestDTO.size();
+        int offset = restaurantRequestDTO.offset();
+        final String sql = """
+                SELECT name, description, price, available_only_on_site, image_path, restaurant_id
+                FROM menu_item
+                WHERE restaurant_id = :restaurant_id
+                ORDER BY name
+                LIMIT :size OFFSET :offset
+                """;
+
+        List<MenuItem> items = jdbcClient.sql(sql)
+                .param("restaurant_id", restaurantId)
+                .param("size", size)
+                .param("offset", offset)
+                .query(MenuItem.class)
+                .list();
+
+
+        final String countSql = """
+                    SELECT COUNT(*)
+                    FROM menu_item
+                    WHERE restaurant_id = :restaurant_id
+                """;
+
+        int totalItems = jdbcClient.sql(countSql)
+                .param("restaurant_id", restaurantId)
+                .query(Integer.class)
+                .single();
+
+        int totalPages = size > 0 ? (int) Math.ceil((double) totalItems / size) : 0;
+
+        return new PaginatedResult<>(items, totalItems, totalPages);
+    }
+
+
 }

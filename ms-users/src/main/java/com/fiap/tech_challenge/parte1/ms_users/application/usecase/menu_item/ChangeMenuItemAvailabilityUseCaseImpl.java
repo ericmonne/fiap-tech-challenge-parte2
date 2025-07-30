@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.menu_item;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.ChangeMenuItemAvailabilityUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.ChangeMenuItemAvailabilityUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.MenuItemNotFoundException;

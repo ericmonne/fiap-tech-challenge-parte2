@@ -67,7 +67,7 @@ public class MenuItemController {
      *
      * @return a ResponseEntity containing the list of menu items as response DTOs
      */
-    @GetMapping("/all")
+    @GetMapping(MenuItemRoutes.ALL)
     public ResponseEntity<List<MenuItemResponseDTO>> getAllMenuItems() {
         List<MenuItemResponseDTO> menuItems = menuItemControllerInputPort.findAll();
         return ResponseEntity.ok(menuItems);
@@ -108,10 +108,11 @@ public class MenuItemController {
         menuItemControllerInputPort.delete(id);
     }
 
-    @PutMapping(MenuItemRoutes.ID + "/change-availability")
+    @PutMapping(MenuItemRoutes.ID_AND_CHANGE_AVAILABILITY)
     public ResponseEntity<MenuItemResponseDTO> changeMenuItemAvailability(@PathVariable UUID id, @RequestBody @Valid Boolean isAvailableOnSite) {
         MenuItemResponseDTO updatedItem = menuItemControllerInputPort.changeAvailability(id, isAvailableOnSite);
         return ResponseEntity.ok(updatedItem);
     }
+
 
 }

@@ -1,8 +1,8 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.menu_item;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.controller.menu_item.MenuItemControllerInputPortImpl;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.controller.MenuItemControllerInputPort;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
@@ -71,19 +71,25 @@ public class MenuItemBeanConfig {
     }
 
     @Bean
+    public FindMenuItemsByRestaurantIdUseCase registerFindMenuItemsByRestaurantIdUseCase(MenuItemGateway menuItemGateway, IMenuItemMapper menuItemMapper) {
+        return new FindMenuItemsByRestaurantIdUseCaseImpl(menuItemGateway, menuItemMapper);
+    }
+
+    @Bean
     public MenuItemControllerInputPort registerMenuItemControllerInputPort(CreateMenuItemUseCase createMenuItemUseCase,
                                                                            FindMenuItemByIdUseCase findMenuItemByIdUseCase,
                                                                            ReadPaginatedMenuItemsUseCase readPaginatedMenuItemsUseCase,
                                                                            ReadAllMenuItemsUseCase readAllMenuItemsUseCase,
                                                                            UpdateMenuItemUseCase updateMenuItemUseCase,
                                                                            ChangeMenuItemAvailabilityUseCase changeMenuItemAvailabilityUseCase,
-                                                                           DeleteMenuItemUseCase deleteMenuItemUseCase) {
+                                                                           DeleteMenuItemUseCase deleteMenuItemUseCase,
+                                                                           FindMenuItemsByRestaurantIdUseCase findMenuItemsByRestaurantIdUseCase) {
         return new MenuItemControllerInputPortImpl(createMenuItemUseCase,
                 findMenuItemByIdUseCase,
                 readPaginatedMenuItemsUseCase,
                 readAllMenuItemsUseCase,
                 updateMenuItemUseCase,
                 changeMenuItemAvailabilityUseCase,
-                deleteMenuItemUseCase);
+                deleteMenuItemUseCase, findMenuItemsByRestaurantIdUseCase);
     }
 }

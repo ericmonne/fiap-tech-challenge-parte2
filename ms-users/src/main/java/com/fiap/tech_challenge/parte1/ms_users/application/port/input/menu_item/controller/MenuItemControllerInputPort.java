@@ -2,6 +2,7 @@ package com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.CreateMenuItemDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.UpdateMenuItemDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
 
@@ -23,4 +24,6 @@ public interface MenuItemControllerInputPort {
     void delete(UUID id);
 
     MenuItemResponseDTO changeAvailability(UUID id, Boolean availableOnlyOnSite);
+
+    PaginatedResponseDTO<MenuItemResponseDTO> findByRestaurantId(MenuItemsByRestaurantRequestDTO request);
 }

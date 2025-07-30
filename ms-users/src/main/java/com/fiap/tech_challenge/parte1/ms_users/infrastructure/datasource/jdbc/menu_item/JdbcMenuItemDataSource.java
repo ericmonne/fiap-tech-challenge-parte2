@@ -1,6 +1,5 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.menu_item;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResult;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;

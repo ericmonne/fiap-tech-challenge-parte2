@@ -71,19 +71,25 @@ public class MenuItemBeanConfig {
     }
 
     @Bean
+    public FindMenuItemsByRestaurantIdUseCase registerFindMenuItemsByRestaurantIdUseCase(MenuItemGateway menuItemGateway, IMenuItemMapper menuItemMapper) {
+        return new FindMenuItemsByRestaurantIdUseCaseImpl(menuItemGateway, menuItemMapper);
+    }
+
+    @Bean
     public MenuItemControllerInputPort registerMenuItemControllerInputPort(CreateMenuItemUseCase createMenuItemUseCase,
                                                                            FindMenuItemByIdUseCase findMenuItemByIdUseCase,
                                                                            ReadPaginatedMenuItemsUseCase readPaginatedMenuItemsUseCase,
                                                                            ReadAllMenuItemsUseCase readAllMenuItemsUseCase,
                                                                            UpdateMenuItemUseCase updateMenuItemUseCase,
                                                                            ChangeMenuItemAvailabilityUseCase changeMenuItemAvailabilityUseCase,
-                                                                           DeleteMenuItemUseCase deleteMenuItemUseCase) {
+                                                                           DeleteMenuItemUseCase deleteMenuItemUseCase,
+                                                                           FindMenuItemsByRestaurantIdUseCase findMenuItemsByRestaurantIdUseCase) {
         return new MenuItemControllerInputPortImpl(createMenuItemUseCase,
                 findMenuItemByIdUseCase,
                 readPaginatedMenuItemsUseCase,
                 readAllMenuItemsUseCase,
                 updateMenuItemUseCase,
                 changeMenuItemAvailabilityUseCase,
-                deleteMenuItemUseCase);
+                deleteMenuItemUseCase, findMenuItemsByRestaurantIdUseCase);
     }
 }

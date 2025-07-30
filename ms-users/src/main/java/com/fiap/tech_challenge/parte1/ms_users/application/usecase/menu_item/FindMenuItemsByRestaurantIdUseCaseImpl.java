@@ -10,7 +10,6 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 
 import java.util.List;
-import java.util.UUID;
 
 public class FindMenuItemsByRestaurantIdUseCaseImpl implements FindMenuItemsByRestaurantIdUseCase {
 

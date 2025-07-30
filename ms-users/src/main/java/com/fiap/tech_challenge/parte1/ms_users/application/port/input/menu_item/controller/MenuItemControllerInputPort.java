@@ -5,7 +5,6 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.Me
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.UpdateMenuItemDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResult;
 
 import java.util.List;
 import java.util.UUID;

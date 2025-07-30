@@ -44,4 +44,9 @@ public class RestaurantGatewayImpl implements RestaurantGateway {
     public void delete(UUID restaurantId) {
         restaurantDataSource.delete(restaurantId);
     }
+
+    @Override
+    public boolean isRestaurantOwnedByUser(UUID restaurantId, UUID userId) {
+        return restaurantDataSource.isRestaurantOwnedByUser(restaurantId, userId);
+    }
 }

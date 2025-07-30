@@ -91,6 +91,29 @@ public class JdbcAddressRepository {
                 .update();
     }
 
+    public void updateRestaurantAddress(Address address, UUID restaurantId) {
+        jdbcClient.sql("""
+        UPDATE address SET
+            zipcode = :zipcode,
+            street = :street,
+            number = :number,
+            complement = :complement,
+            neighborhood = :neighborhood,
+            city = :city,
+            state = :state
+        WHERE restaurant_id = :restaurant_id
+        """)
+                .param("zipcode", address.getZipcode())
+                .param("street", address.getStreet())
+                .param("number", address.getNumber())
+                .param("complement", address.getComplement())
+                .param("neighborhood", address.getNeighborhood())
+                .param("city", address.getCity())
+                .param("state", address.getState())
+                .param("restaurant_id", restaurantId)
+                .update();
+    }
+
     public Optional<Address> findByRestaurantId(UUID restaurantId) {
         if (restaurantId == null) {
             return Optional.empty();

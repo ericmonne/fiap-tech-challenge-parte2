@@ -18,4 +18,6 @@ public interface AddressDataSource {
     Optional<Address> findByRestaurantId(UUID restaurantId);
 
     void saveRestaurantAddress(Address address, UUID restaurantId);
+
+    void updateRestaurantAddress(Address address, UUID restaurantId);
 }

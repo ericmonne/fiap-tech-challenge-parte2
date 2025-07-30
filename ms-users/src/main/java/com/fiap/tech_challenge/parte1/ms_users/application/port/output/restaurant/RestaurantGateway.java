@@ -13,4 +13,5 @@ public interface RestaurantGateway {
     List<Restaurant> findAllRestaurantsByUserId(UUID userId, int size, int offset);
     boolean existsById(UUID restaurantId);
     void delete(UUID restaurantId);
+    boolean isRestaurantOwnedByUser(UUID restaurantId, UUID userId);
 }

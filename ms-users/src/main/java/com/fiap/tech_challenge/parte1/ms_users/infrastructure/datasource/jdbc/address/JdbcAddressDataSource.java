@@ -44,6 +44,11 @@ public class JdbcAddressDataSource implements AddressDataSource {
         jdbcAddressRepository.saveRestaurantAddress(address, restaurantId);
     }
 
+    @Override
+    public void updateRestaurantAddress(Address address, UUID restaurantId) {
+        jdbcAddressRepository.updateRestaurantAddress(address, restaurantId);
+    }
+
     private void updateAddressList(List<Address> addresses, UUID id) {
         List<JdbcAddressEntity> jdbcAddressEntity = iAddressMapper.toJdbcAddressEntity(addresses);
         jdbcAddressRepository.saveUserAddress(jdbcAddressEntity, id);

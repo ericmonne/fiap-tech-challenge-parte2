@@ -35,4 +35,9 @@ public class OpeningHourGatewayImpl implements OpeningHourGateway {
     public List<OpeningHour> findByRestaurantId(UUID restaurantId) {
         return this.openingHourDataSource.findByRestaurantId(restaurantId);
     }
+
+    @Override
+    public void deleteByRestaurantId(UUID restaurantId) {
+        this.openingHourDataSource.deleteByRestaurantId(restaurantId);
+    }
 }

@@ -23,15 +23,15 @@ import java.util.UUID;
 @RestController
 public class UsersController implements UsersApi {
 
-    private final UsersControllerInputPort UsersControllerInputPort;
+    private final UsersControllerInputPort usersControllerInputPort;
 
     public UsersController(UsersControllerInputPort usersControllerInputPort) {
-        UsersControllerInputPort = usersControllerInputPort;
+        this.usersControllerInputPort = usersControllerInputPort;
     }
 
     @Override
     public ResponseEntity<UsersResponseDTO> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(UsersControllerInputPort.getById(id));
+        return ResponseEntity.ok(usersControllerInputPort.getById(id));
     }
 
     @Override
@@ -39,17 +39,17 @@ public class UsersController implements UsersApi {
             @RequestParam int size,
             @RequestParam int page
     ) {
-        return ResponseEntity.ok(UsersControllerInputPort.findAllUsers(size, page));
+        return ResponseEntity.ok(usersControllerInputPort.findAllUsers(size, page));
     }
 
     @Override
     public ResponseEntity<CreateUserDTO> create(@RequestBody @Valid UsersRequestDTO dto) {
-        return ResponseEntity.ok(UsersControllerInputPort.create(dto));
+        return ResponseEntity.ok(usersControllerInputPort.create(dto));
     }
 
     @Override
     public ResponseEntity<TokenJWTInfoDTO> executeLogin(@RequestBody @Valid AuthenticationDataDTO data) {
-        return ResponseEntity.ok(UsersControllerInputPort.executeLogin(data));
+        return ResponseEntity.ok(usersControllerInputPort.executeLogin(data));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class UsersController implements UsersApi {
             @PathVariable UUID id,
             @RequestParam boolean activate
     ) {
-        return ResponseEntity.ok(UsersControllerInputPort.toggleActivation(id, activate));
+        return ResponseEntity.ok(usersControllerInputPort.toggleActivation(id, activate));
     }
 
     @Override
@@ -65,14 +65,14 @@ public class UsersController implements UsersApi {
             @PathVariable UUID id,
             @RequestBody @Valid ChangePasswordRequestDTO dto
     ) {
-        return ResponseEntity.ok(UsersControllerInputPort.changePassword(id, dto));
+        return ResponseEntity.ok(usersControllerInputPort.changePassword(id, dto));
     }
 
     @Override
     public ResponseEntity<UsersResponseDTO> updateUser(
             @PathVariable UUID id,
             @RequestBody @Valid UpdateUserDTO dto) {
-        return ResponseEntity.ok(UsersControllerInputPort.updateUser(id, dto));
+        return ResponseEntity.ok(usersControllerInputPort.updateUser(id, dto));
     }
 
 }

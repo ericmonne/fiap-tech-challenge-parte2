@@ -1,5 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.controller;
 
+import com.fiap.tech_challenge.parte1.ms_users.api.routes.UserTypeRoutes;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.UserTypeRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype.controller.UserTypeControllerInputPort;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/usertypes")
+@RequestMapping(UserTypeRoutes.USER_TYPES_BASE)
 public class UserTypeController {
 
     private final UserTypeControllerInputPort userTypeControllerInputPort;

@@ -20,4 +20,5 @@ public interface AddressGateway {
 
     void saveRestaurantAddress(Address address, UUID restaurantId);
 
+    void updateRestaurantAddress(Address address, UUID restaurantId);
 }

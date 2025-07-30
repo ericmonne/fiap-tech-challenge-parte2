@@ -11,4 +11,5 @@ public interface OpeningHourDataSource {
     Optional<OpeningHour> findById(UUID openingHourId);
     void update(OpeningHour openingHour);
     List<OpeningHour> findByRestaurantId(UUID restaurantId);
+    void deleteByRestaurantId(UUID id);
 }

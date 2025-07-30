@@ -39,4 +39,9 @@ public class JdbcOpeningHourDataSource implements OpeningHourDataSource {
     public List<OpeningHour> findByRestaurantId(UUID restaurantId) {
         return jdbcOpeningHourRepository.findByRestaurantId(restaurantId);
     }
+
+    @Override
+    public void deleteByRestaurantId(UUID restaurantId) {
+        jdbcOpeningHourRepository.deleteByRestaurantId(restaurantId);
+    }
 }

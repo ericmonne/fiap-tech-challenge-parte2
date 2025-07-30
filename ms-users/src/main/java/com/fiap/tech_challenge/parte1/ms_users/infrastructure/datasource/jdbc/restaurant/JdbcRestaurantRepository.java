@@ -108,4 +108,15 @@ public class JdbcRestaurantRepository {
                 .query(this::toRestaurant)
                 .list();
     }
+
+    public int countByUserIdAndRestaurantId(UUID restaurantId, UUID userId) {
+        return jdbcClient.sql("""
+                SELECT COUNT(*) FROM restaurants
+                WHERE user_id = :user_id
+            """)
+                .param("user_id", userId)
+                .param("restaurant_id", restaurantId)
+                .query(Integer.class)
+                .single();
+    }
 }

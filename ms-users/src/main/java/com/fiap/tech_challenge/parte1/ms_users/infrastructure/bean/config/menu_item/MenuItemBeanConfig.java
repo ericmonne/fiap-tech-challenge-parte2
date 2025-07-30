@@ -90,6 +90,7 @@ public class MenuItemBeanConfig {
                 readAllMenuItemsUseCase,
                 updateMenuItemUseCase,
                 changeMenuItemAvailabilityUseCase,
-                deleteMenuItemUseCase, findMenuItemsByRestaurantIdUseCase);
+                deleteMenuItemUseCase,
+                findMenuItemsByRestaurantIdUseCase);
     }
 }

@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.user;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.ReactivateUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.ReactivateUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserNotFoundException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;

@@ -1,5 +1,7 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.port.dto;
+package com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.UserTypeRequestDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -24,6 +26,9 @@ public record UpdateUserDTO(
 
         @NotBlank(message = "User field 'login' is required")
         String login,
+
+        @NotBlank(message = "User field 'user type' is required")
+        UserTypeRequestDTO userType,
 
         @Valid
         @NotEmpty(message = "User must have at least one address")

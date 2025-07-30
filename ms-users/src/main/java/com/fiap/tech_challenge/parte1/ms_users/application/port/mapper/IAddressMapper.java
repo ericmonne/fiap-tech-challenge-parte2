@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.port.mapper;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AddressResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.address.JdbcAddressEntity;
 

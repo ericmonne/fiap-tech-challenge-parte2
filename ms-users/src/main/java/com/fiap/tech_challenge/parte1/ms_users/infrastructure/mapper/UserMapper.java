@@ -1,9 +1,11 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UpdateUserDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.UsersResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UpdateUserDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.UserTypeRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserTypeMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserEntity;
 import org.springframework.stereotype.Component;
@@ -19,9 +21,11 @@ import java.util.UUID;
 public class UserMapper implements IUserMapper {
 
     private final com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper iAddressMapper;
+    private final IUserTypeMapper iUserTypeMapper;
 
-    public UserMapper(com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper iAddressMapper) {
+    public UserMapper(com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IAddressMapper iAddressMapper, IUserTypeMapper iUserTypeMapper) {
         this.iAddressMapper = iAddressMapper;
+        this.iUserTypeMapper = iUserTypeMapper;
     }
 
     /**
@@ -43,7 +47,7 @@ public class UserMapper implements IUserMapper {
                 user.getName(),
                 user.getEmail(),
                 user.getLogin(),
-                user.getRole().name(),
+                iUserTypeMapper.toUserTypeResponseDto(user.getUserType()),
                 iAddressMapper.toAddressRequestDTO(user.getAddresses()));
     }
 
@@ -69,7 +73,7 @@ public class UserMapper implements IUserMapper {
         jdbcUserEntity.setEmail(user.getEmail());
         jdbcUserEntity.setLogin(user.getLogin());
         jdbcUserEntity.setActive(user.getActive());
-        jdbcUserEntity.setRole(user.getRole().name());
+        jdbcUserEntity.setUserType(user.getUserType());
         jdbcUserEntity.setPassword(user.getPassword());
         jdbcUserEntity.setDateLastChange(user.getDateLastChange());
 
@@ -83,6 +87,7 @@ public class UserMapper implements IUserMapper {
         user.setName(dto.name());
         user.setLogin(dto.login());
         user.setPassword(dto.password());
+        user.setUserType(iUserTypeMapper.toUserType(dto.userType()));
         user.setAddress(iAddressMapper.toEntity(dto.address()));
         return user;
     }

@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.user;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.CreateUserDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.RegisterUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.CreateUserDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.RegisterUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;

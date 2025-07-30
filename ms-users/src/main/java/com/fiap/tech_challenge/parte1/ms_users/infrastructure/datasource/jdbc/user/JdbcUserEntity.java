@@ -1,5 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user;
 
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,7 +14,7 @@ public class JdbcUserEntity {
     private String password;
     private Date dateLastChange;
     private Boolean active;
-    private String role;
+    private UserType userType;
 
     public UUID getId() {
         return id;
@@ -70,11 +72,11 @@ public class JdbcUserEntity {
         this.active = active;
     }
 
-    public String getRole() {
-        return role;
+    public UserType getUserType() {
+        return userType;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 }

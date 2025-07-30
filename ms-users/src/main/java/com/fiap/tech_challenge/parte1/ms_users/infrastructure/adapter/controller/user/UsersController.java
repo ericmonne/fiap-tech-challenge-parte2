@@ -1,6 +1,10 @@
-package com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.controller;
+package com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.controller.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.CreateUserDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UpdateUserDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.UsersControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.openapi.UsersApi;
 import jakarta.validation.Valid;

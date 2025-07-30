@@ -1,5 +1,7 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.port.dto;
+package com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.UserTypeRequestDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +20,7 @@ import java.util.List;
  * @param email    the user's email address (required, valid email format)
  * @param login    the unique login identifier for the user (required, non-blank)
  * @param password the user's password (required, non-blank)
- * @param role     the user's role, must be either "OWNER" or "CLIENT" (required)
+ * @param userType the user's role, must be either "OWNER" or "CLIENT" (required)
  * @param address  the list of addresses associated with the user, must contain at least one valid address
  */
 public record UsersRequestDTO(
@@ -36,8 +38,7 @@ public record UsersRequestDTO(
         String password,
 
         @NotBlank(message = "User field 'role' is required")
-        @Pattern(regexp = "OWNER|CLIENT", message = "User field 'role' must be either 'OWNER' or 'CLIENT'")
-        String role,
+        UserTypeRequestDTO userType,
 
         @Valid
         @NotEmpty(message = "User must have at least one Address")

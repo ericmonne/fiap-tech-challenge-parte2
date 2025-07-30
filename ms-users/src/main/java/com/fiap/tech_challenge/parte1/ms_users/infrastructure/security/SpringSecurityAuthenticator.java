@@ -1,6 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.security;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AuthenticatedUser;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.AuthenticatedUser;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.AuthenticationRequest;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.Authenticator;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
@@ -25,6 +25,6 @@ public class SpringSecurityAuthenticator implements Authenticator {
         );
 
         User user = (User) auth.getPrincipal();
-        return new AuthenticatedUser(user.getLogin(), user.getRole().name());
+        return new AuthenticatedUser(user.getLogin(), user.getUserType().getName());
     }
 }

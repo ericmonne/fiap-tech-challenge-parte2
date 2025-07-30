@@ -30,9 +30,9 @@ public class JdbcUserRepository {
 
         jdbcClient.sql("""
                         INSERT INTO users
-                            (id, name, email, login, password, last_modified_date, active, role)
+                            (id, name, email, login, password, last_modified_date, active, user_type_id)
                         VALUES
-                            (:id, :name, :email, :login, :password, :last_modified_date, :active, CAST(:role AS role_type));
+                            (:id, :name, :email, :login, :password, :last_modified_date, :usertype);
                         """)
                 .param("id", id)
                 .param("name", jdbcUserEntity.getName())
@@ -41,7 +41,7 @@ public class JdbcUserRepository {
                 .param("password", jdbcUserEntity.getPassword())
                 .param("last_modified_date", jdbcUserEntity.getDateLastChange())
                 .param("active", jdbcUserEntity.getActive())
-                .param("role", jdbcUserEntity.getRole())
+                .param("usertype", jdbcUserEntity.getUserType())
                 .update();
 
         return id;

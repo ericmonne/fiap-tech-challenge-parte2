@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.user;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.ChangePasswordCommand;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.ChangePasswordUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.ChangePasswordCommand;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.controller.ChangePasswordUserUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserNotFoundException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;

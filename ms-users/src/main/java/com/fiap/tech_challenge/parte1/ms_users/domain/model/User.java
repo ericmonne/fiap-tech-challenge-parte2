@@ -14,7 +14,7 @@ public class User {
     private Date dateLastChange;
     private List<Address> address;
     private Boolean active;
-    private Role role;
+    private UserType userType;
 
     /**
      * Constructs a new User with specified details.
@@ -23,16 +23,16 @@ public class User {
      * @param email    the user's email address
      * @param login    the login username
      * @param password the password (hashed)
-     * @param role     the role assigned to the user
+     * @param userType    the role assigned to the user
      */
-    public User(String name, String email, String login, String password, Role role) {
+    public User(String name, String email, String login, String password, UserType userType) {
         this.name = name;
         this.email = email;
         this.login = login;
         this.password = password;
         this.dateLastChange = new Date();
         this.active = true;
-        this.role = role;
+        this.userType = userType;
     }
 
     /**
@@ -114,8 +114,8 @@ public class User {
      *
      * @return user's role
      */
-    public Role getRole() {
-        return role;
+    public UserType getUserType() {
+        return userType;
     }
 
     /**
@@ -168,7 +168,7 @@ public class User {
         this.active = active;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 }

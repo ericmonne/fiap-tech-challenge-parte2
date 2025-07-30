@@ -44,7 +44,7 @@ public class UserMapper implements IUserMapper {
                 user.getName(),
                 user.getEmail(),
                 user.getLogin(),
-                user.getRole().name(),
+                user.getUserType(),
                 iAddressMapper.toAddressResponseDTO(user.getAddresses()));
     }
 
@@ -70,7 +70,7 @@ public class UserMapper implements IUserMapper {
         jdbcUserEntity.setEmail(user.getEmail());
         jdbcUserEntity.setLogin(user.getLogin());
         jdbcUserEntity.setActive(user.getActive());
-        jdbcUserEntity.setRole(user.getRole().name());
+        jdbcUserEntity.setRole(user.getUserType().getName());
         jdbcUserEntity.setPassword(user.getPassword());
         jdbcUserEntity.setDateLastChange(user.getDateLastChange());
 

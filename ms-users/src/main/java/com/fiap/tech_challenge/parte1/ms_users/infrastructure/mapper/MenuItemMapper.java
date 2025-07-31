@@ -51,7 +51,8 @@ public class MenuItemMapper implements IMenuItemMapper {
                 menuItem.getDescription(),
                 menuItem.getPrice(),
                 menuItem.getAvailableOnlyOnSite(),
-                menuItem.getImagePath()
+                menuItem.getImagePath(),
+                menuItem.getRestaurantId()
         );
     }
 

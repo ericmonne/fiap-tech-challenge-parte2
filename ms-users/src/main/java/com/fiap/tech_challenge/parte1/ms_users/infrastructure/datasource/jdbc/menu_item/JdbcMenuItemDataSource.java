@@ -2,7 +2,7 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.m
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResult;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.menu_item.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.MenuItemPersistenceException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;

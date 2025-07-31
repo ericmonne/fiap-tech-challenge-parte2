@@ -4,7 +4,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.Me
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResult;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.ReadPaginatedMenuItemsUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.menu_item.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.MenuItemMapper;

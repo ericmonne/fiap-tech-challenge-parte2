@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.controller.menu_item;
+package com.fiap.tech_challenge.parte1.ms_users.application.controller;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;

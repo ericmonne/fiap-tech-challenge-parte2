@@ -3,7 +3,7 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.CreateMenuItemDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.UpdateMenuItemDTO;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.menu_item.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.menu_item.JdbcMenuItemEntity;
 import org.springframework.stereotype.Component;
@@ -51,7 +51,8 @@ public class MenuItemMapper implements IMenuItemMapper {
                 menuItem.getDescription(),
                 menuItem.getPrice(),
                 menuItem.getAvailableOnlyOnSite(),
-                menuItem.getImagePath()
+                menuItem.getImagePath(),
+                menuItem.getRestaurantId()
         );
     }
 
@@ -63,6 +64,7 @@ public class MenuItemMapper implements IMenuItemMapper {
         menuItem.setPrice(createMenuItemDTO.price());
         menuItem.setAvailableOnlyOnSite(createMenuItemDTO.availableOnlyOnSite());
         menuItem.setImagePath(createMenuItemDTO.imagePath());
+        menuItem.setRestaurantId(createMenuItemDTO.restaurantId());
         return menuItem;
     }
 
@@ -75,19 +77,18 @@ public class MenuItemMapper implements IMenuItemMapper {
         jdbcMenuItemEntity.setPrice(menuItem.getPrice());
         jdbcMenuItemEntity.setAvailableOnlyOnSite(menuItem.getAvailableOnlyOnSite());
         jdbcMenuItemEntity.setImagePath(menuItem.getImagePath());
+        jdbcMenuItemEntity.setRestaurantId(menuItem.getRestaurantId());
         return jdbcMenuItemEntity;
     }
 
     @Override
-    public MenuItem toEntity(UpdateMenuItemDTO updateMenuItemDTO) {
-        MenuItem menuItem = new MenuItem();
-        menuItem.setName(updateMenuItemDTO.name());
-        menuItem.setDescription(updateMenuItemDTO.description());
-        menuItem.setPrice(updateMenuItemDTO.price());
-        menuItem.setAvailableOnlyOnSite(updateMenuItemDTO.availableOnlyOnSite());
-        menuItem.setImagePath(updateMenuItemDTO.imagePath());
-        return menuItem;
+    public MenuItem toEntity(UpdateMenuItemDTO dto, MenuItem existingMenuItem) {
+        existingMenuItem.setName(dto.name());
+        existingMenuItem.setDescription(dto.description());
+        existingMenuItem.setPrice(dto.price());
+        existingMenuItem.setAvailableOnlyOnSite(dto.availableOnlyOnSite());
+        existingMenuItem.setImagePath(dto.imagePath());
+        return existingMenuItem;
     }
-
 
 }

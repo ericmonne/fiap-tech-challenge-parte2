@@ -1,4 +1,4 @@
-package com.fiap.tech_challenge.parte1.ms_users.application.port.mapper;
+package com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.menu_item;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.CreateMenuItemDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
@@ -17,6 +17,6 @@ public interface IMenuItemMapper {
 
     JdbcMenuItemEntity toJdbcMenuItemEntity(MenuItem menuItem);
 
-    MenuItem toEntity(UpdateMenuItemDTO updateMenuItemDTO);
+    MenuItem toEntity(UpdateMenuItemDTO updateMenuItemDTO, MenuItem existingMenuItem);
 
 }

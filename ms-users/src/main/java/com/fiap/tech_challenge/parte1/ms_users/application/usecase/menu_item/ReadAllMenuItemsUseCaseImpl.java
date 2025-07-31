@@ -2,10 +2,12 @@ package com.fiap.tech_challenge.parte1.ms_users.application.usecase.menu_item;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.ReadAllMenuItemsUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.menu_item.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.MenuItemReadException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.MenuItemMapper;
+import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
@@ -40,7 +42,11 @@ public class ReadAllMenuItemsUseCaseImpl implements ReadAllMenuItemsUseCase {
      * @return a list of menu items as response DTOs
      */
     public List<MenuItemResponseDTO> execute() {
-        List<MenuItem> menuItems = menuItemGateway.findAll();
-        return mapper.mapList(menuItems);
+        try {
+            List<MenuItem> menuItems = menuItemGateway.findAll();
+            return mapper.mapList(menuItems);
+        }catch (DataAccessException | IllegalStateException e) {
+            throw new MenuItemReadException("Erro ao buscar itens do menu", e);
+        }
     }
 }

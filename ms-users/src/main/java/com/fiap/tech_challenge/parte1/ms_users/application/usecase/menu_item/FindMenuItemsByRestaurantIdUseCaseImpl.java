@@ -5,7 +5,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.Me
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResult;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.FindMenuItemsByRestaurantIdUseCase;
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.IMenuItemMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.menu_item.IMenuItemMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.MenuItem;
 
@@ -31,7 +31,7 @@ public class FindMenuItemsByRestaurantIdUseCaseImpl implements FindMenuItemsByRe
 
         int size = request.size();
         int offset = request.offset();
-        int currentPage = (size > 0) ? (offset / size) : 0;
+        int currentPage = (size > 0 && offset >= 0) ? (offset / size) : 0;
 
 
         return new PaginatedResponseDTO<>(

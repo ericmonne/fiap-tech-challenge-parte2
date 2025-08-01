@@ -1,14 +1,14 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.usecase.usertype;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype.FindByIdUserTypeUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.usertype.UserTypeGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.usertype.UserTypeGatewayImpl;
 
 public class FindByIdUserTypeUseCaseImpl implements FindByIdUserTypeUseCase {
 
-    private final UserTypeGatewayImpl userTypeGateway;
+    private final UserTypeGateway userTypeGateway;
 
-    public FindByIdUserTypeUseCaseImpl(UserTypeGatewayImpl userTypeGateway) {
+    public FindByIdUserTypeUseCaseImpl(UserTypeGateway userTypeGateway) {
         this.userTypeGateway = userTypeGateway;
     }
 

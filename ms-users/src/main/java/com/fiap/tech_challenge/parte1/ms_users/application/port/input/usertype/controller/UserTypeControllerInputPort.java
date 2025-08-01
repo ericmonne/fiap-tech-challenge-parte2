@@ -13,7 +13,7 @@ public interface UserTypeControllerInputPort {
 
     String toggleActivationUserType(Long id, boolean activate);
 
-    UserTypeResponseDTO getById(final Long id);
+    UserTypeResponseDTO findById(final Long id);
 
     List<UserTypeResponseDTO> findAllUserType(final int size, final int page);
 }

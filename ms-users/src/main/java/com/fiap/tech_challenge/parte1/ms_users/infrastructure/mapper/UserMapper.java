@@ -6,6 +6,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersRe
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.address.IAddressMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserEntity;
 import org.springframework.stereotype.Component;
 
@@ -84,6 +85,9 @@ public class UserMapper implements IUserMapper {
         user.setName(dto.name());
         user.setLogin(dto.login());
         user.setPassword(dto.password());
+        UserType userType = new UserType();
+        userType.setName(dto.userType());
+        user.setUserType(userType);
         user.setAddress(iAddressMapper.toEntity(dto.address()));
         return user;
     }

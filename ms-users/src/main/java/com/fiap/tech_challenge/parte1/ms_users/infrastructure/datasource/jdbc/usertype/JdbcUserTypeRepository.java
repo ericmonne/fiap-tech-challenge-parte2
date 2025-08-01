@@ -163,6 +163,18 @@ public class JdbcUserTypeRepository {
                 .optional();
     }
 
+    public boolean existsByName(String name) {
+        return jdbcClient.sql("""
+                
+                SELECT 1 FROM user_type WHERE name = :name
+                
+                """)
+                .param("name",name)
+                .query()
+                .optionalValue()
+                .isPresent();
+    }
+
     /**
      * METODO NOW.
      *

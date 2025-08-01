@@ -107,4 +107,9 @@ public class JdbcUserTypeDataSource implements UserTypeDataSource {
     public Optional<UserType> findById(final Long id) {
         return this.jdbcUserTypeRepository.findById(id);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return this.jdbcUserTypeRepository.existsByName(name);
+    }
 }

@@ -29,7 +29,7 @@ public class UserTypeController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping
+    @PatchMapping("/{id}/activation")
     public ResponseEntity<String> toggleActivationUserType(
             @PathVariable final Long id,
             @RequestParam final boolean activate

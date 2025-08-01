@@ -7,7 +7,9 @@ import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.op
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.openinghour.JdbcOpeningHourRepository;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.OpeningHourMapper;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class OpeningHourBeanConfig {
 
     @Bean

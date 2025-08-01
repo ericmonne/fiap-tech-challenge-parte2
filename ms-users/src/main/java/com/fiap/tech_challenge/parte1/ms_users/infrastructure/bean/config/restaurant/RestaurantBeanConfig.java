@@ -16,9 +16,11 @@ import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.re
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant.JdbcRestaurantRepository;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.RestaurantMapper;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+@Configuration
 public class RestaurantBeanConfig {
 
     @Bean

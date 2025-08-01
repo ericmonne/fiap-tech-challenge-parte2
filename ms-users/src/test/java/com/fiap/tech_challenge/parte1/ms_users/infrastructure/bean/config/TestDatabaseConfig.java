@@ -30,7 +30,7 @@ public class TestDatabaseConfig {
                 .addScript("classpath:db/migration/V9__create_table_restaurant.sql")
                 .addScript("classpath:db/migration/V10__create_table_openinghour.sql")
                 .addScript("classpath:db/migration/V11__alter_table_address.sql")
-                .addScript("classpath:db/test/create_menu_item_table.sql")
+                .addScript("classpath:db/migration/V12__create_table_menu_item.sql")
                 .build();
     }
 

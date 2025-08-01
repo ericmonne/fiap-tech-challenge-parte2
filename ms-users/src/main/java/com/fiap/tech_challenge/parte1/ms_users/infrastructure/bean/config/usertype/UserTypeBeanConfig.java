@@ -35,9 +35,9 @@ public class UserTypeBeanConfig {
     @Bean
     public CreateUserTypeUseCase registerCreateUserTypeUseCase(
             final UserTypeGateway userTypeGateway,
-            final UserTypeMapper userTypeMapper
+            final IUserTypeMapper iUserTypeMapper
     ) {
-        return new CreateUserTypeUseCaseImpl(userTypeGateway, userTypeMapper);
+        return new CreateUserTypeUseCaseImpl(userTypeGateway, iUserTypeMapper);
     }
 
     @Bean
@@ -92,6 +92,7 @@ public class UserTypeBeanConfig {
                 registerFindListUserTypeUseCase,
                 registerDeactivateUserTypeUseCase,
                 registerReactivateUserTypeUseCase,
-                iUserTypeMapper);
+                iUserTypeMapper
+        );
     }
 }

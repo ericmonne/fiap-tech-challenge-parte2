@@ -6,6 +6,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype.*
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype.controller.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.usertype.IUserTypeMapper;
 
+import com.fiap.tech_challenge.parte1.ms_users.application.usecase.usertype.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,13 +25,13 @@ public class UserTypeControllerInputPortImpl implements UserTypeControllerInputP
     private final com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.usertype.IUserTypeMapper iUserTypeMapper;
 
     public UserTypeControllerInputPortImpl(
-            final CreateUserTypeUseCase createUserTypeUseCase,
-            final UpdateUserTypeUseCase updateUserTypeUseCase,
-            final FindByIdUserTypeUseCase findByIdUserTypeUseCase,
-            final FindListUserTypeUseCase findListUserTypeUseCase,
-            final DeactivateUserTypeUseCase deactivateUserTypeUseCase,
-            final ReactivateUserTypeUserCase reactivateUserTypeUserCase,
-            final IUserTypeMapper iUserTypeMapper
+            CreateUserTypeUseCase createUserTypeUseCase,
+            UpdateUserTypeUseCase updateUserTypeUseCase,
+            FindByIdUserTypeUseCase findByIdUserTypeUseCase,
+            FindListUserTypeUseCase findListUserTypeUseCase,
+            DeactivateUserTypeUseCase deactivateUserTypeUseCase,
+            ReactivateUserTypeUserCase reactivateUserTypeUserCase,
+            IUserTypeMapper iUserTypeMapper
     ) {
         this.createUserTypeUseCase = createUserTypeUseCase;
         this.updateUserTypeUseCase = updateUserTypeUseCase;
@@ -64,7 +65,7 @@ public class UserTypeControllerInputPortImpl implements UserTypeControllerInputP
     }
 
     @Override
-    public UserTypeResponseDTO getById(final Long id) {
+    public UserTypeResponseDTO findById(final Long id) {
         var useType = this.findByIdUserTypeUseCase.execute(id);
         return this.iUserTypeMapper.toUserTypeResponseDto(useType);
 

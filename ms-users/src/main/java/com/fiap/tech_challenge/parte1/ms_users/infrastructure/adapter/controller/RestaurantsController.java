@@ -9,16 +9,9 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant.R
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.controller.MenuItemControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.restaurant.controller.RestaurantControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.openapi.RestaurantsApi;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -44,7 +37,7 @@ public class RestaurantsController implements RestaurantsApi {
 
     private UUID getLoggedUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return UUID.fromString(authentication.getName());
+        return restaurantControllerInputPort.getUserIdByLogin(authentication.getName());
     }
 
     @Override
@@ -55,7 +48,9 @@ public class RestaurantsController implements RestaurantsApi {
     @Override
     public ResponseEntity<List<RestaurantResponseDTO>> findAllRestaurantsByUser(int size, int page) {
         UUID userId = getLoggedUserId();
-        return ResponseEntity.ok(restaurantControllerInputPort.findAllRestaurantsByUser(userId, size, page));
+        int offset = page * size;
+        List<RestaurantResponseDTO> list = restaurantControllerInputPort.findAllRestaurantsByUser(userId, size, offset);
+        return ResponseEntity.ok(list);
     }
 
     @Override
@@ -78,7 +73,6 @@ public class RestaurantsController implements RestaurantsApi {
         restaurantControllerInputPort.deleteRestaurant(restaurantId, userId);
         return ResponseEntity.noContent().build();
     }
-
 
     @Override
     public ResponseEntity<PaginatedResponseDTO<MenuItemResponseDTO>> getMenuItemsByRestaurantId(

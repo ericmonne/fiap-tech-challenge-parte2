@@ -75,6 +75,10 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("OWNER")
+//                        .requestMatchers(HttpMethod.GET, "/restaurants").hasRole("OWNER")
+//                        .requestMatchers(HttpMethod.POST, "/restaurants").hasRole("OWNER")
+//                        .requestMatchers(HttpMethod.PUT, "/restaurants").hasRole("OWNER")
+//                        .requestMatchers(HttpMethod.DELETE, "/restaurants").hasRole("OWNER")
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

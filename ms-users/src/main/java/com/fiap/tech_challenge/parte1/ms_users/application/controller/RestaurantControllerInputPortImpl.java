@@ -5,6 +5,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.restaurant.R
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.restaurant.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.restaurant.controller.RestaurantControllerInputPort;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.GetUserIdByLoginUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.restaurant.IRestaurantMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
@@ -24,15 +25,17 @@ public class RestaurantControllerInputPortImpl implements RestaurantControllerIn
     private final UpdateRestaurantUseCase updateRestaurantUseCase;
     private final DeleteRestaurantUseCase deleteRestaurantUseCase;
     private final FindByIdUserUseCase findByIdUserUseCase;
+    private final GetUserIdByLoginUseCase getUserIdByLoginUseCase;
     private final IRestaurantMapper restaurantMapper;
 
-    public RestaurantControllerInputPortImpl(FindByIdRestaurantUseCase findByIdRestaurantUseCase, FindAllByUserIdRestaurantUseCase findAllByUserIdRestaurantUseCase, RegisterRestaurantUseCase registerRestaurantUseCase, UpdateRestaurantUseCase updateRestaurantUseCase, DeleteRestaurantUseCase deleteRestaurantUseCase, FindByIdUserUseCase findByIdUserUseCase, IRestaurantMapper restaurantMapper) {
+    public RestaurantControllerInputPortImpl(FindByIdRestaurantUseCase findByIdRestaurantUseCase, FindAllByUserIdRestaurantUseCase findAllByUserIdRestaurantUseCase, RegisterRestaurantUseCase registerRestaurantUseCase, UpdateRestaurantUseCase updateRestaurantUseCase, DeleteRestaurantUseCase deleteRestaurantUseCase, FindByIdUserUseCase findByIdUserUseCase, GetUserIdByLoginUseCase getUserIdByLoginUseCase, IRestaurantMapper restaurantMapper) {
         this.findByIdRestaurantUseCase = findByIdRestaurantUseCase;
         this.findAllByUserIdRestaurantUseCase = findAllByUserIdRestaurantUseCase;
         this.registerRestaurantUseCase = registerRestaurantUseCase;
         this.updateRestaurantUseCase = updateRestaurantUseCase;
         this.deleteRestaurantUseCase = deleteRestaurantUseCase;
         this.findByIdUserUseCase = findByIdUserUseCase;
+        this.getUserIdByLoginUseCase = getUserIdByLoginUseCase;
         this.restaurantMapper = restaurantMapper;
     }
 
@@ -64,5 +67,10 @@ public class RestaurantControllerInputPortImpl implements RestaurantControllerIn
     public void deleteRestaurant(UUID restaurantId, UUID userId) {
         User user = findByIdUserUseCase.execute(userId);
         deleteRestaurantUseCase.execute(restaurantId, user.getId());
+    }
+
+    @Override
+    public UUID getUserIdByLogin(String login) {
+        return getUserIdByLoginUseCase.getUserIdByLogin(login);
     }
 }

@@ -34,8 +34,8 @@ public class RestaurantBeanConfig {
     }
 
     @Bean
-    public RestaurantControllerInputPort registerRestaurantControllerInputPort(FindByIdRestaurantUseCase findByIdRestaurantUseCase, FindAllByUserIdRestaurantUseCase findAllByUserIdRestaurantUseCase, RegisterRestaurantUseCase registerRestaurantUseCase, UpdateRestaurantUseCase updateRestaurantUseCase, DeleteRestaurantUseCase deleteRestaurantUseCase, FindByIdUserUseCase findByIdUserUseCase, IRestaurantMapper restaurantMapper) {
-        return new RestaurantControllerInputPortImpl(findByIdRestaurantUseCase, findAllByUserIdRestaurantUseCase, registerRestaurantUseCase, updateRestaurantUseCase, deleteRestaurantUseCase, findByIdUserUseCase, restaurantMapper);
+    public RestaurantControllerInputPort registerRestaurantControllerInputPort(FindByIdRestaurantUseCase findByIdRestaurantUseCase, FindAllByUserIdRestaurantUseCase findAllByUserIdRestaurantUseCase, RegisterRestaurantUseCase registerRestaurantUseCase, UpdateRestaurantUseCase updateRestaurantUseCase, DeleteRestaurantUseCase deleteRestaurantUseCase, FindByIdUserUseCase findByIdUserUseCase, GetUserIdByLoginUseCase getUserIdByLoginUseCase, IRestaurantMapper restaurantMapper) {
+        return new RestaurantControllerInputPortImpl(findByIdRestaurantUseCase, findAllByUserIdRestaurantUseCase, registerRestaurantUseCase, updateRestaurantUseCase, deleteRestaurantUseCase, findByIdUserUseCase, getUserIdByLoginUseCase, restaurantMapper);
     }
 
     @Bean

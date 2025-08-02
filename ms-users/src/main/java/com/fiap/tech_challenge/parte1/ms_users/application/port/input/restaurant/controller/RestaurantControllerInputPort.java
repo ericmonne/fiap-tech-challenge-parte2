@@ -13,5 +13,5 @@ public interface RestaurantControllerInputPort {
     RestaurantResponseDTO createRestaurant(RestaurantRequestDTO dto, UUID userId);
     RestaurantResponseDTO updateRestaurant(UUID id, RestaurantRequestDTO dto, UUID userId);
     void deleteRestaurant(UUID restaurantId, UUID userId);
-
+    UUID getUserIdByLogin(String login);
 }

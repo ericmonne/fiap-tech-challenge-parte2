@@ -9,6 +9,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openingho
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.restaurant.RestaurantGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.ForbiddenOperationException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.RestaurantNotFoundException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.OpeningHour;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,14 @@ public class UpdateRestaurantUseCaseImpl implements UpdateRestaurantUseCase {
 
         Restaurant updated = restaurantGateway.findById(restaurant.getId())
                 .orElseThrow(() -> new RestaurantNotFoundException("Erro ao buscar restaurante atualizado"));
+
+        Address address = addressGateway.findByRestaurantId(updated.getId())
+                .orElse(null);
+        updated.setAddress(address);
+
+        List<OpeningHour> openingHourList = openingHourGateway.findByRestaurantId(updated.getId())
+                .stream().toList();
+        updated.setOpeningHours(openingHourList);
 
         return restaurantMapper.toResponseDTO(updated);
     }

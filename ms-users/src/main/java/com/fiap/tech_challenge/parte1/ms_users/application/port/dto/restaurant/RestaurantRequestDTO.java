@@ -22,7 +22,7 @@ public record RestaurantRequestDTO(
         @NotEmpty(message = "Restaurant must have at least one Opening Hour settled")
         List<OpeningHourRequestDTO> openingHours,
 
-        @NotBlank(message = "Restaurant must have a Cuisine Type")
+        @NotNull(message = "Restaurant must have a Cuisine Type")
         CuisineType cuisineType
 ) {
 }

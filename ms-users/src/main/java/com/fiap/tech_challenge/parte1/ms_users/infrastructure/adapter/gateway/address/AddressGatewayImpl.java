@@ -43,8 +43,9 @@ public class AddressGatewayImpl implements AddressGateway {
     }
 
     @Override
-    public void saveRestaurantAddress(Address address, UUID restaurantId) {
+    public UUID saveRestaurantAddress(Address address, UUID restaurantId) {
         addressDataSource.saveRestaurantAddress(address, restaurantId);
+        return restaurantId;
     }
 
     @Override

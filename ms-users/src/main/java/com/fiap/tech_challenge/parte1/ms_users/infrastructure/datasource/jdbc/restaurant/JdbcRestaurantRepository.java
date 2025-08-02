@@ -1,5 +1,6 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant;
 
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.CuisineType;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
@@ -21,17 +22,18 @@ public class JdbcRestaurantRepository {
         this.jdbcClient = jdbcClient;
     }
 
+
     public UUID save(JdbcRestaurantEntity entity) {
         UUID id = UUID.randomUUID();
 
         jdbcClient.sql("""
-                INSERT INTO restaurants (id, name, cuisine_type, owner_id)
-                VALUES (:id, :name, :cuisine_type, :owner_id)
+                INSERT INTO restaurants (id, name, cuisine_type, user_id)
+                VALUES (:id, :name, :cuisine_type, :user_id)
                 """)
                 .param("id", id)
                 .param("name", entity.getName())
                 .param("cuisine_type", entity.getCuisineType().name())
-                .param("owner_id", entity.getUserId())
+                .param("user_id", entity.getUserId())
                 .update();
 
         return id;
@@ -71,20 +73,19 @@ public class JdbcRestaurantRepository {
         restaurant.setCuisineType(CuisineType.valueOf(rs.getString("cuisine_type")));
 
         User owner = new User();
-        owner.setId(UUID.fromString(rs.getString("owner_id")));
+        owner.setId(UUID.fromString(rs.getString("user_id")));
         restaurant.setUser(owner);
 
         return restaurant;
     }
 
     public boolean existsById(UUID restaurantId) {
-        Integer count = jdbcClient.sql("SELECT 1 FROM restaurants WHERE id = :id")
+        Integer count = jdbcClient.sql("SELECT COUNT(*) FROM restaurants WHERE id = :id")
                 .param("id", restaurantId)
-                .query((rs, rowNum) -> 1)
-                .optional()
-                .orElse(null);
+                .query(Integer.class)
+                .single();
 
-        return count != null;
+        return count > 0;
     }
 
     public void delete(UUID restaurantId) {
@@ -111,8 +112,8 @@ public class JdbcRestaurantRepository {
 
     public int countByUserIdAndRestaurantId(UUID restaurantId, UUID userId) {
         return jdbcClient.sql("""
-                SELECT COUNT(*) FROM restaurants
-                WHERE user_id = :user_id
+            SELECT COUNT(*) FROM restaurants
+            WHERE user_id = :user_id AND id = :restaurant_id
             """)
                 .param("user_id", userId)
                 .param("restaurant_id", restaurantId)

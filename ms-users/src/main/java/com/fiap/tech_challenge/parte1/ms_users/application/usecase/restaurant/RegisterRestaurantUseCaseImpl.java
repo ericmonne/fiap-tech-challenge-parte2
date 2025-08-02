@@ -7,6 +7,8 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.A
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openinghour.OpeningHourGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openinghour.OpeningHourValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.restaurant.RestaurantGateway;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.RestaurantNotFoundException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.OpeningHour;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 
@@ -33,9 +35,22 @@ public class RegisterRestaurantUseCaseImpl implements RegisterRestaurantUseCase 
     public RestaurantResponseDTO execute(Restaurant restaurant) {
         UUID restaurantId = restaurantGateway.createRestaurant(restaurant);
         restaurant.setId(restaurantId);
+
         saveAddress(restaurant);
         saveOpeningHours(restaurant);
-        return restaurantMapper.toResponseDTO(restaurant);
+
+        Restaurant savedRestaurant = restaurantGateway.findById(restaurantId)
+                .orElseThrow(() -> new RestaurantNotFoundException("Erro ao salvar restaurante"));
+
+        Address savedAddress = addressGateway.findByRestaurantId(savedRestaurant.getId())
+                .orElse(null);
+        savedRestaurant.setAddress(savedAddress);
+
+        List<OpeningHour> openingHourList = openingHourGateway.findByRestaurantId(savedRestaurant.getId())
+                        .stream().toList();
+        savedRestaurant.setOpeningHours(openingHourList);
+
+        return restaurantMapper.toResponseDTO(savedRestaurant);
     }
 
     private void saveAddress(Restaurant restaurant) {
@@ -45,11 +60,12 @@ public class RegisterRestaurantUseCaseImpl implements RegisterRestaurantUseCase 
     private void saveOpeningHours(Restaurant restaurant) {
         List<OpeningHour> openingHourList = restaurant.getOpeningHours();
         for (OpeningHour openingHour : openingHourList) {
+            openingHour.setRestaurant(restaurant);
             for (OpeningHourValidator validator : openingHourValidators) {
                 validator.validate(openingHour);
             }
-            openingHour.setRestaurant(restaurant);
-            openingHourGateway.createOpeningHour(openingHour);
+            UUID openingHourId = openingHourGateway.createOpeningHour(openingHour);
+            openingHour.setId(openingHourId);
         }
     }
 }

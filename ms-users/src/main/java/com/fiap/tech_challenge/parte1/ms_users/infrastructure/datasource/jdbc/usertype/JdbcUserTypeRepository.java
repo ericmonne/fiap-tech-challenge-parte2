@@ -185,4 +185,15 @@ public class JdbcUserTypeRepository {
     private Timestamp now() {
         return Timestamp.from(Instant.now());
     }
+
+    public Optional<UserType> findByName(String userTypeName) {
+        return jdbcClient.sql("""
+                
+                SELECT * FROM user_type WHERE name = :name
+                
+                """)
+                .param("name",userTypeName)
+                .query(UserType.class)
+                .optional();
+    }
 }

@@ -23,7 +23,7 @@ public class UserTypeExistsValidator implements UserValidator {
         UserType userType = user.getUserType();
 
         if (userType == null || !userTypeGateway.existsByName(userType.getName())) {
-            throw new EmailAlreadyExistsException("The provided email is already in use.");
+            throw new EmailAlreadyExistsException("The provided user type does not exist. Please try again with a valid user type name.");
         }
     }
 }

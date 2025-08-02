@@ -20,4 +20,6 @@ public interface UserTypeDataSource {
     Optional<UserType> findById(final Long id);
 
     boolean existsByName(String name);
+
+    Optional<UserType> findByName(String userTypeName);
 }

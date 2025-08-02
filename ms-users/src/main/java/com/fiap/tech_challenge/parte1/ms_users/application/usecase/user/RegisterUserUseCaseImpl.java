@@ -7,9 +7,11 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.A
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserValidator;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.usertype.UserTypeGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserNotFoundException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -18,14 +20,16 @@ import java.util.UUID;
 public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
     private final UserGateway userGateway;
+    private final UserTypeGateway userTypeGateway;
     private final AddressGateway addressGateway;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final IUserMapper iUserMapper;
     private final List<UserValidator> userValidators;
 
-    public RegisterUserUseCaseImpl(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators) {
+    public RegisterUserUseCaseImpl(UserGateway userGateway, UserTypeGateway userTypeGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators) {
         this.userGateway = userGateway;
+        this.userTypeGateway = userTypeGateway;
         this.addressGateway = addressGateway;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
@@ -37,10 +41,15 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     public CreateUserDTO execute(User user) {
         validateUser(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String userTypeName = user.getUserType().getName();
+        UserType userType = userTypeGateway.findByName(userTypeName).orElseThrow(() -> new UserNotFoundException("User type %s not found.".formatted(userTypeName)));
+        user.setUserType(userType);
         UUID userId = userGateway.createUser(user);
         List<Address> addresses = user.getAddresses();
         addressGateway.saveUserAddress(addresses, userId);
         User userEntityAfterCreation = userGateway.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id %s not found.".formatted(userId)));
+        List<Address> addressList = addressGateway.findAllByUserId(userId);
+        userEntityAfterCreation.setAddress(addressList);
         return new CreateUserDTO(iUserMapper.toResponseDTO(userEntityAfterCreation), tokenProvider.generateToken(user.getLogin()));
     }
 

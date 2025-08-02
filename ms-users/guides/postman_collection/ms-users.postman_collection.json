@@ -1,544 +1,620 @@
 {
-	"info": {
-		"_postman_id": "22a82219-de28-422a-83f8-8e9a9621e8cc",
-		"name": "ms-users",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "38972353"
-	},
-	"item": [
-		{
-			"name": "BAD REQUEST",
-			"item": [
-				{
-					"name": "POST users Missing Attribute on Payload",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let jsonData = pm.response.json();",
-									"pm.environment.set(\"jwt_token\", jsonData.tokenJWT);",
-									"pm.environment.set(\"id\", jsonData.user.id);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Mick Jagger\",\r\n  \"email\": \"mickyWrong@email.com\",\r\n  \"login\": \"mickywrong\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/users"
-					},
-					"response": []
-				},
-				{
-					"name": "GET user non existing ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}",
-								"type": "text"
-							}
-						],
-						"url": "{{base_url}}/users/2151515dcdfvfe4SD24VDdvfv"
-					},
-					"response": []
-				},
-				{
-					"name": "PUT users Missing Attribute on Payload",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Lucas Pereira\",\n  \"email\": \"lucas.pereira@email.com\",\n  \"login\": \"lucasp\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/users/{{id}}"
-					},
-					"response": []
-				},
-				{
-					"name": "ACTIVATE/DEACTIVATE users No Patameter",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/users/{{id}}"
-					},
-					"response": []
-				},
-				{
-					"name": "CHANGE PASSWORD Wrong old password",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"oldPassword\": \"SenhaErrada!\",\n    \"newPassword\": \"NovaSenhaForte123!\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/users/{{id}}/password"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "FORBIDDEN",
-			"item": [
-				{
-					"name": "GET user with no Token",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "{{base_url}}/users/{{id}}"
-					},
-					"response": []
-				},
-				{
-					"name": "GET users with no Token",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/users?page=1&size=5",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "size",
-									"value": "5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT users with no Token",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Lucas Pereira\",\n  \"email\": \"lucas.pereira@email.com\",\n  \"login\": \"lucasp\",\n  \"address\": [\n    {\n      \"zipcode\": \"98765-432\",\n      \"street\": \"Rua das Palmeiras\",\n      \"number\": 112,\n      \"complement\": \"Apto 402\",\n      \"neighborhood\": \"Boa Vista\",\n      \"city\": \"São Paulo\",\n      \"state\": \"SP\"\n    }\n  ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/users/{{id}}"
-					},
-					"response": []
-				},
-				{
-					"name": "ACTIVATE/DEACTIVATE users with no Token",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/users/{{id}}?activate=false",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"{{id}}"
-							],
-							"query": [
-								{
-									"key": "activate",
-									"value": "false"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CHANGE PASSWORD with no Token",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"oldPassword\": \"SenhaForte123!\",\n    \"newPassword\": \"NovaSenhaForte123!\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/users/{{id}}/password"
-					},
-					"response": []
-				},
-				{
-					"name": "Login no existing user",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"login\": \"mickyNotReal@email.com\",\n    \"password\": \"NonExiste\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/users/login"
-					},
-					"response": []
-				},
-				{
-					"name": "POST users type CLIENT - 201",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let jsonData = pm.response.json();",
-									"pm.environment.set(\"jwt_token\", jsonData.tokenJWT);",
-									"pm.environment.set(\"id\", jsonData.user.id);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Madonna\",\r\n  \"email\": \"madonna@email.com\",\r\n  \"login\": \"madonna\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"role\": \"OWNER\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/users"
-					},
-					"response": []
-				},
-				{
-					"name": "GET users AS CLIENT (forbidden)",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{jwt_token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/users?page=1&size=5",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "size",
-									"value": "5"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "POST users",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"let jsonData = pm.response.json();",
-							"pm.environment.set(\"jwt_token\", jsonData.tokenJWT);",
-							"pm.environment.set(\"id\", jsonData.user.id);"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Mick Jagger\",\r\n  \"email\": \"micky@email.com\",\r\n  \"login\": \"mickyj\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"role\": \"OWNER\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{base_url}}/users"
-			},
-			"response": []
-		},
-		{
-			"name": "Login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"let jsonData = pm.response.json();",
-							"pm.environment.set(\"jwt_token\", jsonData.tokenJWT);"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"login\": \"mickyj\",\n    \"password\": \"SenhaForte123!\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{base_url}}/users/login"
-			},
-			"response": []
-		},
-		{
-			"name": "GET user",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{jwt_token}}",
-						"type": "text"
-					}
-				],
-				"url": "{{base_url}}/users/{{id}}"
-			},
-			"response": []
-		},
-		{
-			"name": "GET users",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{jwt_token}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{base_url}}/users?page=1&size=5",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"users"
-					],
-					"query": [
-						{
-							"key": "page",
-							"value": "1"
-						},
-						{
-							"key": "size",
-							"value": "5"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PUT users",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{jwt_token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\": \"Lucas Pereira\",\n  \"email\": \"lucas.pereira@email.com\",\n  \"login\": \"lucasp\",\n  \"address\": [\n    {\n      \"zipcode\": \"98765-432\",\n      \"street\": \"Rua das Palmeiras\",\n      \"number\": 112,\n      \"complement\": \"Apto 402\",\n      \"neighborhood\": \"Boa Vista\",\n      \"city\": \"São Paulo\",\n      \"state\": \"SP\"\n    }\n  ]\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{base_url}}/users/{{id}}"
-			},
-			"response": []
-		},
-		{
-			"name": "ACTIVATE/DEACTIVATE users",
-			"request": {
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{jwt_token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/users/{{id}}?activate=false",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"users",
-						"{{id}}"
-					],
-					"query": [
-						{
-							"key": "activate",
-							"value": "false"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CHANGE PASSWORD",
-			"request": {
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{jwt_token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"oldPassword\": \"SenhaForte123!\",\n    \"newPassword\": \"NovaSenhaForte123!\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{base_url}}/users/{{id}}/password"
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "22a82219-de28-422a-83f8-8e9a9621e8cc",
+    "name": "ms-users",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "_exporter_id": "38972353"
+  },
+  "item": [
+    {
+      "name": "BAD REQUEST",
+      "item": [
+        {
+          "name": "POST users Missing Attribute on Payload",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let jsonData = pm.response.json();",
+                  "pm.environment.set(\"jwt_token\", jsonData.tokenJWT);",
+                  "pm.environment.set(\"id\", jsonData.user.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Mick Jagger\",\r\n  \"email\": \"mickyWrong@email.com\",\r\n  \"login\": \"mickywrong\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/users"
+          },
+          "response": []
+        },
+        {
+          "name": "GET user non existing ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/users/2151515dcdfvfe4SD24VDdvfv"
+          },
+          "response": []
+        },
+        {
+          "name": "PUT users Missing Attribute on Payload",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Lucas Pereira\",\n  \"email\": \"lucas.pereira@email.com\",\n  \"login\": \"lucasp\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/users/{{id}}"
+          },
+          "response": []
+        },
+        {
+          "name": "ACTIVATE/DEACTIVATE users No Patameter",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/users/{{id}}"
+          },
+          "response": []
+        },
+        {
+          "name": "CHANGE PASSWORD Wrong old password",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"oldPassword\": \"SenhaErrada!\",\n    \"newPassword\": \"NovaSenhaForte123!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/users/{{id}}/password"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "FORBIDDEN",
+      "item": [
+        {
+          "name": "GET user with no Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/users/{{id}}"
+          },
+          "response": []
+        },
+        {
+          "name": "GET users with no Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users?page=1&size=5",
+              "host": ["{{base_url}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT users with no Token",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Lucas Pereira\",\n  \"email\": \"lucas.pereira@email.com\",\n  \"login\": \"lucasp\",\n  \"address\": [\n    {\n      \"zipcode\": \"98765-432\",\n      \"street\": \"Rua das Palmeiras\",\n      \"number\": 112,\n      \"complement\": \"Apto 402\",\n      \"neighborhood\": \"Boa Vista\",\n      \"city\": \"S\u00e3o Paulo\",\n      \"state\": \"SP\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/users/{{id}}"
+          },
+          "response": []
+        },
+        {
+          "name": "ACTIVATE/DEACTIVATE users with no Token",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{id}}?activate=false",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{id}}"],
+              "query": [
+                {
+                  "key": "activate",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CHANGE PASSWORD with no Token",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"oldPassword\": \"SenhaForte123!\",\n    \"newPassword\": \"NovaSenhaForte123!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/users/{{id}}/password"
+          },
+          "response": []
+        },
+        {
+          "name": "Login no existing user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"login\": \"mickyNotReal@email.com\",\n    \"password\": \"NonExiste\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/users/login"
+          },
+          "response": []
+        },
+        {
+          "name": "POST users type CLIENT - 201",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let jsonData = pm.response.json();",
+                  "pm.environment.set(\"jwt_token\", jsonData.tokenJWT);",
+                  "pm.environment.set(\"id\", jsonData.user.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Madonna\",\r\n  \"email\": \"madonna@email.com\",\r\n  \"login\": \"madonna\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"userType\": \"OWNER\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/users"
+          },
+          "response": []
+        },
+        {
+          "name": "GET users AS CLIENT (forbidden)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users?page=1&size=5",
+              "host": ["{{base_url}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "POST users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let jsonData = pm.response.json();",
+              "pm.environment.set(\"jwt_token\", jsonData.tokenJWT);",
+              "pm.environment.set(\"id\", jsonData.user.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Mick Jagger\",\r\n  \"email\": \"micky@email.com\",\r\n  \"login\": \"mickyj\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"userType\": \"OWNER\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/users"
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let jsonData = pm.response.json();",
+              "pm.environment.set(\"jwt_token\", jsonData.tokenJWT);"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"login\": \"mickyj\",\n    \"password\": \"SenhaForte123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/users/login"
+      },
+      "response": []
+    },
+    {
+      "name": "GET user",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "url": "{{base_url}}/users/{{id}}"
+      },
+      "response": []
+    },
+    {
+      "name": "GET users",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users?page=1&size=5",
+          "host": ["{{base_url}}"],
+          "path": ["users"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT users",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Lucas Pereira\",\n  \"email\": \"lucas.pereira@email.com\",\n  \"login\": \"lucasp\",\n  \"address\": [\n    {\n      \"zipcode\": \"98765-432\",\n      \"street\": \"Rua das Palmeiras\",\n      \"number\": 112,\n      \"complement\": \"Apto 402\",\n      \"neighborhood\": \"Boa Vista\",\n      \"city\": \"S\u00e3o Paulo\",\n      \"state\": \"SP\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/users/{{id}}"
+      },
+      "response": []
+    },
+    {
+      "name": "ACTIVATE/DEACTIVATE users",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/users/{{id}}?activate=false",
+          "host": ["{{base_url}}"],
+          "path": ["users", "{{id}}"],
+          "query": [
+            {
+              "key": "activate",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CHANGE PASSWORD",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"oldPassword\": \"SenhaForte123!\",\n    \"newPassword\": \"NovaSenhaForte123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/users/{{id}}/password"
+      },
+      "response": []
+    },
+    {
+      "name": "Menu Items",
+      "item": [
+        {
+          "name": "POST Create Menu Item",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Spaghetti\",\n  \"description\": \"Delicious pasta with tomato sauce\",\n  \"price\": 25.9,\n  \"availableOnlyOnSite\": true,\n  \"imagePath\": \"spaghetti.jpg\",\n  \"restaurantId\": \"00000000-0000-0000-0000-000000000000\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/menu-items"
+          },
+          "response": []
+        },
+        {
+          "name": "GET All Menu Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/menu-items/all"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Menu Item by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/menu-items/{{id}}"
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update Menu Item",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Spaghetti\",\n  \"description\": \"Updated description\",\n  \"price\": 27.9,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"updated_spaghetti.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/menu-items/{{id}}"
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Menu Item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}/menu-items/{{id}}"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Types",
+      "item": [
+        {
+          "name": "POST Create User Type",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"ADMIN\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/usertypes"
+          },
+          "response": []
+        },
+        {
+          "name": "GET All User Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/usertypes"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }

@@ -46,14 +46,6 @@ public class JdbcRestaurantRepository {
                 .optional();
     }
 
-    public List<Restaurant> findAll(int size, int offset) {
-        return jdbcClient.sql("SELECT * FROM restaurants LIMIT :size OFFSET :offset")
-                .param("size", size)
-                .param("offset", offset)
-                .query(this::toRestaurant)
-                .list();
-    }
-
     public void update(JdbcRestaurantEntity entity) {
         jdbcClient.sql("""
                 UPDATE restaurants
@@ -99,10 +91,10 @@ public class JdbcRestaurantRepository {
 
     public List<Restaurant> findAllByUserId(UUID userId, int size, int offset) {
         return jdbcClient.sql("""
-                SELECT * FROM restaurants
-                WHERE user_id = :user_id
-                LIMIT :size OFFSET :offset
-            """)
+                    SELECT * FROM restaurants
+                    WHERE user_id = :user_id
+                    LIMIT :size OFFSET :offset
+                """)
                 .param("user_id", userId)
                 .param("size", size)
                 .param("offset", offset)

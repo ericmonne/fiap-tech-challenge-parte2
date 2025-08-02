@@ -48,7 +48,8 @@ public class RestaurantsController implements RestaurantsApi {
     @Override
     public ResponseEntity<List<RestaurantResponseDTO>> findAllRestaurantsByUser(int size, int page) {
         UUID userId = getLoggedUserId();
-        int offset = page * size;
+        int offset = (page - 1) * size;
+        if (offset < 0) offset = 0;
         List<RestaurantResponseDTO> list = restaurantControllerInputPort.findAllRestaurantsByUser(userId, size, offset);
         return ResponseEntity.ok(list);
     }

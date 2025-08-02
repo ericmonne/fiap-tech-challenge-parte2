@@ -1,12 +1,10 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.address.AddressRequestDTO;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 
 import java.util.List;
 
@@ -37,8 +35,8 @@ public record UsersRequestDTO(
         @NotBlank(message = "User field 'password' is required")
         String password,
 
-        @NotBlank(message = "User field 'usertype' is required")
-        UserType userType,
+        @NotBlank(message = "User field 'userType' is required")
+        String userType,
 
         @Valid
         @NotEmpty(message = "User must have at least one Address")

@@ -44,4 +44,14 @@ public class UserTypeGatewayImpl implements UserTypeGateway {
     public Optional<UserType> findById(final Long id) {
         return this.userTypeDataSource.findById(id);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return this.userTypeDataSource.existsByName(name);
+    }
+
+    @Override
+    public Optional<UserType> findByName(String userTypeName) {
+        return this.userTypeDataSource.findByName(userTypeName);
+    }
 }

@@ -1,6 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user;
 
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -30,9 +31,9 @@ public class JdbcUserRepository {
 
         jdbcClient.sql("""
                         INSERT INTO users
-                            (id, name, email, login, password, last_modified_date, active, role)
+                            (id, name, email, login, password, last_modified_date, active, user_type_id)
                         VALUES
-                            (:id, :name, :email, :login, :password, :last_modified_date, :active, CAST(:role AS role_type));
+                            (:id, :name, :email, :login, :password, :last_modified_date, :active, :user_type_id);
                         """)
                 .param("id", id)
                 .param("name", jdbcUserEntity.getName())
@@ -41,7 +42,7 @@ public class JdbcUserRepository {
                 .param("password", jdbcUserEntity.getPassword())
                 .param("last_modified_date", jdbcUserEntity.getDateLastChange())
                 .param("active", jdbcUserEntity.getActive())
-                .param("role", jdbcUserEntity.getRole())
+                .param("user_type_id", jdbcUserEntity.getUserTypeId())
                 .update();
 
         return id;
@@ -167,12 +168,25 @@ public class JdbcUserRepository {
     }
 
     public Optional<User> findByLogin(String username) {
-        return jdbcClient.sql("""
-                        SELECT * FROM users
+        return jdbcClient
+                .sql("""
+                        SELECT name, email, login, password, last_modified_date, active, id, user_type_id FROM users
                         WHERE login = :login
                         """)
                 .param("login", username)
-                .query(User.class)
-                .optional();
+                .query((rs, rowNum) -> {
+                    UserType userType = new UserType();
+                    userType.setId(rs.getLong("user_type_id"));
+                    User user = new User();
+                    user.setId(UUID.fromString(rs.getString("id")));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setLogin(rs.getString("login"));
+                    user.setPassword(rs.getString("password"));
+                    user.setDateLastChange(rs.getTimestamp("last_modified_date"));
+                    user.setActive(rs.getBoolean("active"));
+                    user.setUserType(userType);
+                    return user;
+                }).optional();
     }
 }

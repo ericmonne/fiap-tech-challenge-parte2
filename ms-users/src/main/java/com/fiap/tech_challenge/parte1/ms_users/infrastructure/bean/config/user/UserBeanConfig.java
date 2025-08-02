@@ -10,6 +10,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.Auth
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserValidator;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.usertype.UserTypeGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.*;
 import com.fiap.tech_challenge.parte1.ms_users.domain.service.PasswordPolicy;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.user.UserGatewayImpl;
@@ -36,8 +37,8 @@ public class UserBeanConfig {
     }
 
     @Bean
-    public RegisterUserUseCase registerUserUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators) {
-        return new RegisterUserUseCaseImpl(userGateway, addressGateway, passwordEncoder, tokenProvider, iUserMapper, userValidators);
+    public RegisterUserUseCase registerUserUseCase(UserGateway userGateway, AddressGateway addressGateway, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, IUserMapper iUserMapper, List<UserValidator> userValidators, UserTypeGateway userTypeGateway) {
+        return new RegisterUserUseCaseImpl(userGateway, userTypeGateway, addressGateway, passwordEncoder, tokenProvider, iUserMapper, userValidators);
     }
 
     @Bean

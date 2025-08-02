@@ -18,4 +18,8 @@ public interface UserTypeDataSource {
     List<UserType> findAll(final int size, int offset);
 
     Optional<UserType> findById(final Long id);
+
+    boolean existsByName(String name);
+
+    Optional<UserType> findByName(String userTypeName);
 }

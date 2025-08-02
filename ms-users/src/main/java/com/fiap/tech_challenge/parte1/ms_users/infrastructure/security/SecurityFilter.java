@@ -2,13 +2,15 @@ package com.fiap.tech_challenge.parte1.ms_users.infrastructure.security;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.token.TokenProvider;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.usertype.UserTypeGateway;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,10 +29,12 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
     private final UserGateway userGateway;
+    private final UserTypeGateway userTypeGateway;
 
-    public SecurityFilter(TokenProvider tokenProvider, UserGateway userGateway) {
+    public SecurityFilter(TokenProvider tokenProvider, UserGateway userGateway, UserTypeGateway userTypeGateway) {
         this.tokenProvider = tokenProvider;
         this.userGateway = userGateway;
+        this.userTypeGateway = userTypeGateway;
     }
 
 
@@ -49,9 +53,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         String tokenJWT = retrieveToken(request);
         if (tokenJWT != null) {
             String subject = tokenProvider.extractUserLoginFromToken(tokenJWT);
-            UserDetails userDetails = userGateway.findByLogin(subject)
-                    .map(UserDetailsAdapter::new)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found: " + subject));
+            User user = userGateway.findByLogin(subject).orElseThrow(() -> new UsernameNotFoundException("User not found: " + subject));
+            Long userTypeId = user.getUserType().getId();
+            UserType userType = userTypeGateway.findById(userTypeId).orElseThrow(() -> new UsernameNotFoundException("User type not found: " + userTypeId));
+            user.setUserType(userType);
+            UserDetailsAdapter userDetails = new UserDetailsAdapter(user);
             var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

@@ -17,7 +17,6 @@ import java.util.UUID;
  * @param name    the full name of the user
  * @param email   the user's email address
  * @param login   the unique login identifier of the user
- * @param userType  the user's role (e.g., OWNER or CLIENT)
  * @param address the list of addresses associated with the user
  */
 public record UsersResponseDTO(
@@ -25,6 +24,5 @@ public record UsersResponseDTO(
         String name,
         String email,
         String login,
-        UserType userType,
         List<AddressResponseDTO> address) {
 }

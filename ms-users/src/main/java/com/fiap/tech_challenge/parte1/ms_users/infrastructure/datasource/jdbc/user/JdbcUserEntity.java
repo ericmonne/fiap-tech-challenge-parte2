@@ -12,7 +12,7 @@ public class JdbcUserEntity {
     private String password;
     private Date dateLastChange;
     private Boolean active;
-    private String role;
+    private Long userTypeId;
 
     public UUID getId() {
         return id;
@@ -70,11 +70,11 @@ public class JdbcUserEntity {
         this.active = active;
     }
 
-    public String getRole() {
-        return role;
+    public Long getUserTypeId() {
+        return userTypeId;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserTypeId(Long userTypeId) {
+        this.userTypeId = userTypeId;
     }
 }

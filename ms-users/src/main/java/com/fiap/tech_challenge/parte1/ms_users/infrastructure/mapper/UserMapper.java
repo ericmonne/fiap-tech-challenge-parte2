@@ -6,6 +6,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.user.UsersRe
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.address.IAddressMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.user.IUserMapper;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
+import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserEntity;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +45,6 @@ public class UserMapper implements IUserMapper {
                 user.getName(),
                 user.getEmail(),
                 user.getLogin(),
-                user.getUserType(),
                 iAddressMapper.toAddressResponseDTO(user.getAddresses()));
     }
 
@@ -70,7 +70,7 @@ public class UserMapper implements IUserMapper {
         jdbcUserEntity.setEmail(user.getEmail());
         jdbcUserEntity.setLogin(user.getLogin());
         jdbcUserEntity.setActive(user.getActive());
-        jdbcUserEntity.setRole(user.getUserType().getName());
+        jdbcUserEntity.setUserTypeId(user.getUserType().getId());
         jdbcUserEntity.setPassword(user.getPassword());
         jdbcUserEntity.setDateLastChange(user.getDateLastChange());
 
@@ -84,6 +84,10 @@ public class UserMapper implements IUserMapper {
         user.setName(dto.name());
         user.setLogin(dto.login());
         user.setPassword(dto.password());
+        UserType userType = new UserType();
+        userType.setName(dto.userType());
+        user.setUserType(userType);
+        user.setActive(true);
         user.setAddress(iAddressMapper.toEntity(dto.address()));
         return user;
     }

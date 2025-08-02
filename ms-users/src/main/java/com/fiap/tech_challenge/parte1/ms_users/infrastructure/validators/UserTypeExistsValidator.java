@@ -4,6 +4,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.User
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.usertype.UserTypeGateway;
 import com.fiap.tech_challenge.parte1.ms_users.domain.exception.EmailAlreadyExistsException;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserTypeDoesNotExistException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class UserTypeExistsValidator implements UserValidator {
         UserType userType = user.getUserType();
 
         if (userType == null || !userTypeGateway.existsByName(userType.getName())) {
-            throw new EmailAlreadyExistsException("The provided user type does not exist. Please try again with a valid user type name.");
+            throw new UserTypeDoesNotExistException("The provided user type does not exist. Please try again with a valid user type name.");
         }
     }
 }

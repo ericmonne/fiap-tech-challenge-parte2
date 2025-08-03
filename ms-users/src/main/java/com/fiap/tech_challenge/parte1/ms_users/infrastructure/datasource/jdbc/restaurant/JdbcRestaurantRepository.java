@@ -1,6 +1,5 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant;
 
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.CuisineType;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;

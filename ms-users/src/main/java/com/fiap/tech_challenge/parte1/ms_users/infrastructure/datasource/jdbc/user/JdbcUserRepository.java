@@ -107,10 +107,10 @@ public class JdbcUserRepository {
 
     public List<User> findAll(int size, int offset) {
         return jdbcClient.sql("""
-                         SELECT * FROM users LIMIT :size OFFSET :offset
+                         SELECT * FROM users LIMIT :user_size OFFSET :user_offset
                         """)
-                .param("size", size)
-                .param("offset", offset)
+                .param("user_size", size)
+                .param("user_offset", offset)
                 .query(User.class)
                 .list();
     }

@@ -1,6 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype;
 
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.UserTypeRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.UserTypeResponseDTO;
 
 public interface CreateUserTypeUseCase {
     /**
@@ -11,5 +12,5 @@ public interface CreateUserTypeUseCase {
      *
      * @param userTypeRequestDTO -> DTO
      * */
-    void execute(final UserTypeRequestDTO userTypeRequestDTO);
+    UserTypeResponseDTO execute(final UserTypeRequestDTO userTypeRequestDTO);
 }

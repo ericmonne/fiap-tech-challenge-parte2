@@ -42,9 +42,10 @@ public class UserTypeBeanConfig {
 
     @Bean
     public UpdateUserTypeUseCase registerUpdaUserTypeUseCase(
-            final UserTypeGateway userTypeGateway
+            final UserTypeGateway userTypeGateway,
+            final IUserTypeMapper iUserTypeMapper
     ) {
-        return new UpdateUserTypeUseCaseImpl(userTypeGateway);
+        return new UpdateUserTypeUseCaseImpl(userTypeGateway, iUserTypeMapper);
     }
 
     @Bean

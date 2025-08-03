@@ -29,9 +29,9 @@ public class JdbcUserTypeDataSource implements UserTypeDataSource {
      * @param userType -> Recebe como parametro entidade de modelo
      * */
     @Override
-    public void createUserType(final UserType userType) {
+    public Long createUserType(final UserType userType) {
         var convertToEntity = this.iUserTypeMapper.tojdbcUserTypeEntity(userType);
-        this.jdbcUserTypeRepository.save(convertToEntity);
+        return this.jdbcUserTypeRepository.save(convertToEntity);
     }
 
     /**

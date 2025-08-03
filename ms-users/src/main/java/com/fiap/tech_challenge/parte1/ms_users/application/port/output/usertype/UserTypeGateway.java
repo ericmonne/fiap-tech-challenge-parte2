@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface UserTypeGateway {
 
-    void createUserType(final UserType userType);
+    Long createUserType(final UserType userType);
 
     void deactivate(final Long id);
 

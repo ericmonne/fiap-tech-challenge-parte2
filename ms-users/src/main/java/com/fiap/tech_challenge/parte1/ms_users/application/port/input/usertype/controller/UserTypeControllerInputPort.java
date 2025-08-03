@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface UserTypeControllerInputPort {
 
-    void create(final UserTypeRequestDTO userTypeRequestDTO);
+    UserTypeResponseDTO create(final UserTypeRequestDTO userTypeRequestDTO);
 
-    void update(final UserTypeRequestDTO userTypeRequestDTO);
+    UserTypeResponseDTO update(final UserTypeRequestDTO userTypeRequestDTO, Long id);
 
     String toggleActivationUserType(Long id, boolean activate);
 

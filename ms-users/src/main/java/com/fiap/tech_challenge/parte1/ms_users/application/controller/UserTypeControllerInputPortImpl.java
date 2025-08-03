@@ -6,15 +6,12 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype.*
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype.controller.*;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.usertype.IUserTypeMapper;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.usecase.usertype.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class UserTypeControllerInputPortImpl implements UserTypeControllerInputPort {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserTypeControllerInputPort.class);
 
     private final CreateUserTypeUseCase createUserTypeUseCase;
     private final UpdateUserTypeUseCase updateUserTypeUseCase;
@@ -43,14 +40,14 @@ public class UserTypeControllerInputPortImpl implements UserTypeControllerInputP
     }
 
     @Override
-    public void create(final UserTypeRequestDTO userTypeRequestDTO) {
-        this.createUserTypeUseCase.execute(userTypeRequestDTO);
+    public UserTypeResponseDTO create(final UserTypeRequestDTO userTypeRequestDTO) {
+        return this.createUserTypeUseCase.execute(userTypeRequestDTO);
     }
 
     @Override
-    public void update(final UserTypeRequestDTO userTypeRequestDTO) {
-        var userTypeModel = this.iUserTypeMapper.toUserType(userTypeRequestDTO);
-        this.updateUserTypeUseCase.execute(userTypeModel);
+    public UserTypeResponseDTO update(final UserTypeRequestDTO userTypeRequestDTO, Long id) {
+        var userTypeModel = this.iUserTypeMapper.toUserType(userTypeRequestDTO, id);
+        return this.updateUserTypeUseCase.execute(userTypeModel);
     }
 
     @Override

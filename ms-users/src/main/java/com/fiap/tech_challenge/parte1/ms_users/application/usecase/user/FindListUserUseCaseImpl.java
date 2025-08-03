@@ -6,10 +6,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.User
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FindListUserUseCaseImpl implements FindListUserUseCase {
@@ -36,23 +33,19 @@ public class FindListUserUseCaseImpl implements FindListUserUseCase {
         ));
     }
 
-    private Map<UUID, List<Address>> getAddressByUserMap(List<User> listUsers) {
-        Set<UUID> userIdSet = getUserIdSet(listUsers);
-        return getAddressByUserMap(userIdSet);
+    private Map<UUID, List<Address>> getAddressByUserMap(List<User> users) {
+        Set<UUID> userIds = users.stream().map(User::getId).collect(Collectors.toSet());
+        if (userIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        List<Address> addresses = addressGateway.findAllByUserIds(userIds);
+        return addresses.stream().collect(Collectors.groupingBy(Address::getUserId));
     }
+
 
     private List<User> getUserList(int size, int page) {
         var offset = (page - 1) * size;
         return userGateway.findAll(size, offset);
     }
 
-    private Set<UUID> getUserIdSet(List<User> listUsers) {
-        return listUsers.stream().map(User::getId).collect(Collectors.toSet());
-    }
-
-    private Map<UUID, List<Address>> getAddressByUserMap(Set<UUID> userIdSet) {
-        List<Address> addressList = addressGateway.findAllByUserIds(userIdSet);
-        return addressList.stream()
-                .collect(Collectors.groupingBy(Address::getUserId));
-    }
 }

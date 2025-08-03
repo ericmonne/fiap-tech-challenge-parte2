@@ -10,7 +10,9 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openingho
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openinghour.OpeningHourValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.restaurant.RestaurantDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.restaurant.RestaurantGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.restaurant.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.usecase.user.GetUserIdByLoginUseCaseImpl;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.restaurant.RestaurantGatewayImpl;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant.JdbcRestaurantDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant.JdbcRestaurantRepository;
@@ -31,6 +33,11 @@ public class RestaurantBeanConfig {
     @Bean
     public RestaurantGateway registerRestaurantGateway(RestaurantDataSource restaurantDataSource) {
         return new RestaurantGatewayImpl(restaurantDataSource);
+    }
+
+    @Bean
+    GetUserIdByLoginUseCase registerGetUserIdByLoginUseCase(UserGateway userGateway) {
+        return new GetUserIdByLoginUseCaseImpl(userGateway);
     }
 
     @Bean

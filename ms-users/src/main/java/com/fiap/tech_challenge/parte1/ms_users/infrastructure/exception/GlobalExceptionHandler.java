@@ -192,4 +192,12 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorBody = buildErrorBody(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Object> handleEx(Exception ex, HttpServletRequest request) {
+        Map<String, Object> errorBody = buildErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request);
+        return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

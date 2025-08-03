@@ -5,6 +5,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.Use
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.UserTypeResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype.controller.UserTypeControllerInputPort;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +23,10 @@ public class UserTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createUserType(
-            @RequestParam final @Valid UserTypeRequestDTO userTypeRequestDTO
+    public ResponseEntity<UserTypeResponseDTO> createUserType(
+            @RequestBody @Valid UserTypeRequestDTO userTypeRequestDTO
     ) {
-        this.userTypeControllerInputPort.create(userTypeRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userTypeControllerInputPort.create(userTypeRequestDTO));
     }
 
     @PatchMapping("/{id}/activation")
@@ -37,12 +37,12 @@ public class UserTypeController {
         return ResponseEntity.ok(userTypeControllerInputPort.toggleActivationUserType(id, activate));
     }
 
-    @PutMapping
-    public ResponseEntity<Void> updateUserType(
-            @RequestParam final @Valid UserTypeRequestDTO userTypeRequestDTO
+    @PutMapping("/{id}")
+    public ResponseEntity<UserTypeResponseDTO> updateUserType(
+            @RequestBody final @Valid UserTypeRequestDTO userTypeRequestDTO,
+            @PathVariable final Long id
     ) {
-        this.userTypeControllerInputPort.update(userTypeRequestDTO);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userTypeControllerInputPort.update(userTypeRequestDTO, id));
     }
 
     @GetMapping("/{id}")
@@ -54,9 +54,9 @@ public class UserTypeController {
 
     @GetMapping
     public ResponseEntity<List<UserTypeResponseDTO>> findAllUserType(
-            @RequestParam final int size,
-            @RequestParam final int offset
+            @Valid @Min(1) @RequestParam final int size,
+            @Valid @Min(1) @RequestParam final int offset
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.userTypeControllerInputPort.findAllUserType(size,offset));
+        return ResponseEntity.status(HttpStatus.OK).body(this.userTypeControllerInputPort.findAllUserType(size, offset));
     }
 }

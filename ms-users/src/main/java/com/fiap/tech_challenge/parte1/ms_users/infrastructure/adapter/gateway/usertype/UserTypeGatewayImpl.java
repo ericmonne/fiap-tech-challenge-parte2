@@ -16,8 +16,8 @@ public class UserTypeGatewayImpl implements UserTypeGateway {
     }
 
     @Override
-    public void createUserType(final UserType userType) {
-        this.userTypeDataSource.createUserType(userType);
+    public Long createUserType(final UserType userType) {
+        return this.userTypeDataSource.createUserType(userType);
     }
 
     @Override

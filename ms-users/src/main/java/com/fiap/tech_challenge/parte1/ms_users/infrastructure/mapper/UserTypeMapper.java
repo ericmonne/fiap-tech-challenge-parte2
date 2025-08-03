@@ -14,7 +14,7 @@ public class UserTypeMapper implements IUserTypeMapper {
 
     /**
      * <h3>METODO - tojdbcUserTypeEntity</h3>
-     *
+     * <p>
      * - Recebe como parametro entidade de modelo;
      * - Instancia a entidade jdbc;
      * - Populada a entidade jdbc, com a entidade de modelo
@@ -22,7 +22,7 @@ public class UserTypeMapper implements IUserTypeMapper {
      *
      * @param userType -> recebe como parametro entidade de modelo;
      * @return -> entidade jdbc
-     * */
+     */
     @Override
     public JdbcUserTypeEntity tojdbcUserTypeEntity(final UserType userType) {
 
@@ -44,7 +44,7 @@ public class UserTypeMapper implements IUserTypeMapper {
 
     /**
      * <h3>METODO - toUserType</h3>
-     *
+     * <p>
      * - Recebe como parametro entidade jdbc;
      * - Instancia a entidade modelo;
      * - Populada a entidade modelo, com a entidade jdbc
@@ -52,7 +52,7 @@ public class UserTypeMapper implements IUserTypeMapper {
      *
      * @param jdbcUserTypeEntity -> recebe como parametro entidade jdbc;
      * @return -> entidade de modelo;
-     * */
+     */
     @Override
     public UserType toUserType(final JdbcUserTypeEntity jdbcUserTypeEntity) {
 
@@ -74,7 +74,7 @@ public class UserTypeMapper implements IUserTypeMapper {
 
     /**
      * <h3>METODO - toUserType</h3>
-     *
+     * <p>
      * - Recebe um DTO como parametro;
      * - Instancia a entidade modelo;
      * - Populada a entidade modelo, com o DTO request
@@ -82,7 +82,7 @@ public class UserTypeMapper implements IUserTypeMapper {
      *
      * @param userTypeRequestDTO -> recebe um DTO
      * @return -> entidade de modelo;
-     * */
+     */
     @Override
     public UserType toUserType(final UserTypeRequestDTO userTypeRequestDTO) {
 
@@ -92,7 +92,6 @@ public class UserTypeMapper implements IUserTypeMapper {
         // Populando a entidade modelo, com o DTO de request
         userType.setName(userTypeRequestDTO.name());
         userType.setDescription(userTypeRequestDTO.description());
-        userType.setActive(userTypeRequestDTO.active());
 
         // Retornando a entidade de modelo populada
         return userType;
@@ -100,7 +99,7 @@ public class UserTypeMapper implements IUserTypeMapper {
 
     /**
      * <h3>METODO - toUserTypeResponseDto</h3>
-     *
+     * <p>
      * - Recebe uma entidade de modelo;
      * - Instancia o DTO Response;
      * - Popula com a entidade modelo;
@@ -108,20 +107,27 @@ public class UserTypeMapper implements IUserTypeMapper {
      *
      * @param userType -> recebe entidade de modelo
      * @return -> DTO response
-     * */
+     */
     @Override
     public UserTypeResponseDTO toUserTypeResponseDto(UserType userType) {
         return new UserTypeResponseDTO(
                 userType.getId(),
                 userType.getName(),
                 userType.getDescription(),
-                userType.getActive(),
-                userType.getCreated(),
-                userType.getUpdated());
+                userType.getActive());
     }
 
     @Override
     public List<UserTypeResponseDTO> toListUserTypeResponseDto(List<UserType> userTypeList) {
-        return List.of();
+        return userTypeList.stream().map(this::toUserTypeResponseDto).toList();
+    }
+
+    @Override
+    public UserType toUserType(UserTypeRequestDTO userTypeRequestDTO, Long id) {
+        UserType userType = new UserType();
+        userType.setName(userTypeRequestDTO.name());
+        userType.setDescription(userTypeRequestDTO.description());
+        userType.setId(id);
+        return userType;
     }
 }

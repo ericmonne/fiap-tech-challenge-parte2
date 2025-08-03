@@ -56,4 +56,6 @@ public interface IUserTypeMapper {
     // ---------------------------------------------------
 
     List<UserTypeResponseDTO> toListUserTypeResponseDto(final List<UserType> userTypeList);
+
+    UserType toUserType(UserTypeRequestDTO userTypeRequestDTO, Long id);
 }

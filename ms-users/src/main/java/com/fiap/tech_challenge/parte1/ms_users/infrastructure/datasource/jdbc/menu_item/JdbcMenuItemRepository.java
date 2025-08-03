@@ -29,7 +29,7 @@ public class JdbcMenuItemRepository {
                     available_only_on_site,
                     image_path
                 FROM
-                    menu_item
+                    menu_items
                 """;
 
         return jdbcClient
@@ -47,7 +47,7 @@ public class JdbcMenuItemRepository {
                              available_only_on_site,
                              image_path
                          FROM
-                             menu_item
+                             menu_items
                          ;
                  LIMIT :size
                  OFFSET :offset
@@ -63,7 +63,7 @@ public class JdbcMenuItemRepository {
                         SELECT
                             COUNT(*)
                         FROM
-                            menu_item
+                            menu_items
                         ;
                 """;
         Integer totalItems = jdbcClient.sql(sqlTotalCount)
@@ -78,7 +78,7 @@ public class JdbcMenuItemRepository {
     public MenuItem save(JdbcMenuItemEntity jdbcMenuItemEntity) {
         UUID id = UUID.randomUUID();
         final String sql = """
-                    INSERT INTO menu_item (
+                    INSERT INTO menu_items (
                         id, name, description, price, available_only_on_site, image_path, restaurant_id
                     ) VALUES (
                         :id, :name, :description, :price, :availableOnlyOnSite, :imagePath, :restaurantId
@@ -99,7 +99,7 @@ public class JdbcMenuItemRepository {
     }
 
     public Optional<MenuItem> findById(UUID id) {
-        final String sql = "SELECT * FROM menu_item WHERE id = :id";
+        final String sql = "SELECT * FROM menu_items WHERE id = :id";
         return jdbcClient.sql(sql)
                 .param("id", id)
                 .query(MenuItem.class)
@@ -107,7 +107,7 @@ public class JdbcMenuItemRepository {
     }
 
     public void deleteById(UUID id) {
-        final String sql = "DELETE FROM menu_item WHERE id = :id";
+        final String sql = "DELETE FROM menu_items WHERE id = :id";
         jdbcClient.sql(sql)
                 .param("id", id)
                 .update();
@@ -115,7 +115,7 @@ public class JdbcMenuItemRepository {
 
     public void update(JdbcMenuItemEntity jdbcMenuItemEntity) {
         final String sql = """
-                UPDATE menu_item
+                UPDATE menu_items
                 SET name = :name, description = :description, price = :price, available_only_on_site = :availableOnlyOnSite, image_path = :imagePath
                 WHERE id = :id
                 """;
@@ -138,7 +138,7 @@ public class JdbcMenuItemRepository {
                 SELECT
                     COUNT(1)
                 FROM
-                    menu_item
+                    menu_items
                 WHERE %s = :value
                 """.formatted(columnName);
 
@@ -150,7 +150,7 @@ public class JdbcMenuItemRepository {
     }
 
     public Optional<MenuItem> findByName(String name) {
-        final String sql = "SELECT * FROM menu_item WHERE name = :name";
+        final String sql = "SELECT * FROM menu_items WHERE name = :name";
         return jdbcClient.sql(sql)
                 .param("name", name)
                 .query(MenuItem.class)
@@ -171,7 +171,7 @@ public class JdbcMenuItemRepository {
         int offset = restaurantRequestDTO.offset();
         final String sql = """
                 SELECT name, description, price, available_only_on_site, image_path, restaurant_id
-                FROM menu_item
+                FROM menu_items
                 WHERE restaurant_id = :restaurant_id
                 ORDER BY name
                 LIMIT :size OFFSET :offset
@@ -187,7 +187,7 @@ public class JdbcMenuItemRepository {
 
         final String countSql = """
                     SELECT COUNT(*)
-                    FROM menu_item
+                    FROM menu_items
                     WHERE restaurant_id = :restaurant_id
                 """;
 

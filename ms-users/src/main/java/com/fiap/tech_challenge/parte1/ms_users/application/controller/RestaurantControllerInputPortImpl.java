@@ -41,17 +41,20 @@ public class RestaurantControllerInputPortImpl implements RestaurantControllerIn
 
     @Override
     public RestaurantResponseDTO getRestaurantById(UUID restaurantId) {
+        logger.info("/getById -> id: {}", restaurantId);
         return findByIdRestaurantUseCase.execute(restaurantId);
     }
 
     @Override
     public List<RestaurantResponseDTO> findAllRestaurantsByUser(UUID userId, int size, int page) {
+        logger.info("/findAllRestaurantsByUser -> id: {}, size: {} ,  offset: {}", userId, size, page);
         return findAllByUserIdRestaurantUseCase.execute(userId, size, page);
     }
 
     @Override
     public RestaurantResponseDTO createRestaurant(RestaurantRequestDTO dto, UUID userId) {
         User user = findByIdUserUseCase.execute(userId);
+        logger.info("/createRestaurant -> user: {}, request: {}", userId, dto);
         Restaurant restaurant = restaurantMapper.toEntity(dto, user);
         return registerRestaurantUseCase.execute(restaurant);
     }
@@ -59,18 +62,21 @@ public class RestaurantControllerInputPortImpl implements RestaurantControllerIn
     @Override
     public RestaurantResponseDTO updateRestaurant(UUID restaurantId, RestaurantRequestDTO dto, UUID userId) {
         User user = findByIdUserUseCase.execute(userId);
+        logger.info("/updateRestaurant -> user: {}, request: {}", userId, dto);
         Restaurant restaurant = restaurantMapper.toEntity(dto, user);
         return updateRestaurantUseCase.execute(restaurantId, userId, restaurant);
     }
 
     @Override
     public void deleteRestaurant(UUID restaurantId, UUID userId) {
+        logger.info("/deleteRestaurant -> user: {}, restaurant: {}", restaurantId, userId);
         User user = findByIdUserUseCase.execute(userId);
         deleteRestaurantUseCase.execute(restaurantId, user.getId());
     }
 
     @Override
     public UUID getUserIdByLogin(String login) {
+        logger.info("getUserIdByLogin -> login: {}", login);
         return getUserIdByLoginUseCase.getUserIdByLogin(login);
     }
 }

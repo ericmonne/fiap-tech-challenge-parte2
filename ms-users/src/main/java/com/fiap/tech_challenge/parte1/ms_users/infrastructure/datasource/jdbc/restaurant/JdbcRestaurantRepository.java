@@ -1,6 +1,5 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant;
 
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.Address;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.CuisineType;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.User;
@@ -44,14 +43,6 @@ public class JdbcRestaurantRepository {
                 .param("id", id)
                 .query(this::toRestaurant)
                 .optional();
-    }
-
-    public List<Restaurant> findAll(int size, int offset) {
-        return jdbcClient.sql("SELECT * FROM restaurants LIMIT :size OFFSET :offset")
-                .param("size", size)
-                .param("offset", offset)
-                .query(this::toRestaurant)
-                .list();
     }
 
     public void update(JdbcRestaurantEntity entity) {
@@ -99,10 +90,10 @@ public class JdbcRestaurantRepository {
 
     public List<Restaurant> findAllByUserId(UUID userId, int size, int offset) {
         return jdbcClient.sql("""
-                SELECT * FROM restaurants
-                WHERE user_id = :user_id
-                LIMIT :size OFFSET :offset
-            """)
+                    SELECT * FROM restaurants
+                    WHERE user_id = :user_id
+                    LIMIT :size OFFSET :offset
+                """)
                 .param("user_id", userId)
                 .param("size", size)
                 .param("offset", offset)

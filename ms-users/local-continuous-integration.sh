@@ -97,7 +97,7 @@ else
 fi
 
 echo "🚀 Starting Docker Compose services..."
-docker compose up -d
+docker compose up --build -d
 
 echo "🧹 Cleaning up dangling Docker images..."
 docker image prune -f

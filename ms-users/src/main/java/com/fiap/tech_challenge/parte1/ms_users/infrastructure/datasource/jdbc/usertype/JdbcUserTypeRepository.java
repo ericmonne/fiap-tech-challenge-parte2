@@ -54,6 +54,9 @@ public class JdbcUserTypeRepository {
                 .param("description", jdbcUserTypeEntity.getDescription())
                 .update(keyHolder);
         Map<String, Object> keys = keyHolder.getKeys();
+        if( keys == null || keys.isEmpty() ) {
+            return null;
+        }
         Integer id = (Integer) Objects.requireNonNull(keys).get("id");
         return Long.valueOf(id.toString());
     }

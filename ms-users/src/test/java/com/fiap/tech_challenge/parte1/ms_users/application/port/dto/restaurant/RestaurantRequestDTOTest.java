@@ -148,7 +148,7 @@ class RestaurantRequestDTOTest {
 
     private Set<String> getViolationMessages(Set<ConstraintViolation<RestaurantRequestDTO>> violations) {
         return violations.stream()
-                .map(v -> v.getMessage())
+                .map(ConstraintViolation::getMessage)
                 .collect(Collectors.toSet());
     }
 }

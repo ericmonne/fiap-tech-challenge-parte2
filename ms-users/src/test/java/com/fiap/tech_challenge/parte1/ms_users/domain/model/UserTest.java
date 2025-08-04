@@ -135,7 +135,7 @@ class UserTest {
         user.setAddress(new ArrayList<>());
 
         // Act & Assert
-        assertThatThrownBy(() -> user.getMainAddress())
+        assertThatThrownBy(user::getMainAddress)
                 .isInstanceOf(IndexOutOfBoundsException.class);
     }
 
@@ -145,7 +145,7 @@ class UserTest {
         User user = new User();
 
         // Act & Assert
-        assertThatThrownBy(() -> user.getMainAddress())
+        assertThatThrownBy(user::getMainAddress)
                 .isInstanceOf(NullPointerException.class);
     }
 }

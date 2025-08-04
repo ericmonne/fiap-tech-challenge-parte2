@@ -26,6 +26,7 @@ public class FindMenuItemByIdUseCaseImpl implements FindMenuItemByIdUseCase {
      * @return the menu item as a response DTO
      * @throws MenuItemNotFoundException if no menu item is found with the given ID
      */
+    @Override
     public MenuItemResponseDTO execute(UUID id) {
         MenuItem menuItem = menuItemGateway.findById(id)
                 .orElseThrow(() -> new MenuItemNotFoundException(id));

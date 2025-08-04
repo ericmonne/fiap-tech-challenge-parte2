@@ -29,8 +29,8 @@ class UniqueMenuItemNameValidatorTest {
         UUID id1 = UUID.randomUUID();
         UUID id2 = UUID.randomUUID();
 
-        MenuItem menuItemToValidate = new MenuItem(id1, "Pizza", "yummy", new BigDecimal(15.0), true, "pizza.jpg", UUID.randomUUID());
-        MenuItem existingMenuItem = new MenuItem(id2, "Pizza", "yummy", new BigDecimal(15.0), true, "pizza.jpg", UUID.randomUUID());
+        MenuItem menuItemToValidate = new MenuItem(id1, "Pizza", "yummy", new BigDecimal("15.0"), true, "pizza.jpg", UUID.randomUUID());
+        MenuItem existingMenuItem = new MenuItem(id2, "Pizza", "yummy", new BigDecimal("15.0"), true, "pizza.jpg", UUID.randomUUID());
 
         when(menuItemGateway.findByName("Pizza")).thenReturn(Optional.of(existingMenuItem));
 
@@ -45,8 +45,8 @@ class UniqueMenuItemNameValidatorTest {
     void validate_shouldNotThrowException_whenMenuItemWithSameNameAndSameIdExists() {
         UUID id = UUID.randomUUID();
 
-        MenuItem menuItemToValidate = new MenuItem(id, "Pizza", "yummy", new BigDecimal(15.0), true, "pizza.jpg", UUID.randomUUID());
-        MenuItem existingMenuItem = new MenuItem(id, "Pizza", "yummy", new BigDecimal(15.0), true, "pizza.jpg", UUID.randomUUID());
+        MenuItem menuItemToValidate = new MenuItem(id, "Pizza", "yummy", new BigDecimal("15.0"), true, "pizza.jpg", UUID.randomUUID());
+        MenuItem existingMenuItem = new MenuItem(id, "Pizza", "yummy", new BigDecimal("15.0"), true, "pizza.jpg", UUID.randomUUID());
 
 
         when(menuItemGateway.findByName("Pizza")).thenReturn(Optional.of(existingMenuItem));
@@ -58,7 +58,7 @@ class UniqueMenuItemNameValidatorTest {
 
     @Test
     void validate_shouldNotThrowException_whenNoMenuItemWithSameNameExists() {
-        MenuItem menuItemToValidate = new MenuItem(UUID.randomUUID(), "Pizza", "yummy", new BigDecimal(15.0), true, "pizza.jpg", UUID.randomUUID());
+        MenuItem menuItemToValidate = new MenuItem(UUID.randomUUID(), "Pizza", "yummy", new BigDecimal("15.0"), true, "pizza.jpg", UUID.randomUUID());
 
         when(menuItemGateway.findByName("Pizza")).thenReturn(Optional.empty());
 

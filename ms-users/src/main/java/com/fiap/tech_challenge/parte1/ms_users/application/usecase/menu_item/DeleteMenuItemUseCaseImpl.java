@@ -23,6 +23,7 @@ public class DeleteMenuItemUseCaseImpl implements DeleteMenuItemUseCase {
      * @throws MenuItemNotFoundException if no menu item is found with the given ID
      */
     @Transactional
+    @Override
     public void execute(UUID id) {
         // First verify if the item exists
         if (!menuItemGateway.existsById(id)) {

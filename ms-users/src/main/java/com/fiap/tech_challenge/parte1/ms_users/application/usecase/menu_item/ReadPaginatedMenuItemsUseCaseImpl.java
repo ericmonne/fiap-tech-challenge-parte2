@@ -48,6 +48,7 @@ public class ReadPaginatedMenuItemsUseCaseImpl implements ReadPaginatedMenuItems
      * @return a PaginatedResponseDTO containing the list of menu items as response DTOs
      * within the given pagination window, along with pagination metadata
      */
+    @Override
     public PaginatedResponseDTO<MenuItemResponseDTO> execute(int size, int offset) {
         PaginatedResult<MenuItem> paginatedMenuItems = menuItemGateway.findPaginated(size, offset);
 

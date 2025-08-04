@@ -81,7 +81,7 @@ class CreateMenuItemUseCaseImplTest {
     }
 
     @Test
-    void execute_shouldThrowException_whenValidatorFails2() {
+    void execute_shouldThrowException_whenValidatorFails() {
         CreateMenuItemDTO dto = new CreateMenuItemDTO(
                 "Pizza",
                 "Delicious cheese pizza",

@@ -34,6 +34,7 @@ public class UpdateMenuItemUseCaseImpl implements UpdateMenuItemUseCase {
     }
 
     @Transactional
+    @Override
     public MenuItemResponseDTO execute(UUID id, UpdateMenuItemDTO dto) {
         MenuItem existingItem = menuItemGateway.findById(id)
                 .orElseThrow(() -> new MenuItemNotFoundException(id));

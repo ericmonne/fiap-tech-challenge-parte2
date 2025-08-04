@@ -96,7 +96,6 @@ class JdbcMenuItemDataSourceTest {
     }
 
 
-
     @Test
     void testSaveThrowsMenuItemPersistenceException() {
         // Arrange

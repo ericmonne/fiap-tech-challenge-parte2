@@ -1,6 +1,9 @@
 package com.fiap.tech_challenge.parte1.ms_users.application.controller;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.CreateMenuItemDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemResponseDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.MenuItemsByRestaurantRequestDTO;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.menu_item.UpdateMenuItemDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.paginated.PaginatedResponseDTO;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.menu_item.usecase.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,16 +26,25 @@ class MenuItemControllerInputPortImplTest {
     @InjectMocks
     private MenuItemControllerInputPortImpl controller;
 
-    @Mock private CreateMenuItemUseCase createMenuItemUseCase;
-    @Mock private FindMenuItemByIdUseCase findMenuItemByIdUseCase;
-    @Mock private ReadPaginatedMenuItemsUseCase readPaginatedMenuItemsUseCase;
-    @Mock private ReadAllMenuItemsUseCase readAllMenuItemsUseCase;
-    @Mock private UpdateMenuItemUseCase updateMenuItemUseCase;
-    @Mock private ChangeMenuItemAvailabilityUseCase changeMenuItemAvailabilityUseCase;
-    @Mock private DeleteMenuItemUseCase deleteMenuItemUseCase;
-    @Mock private FindMenuItemsByRestaurantIdUseCase findMenuItemsByRestaurantIdUseCase;
+    @Mock
+    private CreateMenuItemUseCase createMenuItemUseCase;
+    @Mock
+    private FindMenuItemByIdUseCase findMenuItemByIdUseCase;
+    @Mock
+    private ReadPaginatedMenuItemsUseCase readPaginatedMenuItemsUseCase;
+    @Mock
+    private ReadAllMenuItemsUseCase readAllMenuItemsUseCase;
+    @Mock
+    private UpdateMenuItemUseCase updateMenuItemUseCase;
+    @Mock
+    private ChangeMenuItemAvailabilityUseCase changeMenuItemAvailabilityUseCase;
+    @Mock
+    private DeleteMenuItemUseCase deleteMenuItemUseCase;
+    @Mock
+    private FindMenuItemsByRestaurantIdUseCase findMenuItemsByRestaurantIdUseCase;
 
     private final UUID id = UUID.randomUUID();
+
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);

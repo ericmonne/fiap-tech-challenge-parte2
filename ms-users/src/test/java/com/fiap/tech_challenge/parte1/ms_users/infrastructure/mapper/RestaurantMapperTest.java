@@ -73,7 +73,7 @@ class RestaurantMapperTest {
     }
 
     @Test
-    void shouldMapFromRequestToEntity(){
+    void shouldMapFromRequestToEntity() {
         UUID addressId = UUID.randomUUID();
         Address address = createAddress(addressId);
         List<OpeningHour> openingHourList = createOpeningoHourList();
@@ -146,7 +146,7 @@ class RestaurantMapperTest {
         return address;
     }
 
-    private static List<OpeningHour> createOpeningoHourList(){
+    private static List<OpeningHour> createOpeningoHourList() {
         List<OpeningHour> openingHourList = new ArrayList<>();
 
         OpeningHour openingHour1 = new OpeningHour();

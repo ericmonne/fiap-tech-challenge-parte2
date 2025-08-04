@@ -18,7 +18,7 @@ class UsersResponseDTOTest {
         String name = "John Doe";
         String email = "john.doe@example.com";
         String login = "johndoe";
-        
+
         List<AddressResponseDTO> addresses = new ArrayList<>();
         UUID addressId = UUID.randomUUID();
         AddressResponseDTO address = new AddressResponseDTO(
@@ -32,10 +32,10 @@ class UsersResponseDTOTest {
                 "NY"
         );
         addresses.add(address);
-        
+
         // Act
         UsersResponseDTO userResponse = new UsersResponseDTO(userId, name, email, login, addresses);
-        
+
         // Assert
         assertThat(userResponse.id()).isEqualTo(userId);
         assertThat(userResponse.name()).isEqualTo(name);
@@ -43,7 +43,7 @@ class UsersResponseDTOTest {
         assertThat(userResponse.login()).isEqualTo(login);
         assertThat(userResponse.address()).isEqualTo(addresses);
     }
-    
+
     @Test
     void testEqualsAndHashCode() {
         // Arrange
@@ -51,7 +51,7 @@ class UsersResponseDTOTest {
         String name = "John Doe";
         String email = "john.doe@example.com";
         String login = "johndoe";
-        
+
         List<AddressResponseDTO> addresses = new ArrayList<>();
         UUID addressId = UUID.randomUUID();
         AddressResponseDTO address = new AddressResponseDTO(
@@ -65,20 +65,20 @@ class UsersResponseDTOTest {
                 "NY"
         );
         addresses.add(address);
-        
+
         // Act
         UsersResponseDTO userResponse1 = new UsersResponseDTO(userId, name, email, login, addresses);
         UsersResponseDTO userResponse2 = new UsersResponseDTO(userId, name, email, login, addresses);
         UsersResponseDTO differentResponse = new UsersResponseDTO(userId, "Different Name", email, login, addresses);
-        
+
         // Assert
         assertThat(userResponse1).isEqualTo(userResponse2);
         assertThat(userResponse1.hashCode()).isEqualTo(userResponse2.hashCode());
-        
+
         assertThat(userResponse1).isNotEqualTo(differentResponse);
         assertThat(userResponse1.hashCode()).isNotEqualTo(differentResponse.hashCode());
     }
-    
+
     @Test
     void testToString() {
         // Arrange
@@ -86,7 +86,7 @@ class UsersResponseDTOTest {
         String name = "John Doe";
         String email = "john.doe@example.com";
         String login = "johndoe";
-        
+
         List<AddressResponseDTO> addresses = new ArrayList<>();
         UUID addressId = UUID.randomUUID();
         AddressResponseDTO address = new AddressResponseDTO(
@@ -100,10 +100,10 @@ class UsersResponseDTOTest {
                 "NY"
         );
         addresses.add(address);
-        
+
         // Act
         UsersResponseDTO userResponse = new UsersResponseDTO(userId, name, email, login, addresses);
-        
+
         // Assert
         String toString = userResponse.toString();
         assertThat(toString).contains("UsersResponseDTO");
@@ -113,7 +113,7 @@ class UsersResponseDTOTest {
         assertThat(toString).contains(login);
         assertThat(toString).contains(addresses.toString());
     }
-    
+
     @Test
     void testWithEmptyAddressList() {
         // Arrange
@@ -122,10 +122,10 @@ class UsersResponseDTOTest {
         String email = "john.doe@example.com";
         String login = "johndoe";
         List<AddressResponseDTO> emptyAddresses = new ArrayList<>();
-        
+
         // Act
         UsersResponseDTO userResponse = new UsersResponseDTO(userId, name, email, login, emptyAddresses);
-        
+
         // Assert
         assertThat(userResponse.id()).isEqualTo(userId);
         assertThat(userResponse.name()).isEqualTo(name);

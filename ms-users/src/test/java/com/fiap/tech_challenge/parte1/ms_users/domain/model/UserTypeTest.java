@@ -14,10 +14,10 @@ class UserTypeTest {
         String name = "Customer";
         String description = "Regular customer user";
         Boolean active = true;
-        
+
         // Act
         UserType userType = new UserType(name, description, active);
-        
+
         // Assert
         assertThat(userType.getName()).isEqualTo(name);
         assertThat(userType.getDescription()).isEqualTo(description);
@@ -26,12 +26,12 @@ class UserTypeTest {
         assertThat(userType.getUpdated()).isNotNull();
         assertThat(userType.getId()).isNull();
     }
-    
+
     @Test
     void testDefaultConstructor() {
         // Act
         UserType userType = new UserType();
-        
+
         // Assert
         assertThat(userType.getId()).isNull();
         assertThat(userType.getName()).isNull();
@@ -40,7 +40,7 @@ class UserTypeTest {
         assertThat(userType.getCreated()).isNull();
         assertThat(userType.getUpdated()).isNull();
     }
-    
+
     @Test
     void testGettersAndSetters() {
         // Arrange
@@ -51,7 +51,7 @@ class UserTypeTest {
         Boolean active = true;
         Date created = new Date();
         Date updated = new Date();
-        
+
         // Act
         userType.setId(id);
         userType.setName(name);
@@ -59,7 +59,7 @@ class UserTypeTest {
         userType.setActive(active);
         userType.setCreated(created);
         userType.setUpdated(updated);
-        
+
         // Assert
         assertThat(userType.getId()).isEqualTo(id);
         assertThat(userType.getName()).isEqualTo(name);
@@ -68,17 +68,17 @@ class UserTypeTest {
         assertThat(userType.getCreated()).isEqualTo(created);
         assertThat(userType.getUpdated()).isEqualTo(updated);
     }
-    
+
     @Test
     void testActiveDefaultValueInParameterizedConstructor() {
         // Arrange
         String name = "Staff";
         String description = "Staff member with limited access";
         Boolean active = false; // This should be overridden to true in constructor
-        
+
         // Act
         UserType userType = new UserType(name, description, active);
-        
+
         // Assert
         assertThat(userType.getActive()).isTrue(); // Should always be true regardless of input
     }

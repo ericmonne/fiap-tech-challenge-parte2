@@ -16,7 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List; import java.util.UUID; 
+import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +54,7 @@ class UsersControllerInputPortImplTest {
     void getById_shouldReturnUserResponseDTO() {
         UUID id = UUID.randomUUID();
         User user = new User();
-        List<AddressResponseDTO> addressResponseDTOList = List.of( new AddressResponseDTO(
+        List<AddressResponseDTO> addressResponseDTOList = List.of(new AddressResponseDTO(
                 UUID.randomUUID(), "12345", "Street", 100, "Comp", "Neighborhood", "City", "State"
         ));
         UsersResponseDTO response = new UsersResponseDTO(id, "name", "email", "login", addressResponseDTOList);
@@ -70,10 +71,10 @@ class UsersControllerInputPortImplTest {
 
     @Test
     void create_shouldRegisterUserAndReturnCreateUserDTO() {
-        List<AddressRequestDTO> addressRequestDTOList = List.of( new AddressRequestDTO("12345", "Street", 100, "Comp", "Neighborhood", "City", "State"));
+        List<AddressRequestDTO> addressRequestDTOList = List.of(new AddressRequestDTO("12345", "Street", 100, "Comp", "Neighborhood", "City", "State"));
         UsersRequestDTO dto = new UsersRequestDTO("name", "email", "login", "password", "OWNER", addressRequestDTOList);
         User user = new User();
-        List<AddressResponseDTO> addressResponseDTOList = List.of( new AddressResponseDTO(
+        List<AddressResponseDTO> addressResponseDTOList = List.of(new AddressResponseDTO(
                 UUID.randomUUID(), "12345", "Street", 100, "Comp", "Neighborhood", "City", "State"
         ));
         UsersResponseDTO response = new UsersResponseDTO(UUID.randomUUID(), "name", "email", "login", addressResponseDTOList);

@@ -41,6 +41,46 @@ class JdbcMenuItemRepositoryTest {
         assertDoesNotThrow(() -> jdbcMenuItemRepository.findByRestaurantId(new MenuItemsByRestaurantRequestDTO(UUID.randomUUID(), 10, 20)));
     }
 
+    @Test
+    void shouldFindAllPaginated() {
+        JdbcClient.MappedQuerySpec<MenuItem> mappedQuerySpec = getMenuItemMappedQuerySpec();
+        JdbcClient.MappedQuerySpec<Integer> integerMappedQuerySpec = getIntegerMappedQuerySpec();
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.query(MenuItem.class)).thenReturn(mappedQuerySpec);
+        when(statementSpec.query(Integer.class)).thenReturn(integerMappedQuerySpec);
+        assertDoesNotThrow(() -> jdbcMenuItemRepository.findAllPaginated(10, 20));
+    }
+
+    @Test
+    void shouldTestExistsById() {
+        JdbcClient.MappedQuerySpec<Integer> integerMappedQuerySpec = getIntegerMappedQuerySpec();
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.query(Integer.class)).thenReturn(integerMappedQuerySpec);
+        assertDoesNotThrow(() -> jdbcMenuItemRepository.existsById(UUID.randomUUID()));
+    }
+
+    @Test
+    void shouldSaveMenuItem() {
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.update()).thenReturn(1);
+        assertDoesNotThrow(() -> jdbcMenuItemRepository.save(new JdbcMenuItemEntity()));
+    }
+
+    @Test
+    void shouldUpdate() {
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.update()).thenReturn(1);
+        assertDoesNotThrow(() -> jdbcMenuItemRepository.update(new JdbcMenuItemEntity()));
+    }
+
     private JdbcClient.MappedQuerySpec<MenuItem> getMenuItemMappedQuerySpec() {
         return new JdbcClient.MappedQuerySpec<>() {
             @Override

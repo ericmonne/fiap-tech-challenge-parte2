@@ -83,9 +83,9 @@ public class MenuItem {
         this.restaurantId = restaurantId;
     }
 
-    //verificar necessidade de adicionar restaurantId
     public MenuItem withId(UUID id) {
         this.id = id;
         return new MenuItem(id, name, description, price, availableOnlyOnSite, imagePath, restaurantId);
     }
+
 }

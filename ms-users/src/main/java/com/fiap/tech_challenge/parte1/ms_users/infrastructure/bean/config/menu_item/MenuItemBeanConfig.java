@@ -8,6 +8,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemGateway;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.menu_item.MenuItemValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.usecase.menu_item.*;
+import com.fiap.tech_challenge.parte1.ms_users.domain.validator.MenuItemPriceValidator;
 import com.fiap.tech_challenge.parte1.ms_users.domain.validator.UniqueMenuItemNameValidator;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.menu_item.MenuItemGatewayImpl;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.menu_item.JdbcMenuItemDataSource;
@@ -42,7 +43,7 @@ public class MenuItemBeanConfig {
 
     @Bean
     public List<MenuItemValidator> registerMenuItemValidators(MenuItemGateway menuItemGateway) {
-        return List.of(new UniqueMenuItemNameValidator(menuItemGateway));
+        return List.of(new UniqueMenuItemNameValidator(menuItemGateway), new MenuItemPriceValidator());
     }
 
     @Bean

@@ -41,6 +41,7 @@ public class ReadAllMenuItemsUseCaseImpl implements ReadAllMenuItemsUseCase {
      *
      * @return a list of menu items as response DTOs
      */
+    @Override
     public List<MenuItemResponseDTO> execute() {
         try {
             List<MenuItem> menuItems = menuItemGateway.findAll();

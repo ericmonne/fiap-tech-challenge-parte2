@@ -39,7 +39,12 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
             addressGateway.updateUserAddress(addresses, user.getId());
         }
 
-        return userGateway.findById(user.getId()).orElseThrow(() -> new UserNotFoundException("User with id %s not found.".formatted(user.getId())));
+        User userEntityAfterUpdate = userGateway.findById(user.getId()).orElseThrow(() -> new UserNotFoundException("User with id %s not found.".formatted(user.getId())));
+
+        List<Address> addressList = addressGateway.findAllByUserId(user.getId());
+        userEntityAfterUpdate.setAddress(addressList);
+
+        return userEntityAfterUpdate;
     }
 
     private void userUpdateValidations(User user) {

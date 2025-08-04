@@ -26,7 +26,7 @@ public class UserMapper implements IUserMapper {
         this.iAddressMapper = iAddressMapper;
     }
 
-    /**
+    /*
      * Constructs a {@code UserMapper} with the specified {@link AddressMapper}.
      *
      * @param iAddressMapper the address mapper used to convert user addresses
@@ -70,7 +70,9 @@ public class UserMapper implements IUserMapper {
         jdbcUserEntity.setEmail(user.getEmail());
         jdbcUserEntity.setLogin(user.getLogin());
         jdbcUserEntity.setActive(user.getActive());
-        jdbcUserEntity.setUserTypeId(user.getUserType().getId());
+        if( user.getUserType() != null ) {
+            jdbcUserEntity.setUserTypeId(user.getUserType().getId());
+        }
         jdbcUserEntity.setPassword(user.getPassword());
         jdbcUserEntity.setDateLastChange(user.getDateLastChange());
 

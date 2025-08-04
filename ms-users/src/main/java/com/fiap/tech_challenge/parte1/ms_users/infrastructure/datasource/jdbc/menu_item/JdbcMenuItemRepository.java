@@ -23,6 +23,7 @@ public class JdbcMenuItemRepository {
     public List<MenuItem> findAll() {
         final String sql = """
                 SELECT
+                    id,
                     name,
                     description,
                     price,
@@ -41,6 +42,7 @@ public class JdbcMenuItemRepository {
     public PaginatedResult<MenuItem> findAllPaginated(int size, int offset) {
         final String sql = """
                          SELECT
+                             id,
                              name,
                              description,
                              price,
@@ -73,7 +75,6 @@ public class JdbcMenuItemRepository {
     }
 
 
-    @Transactional(propagation = Propagation.MANDATORY)
     public MenuItem save(JdbcMenuItemEntity jdbcMenuItemEntity) {
         UUID id = UUID.randomUUID();
         final String sql = """

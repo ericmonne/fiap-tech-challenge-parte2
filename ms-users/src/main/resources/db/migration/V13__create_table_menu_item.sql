@@ -6,7 +6,7 @@ CREATE TABLE menu_items(
     description VARCHAR(500) NOT NULL,
     price NUMERIC(12, 2) NOT NULL CHECK (price >= 0.01),
     available_only_on_site BOOLEAN NOT NULL,
-    image_path VARCHAR(255) NOT NULL CHECK (image_path ~* '\\.(jpg|jpeg|png|gif)$'),
+    image_path VARCHAR(255) NOT NULL,
     restaurant_id UUID NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),

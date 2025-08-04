@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -37,6 +38,34 @@ class JdbcUserRepositoryTest {
     }
 
     @Test
+    void shouldChangePassword() {
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.update()).thenReturn(1);
+        assertDoesNotThrow(() -> jdbcUserRepository.changePassword(UUID.randomUUID(), "newPassword"));
+    }
+
+    @Test
+    void shouldUpdateUser() {
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.update()).thenReturn(1);
+        assertDoesNotThrow(() -> jdbcUserRepository.update(new JdbcUserEntity()));
+    }
+
+    @Test
+    void shouldTestExistsById() {
+        JdbcClient.MappedQuerySpec<Integer> integerMappedQuerySpec = getIntegerMappedQuerySpec();
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.query(Integer.class)).thenReturn(integerMappedQuerySpec);
+        assertDoesNotThrow(() -> jdbcUserRepository.existsById(UUID.randomUUID()));
+    }
+
+    @Test
     void shouldFindUserByLogin() {
         JdbcClient.MappedQuerySpec<JdbcUserEntity> mappedQuerySpec = getAddressMappedQuerySpec();
         JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
@@ -44,6 +73,24 @@ class JdbcUserRepositoryTest {
         when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
         when(statementSpec.query(any(RowMapper.class))).thenReturn(mappedQuerySpec);
         assertDoesNotThrow(() -> jdbcUserRepository.findByLogin("login"));
+    }
+
+    @Test
+    void testReactivate() {
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.update()).thenReturn(1);
+        assertDoesNotThrow(() -> jdbcUserRepository.reactivate(UUID.randomUUID()));
+    }
+
+    @Test
+    void testDeactivate() {
+        JdbcClient.StatementSpec statementSpec = mock(JdbcClient.StatementSpec.class);
+        when(jdbcClient.sql(anyString())).thenReturn(statementSpec);
+        when(statementSpec.param(anyString(), any())).thenReturn(statementSpec);
+        when(statementSpec.update()).thenReturn(1);
+        assertDoesNotThrow(() -> jdbcUserRepository.deactivate(UUID.randomUUID()));
     }
 
     private JdbcClient.MappedQuerySpec<JdbcUserEntity> getAddressMappedQuerySpec() {
@@ -61,6 +108,30 @@ class JdbcUserRepositoryTest {
             @Override
             public Optional<JdbcUserEntity> optional() {
                 return Optional.of(new JdbcUserEntity());
+            }
+        };
+    }
+
+    private JdbcClient.MappedQuerySpec<Integer> getIntegerMappedQuerySpec() {
+        return new JdbcClient.MappedQuerySpec<>() {
+            @Override
+            public Stream<Integer> stream() {
+                return Stream.empty();
+            }
+
+            @Override
+            public List<Integer> list() {
+                return List.of(1);
+            }
+
+            @Override
+            public Optional<Integer> optional() {
+                return Optional.of(1);
+            }
+
+            @Override
+            public Integer single() {
+                return 1;
             }
         };
     }

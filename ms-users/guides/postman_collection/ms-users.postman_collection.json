@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ec5f38b8-8c1d-477a-96ea-3e221ac663df",
+		"_postman_id": "26e86b6b-5cd8-47a2-ba44-eebe4f309f99",
 		"name": "ms-users",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "45489944"
@@ -371,6 +371,21 @@
 							}
 						],
 						"url": "{{base_url}}/restaurants/{{restaurantId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "GET menu items by resturantId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/restaurants/{{restaurantId}}/menu-items"
 					},
 					"response": []
 				}

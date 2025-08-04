@@ -1,14 +1,45 @@
 {
 	"info": {
-		"_postman_id": "22a82219-de28-422a-83f8-8e9a9621e8cc",
+		"_postman_id": "ec5f38b8-8c1d-477a-96ea-3e221ac663df",
 		"name": "ms-users",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "38972353"
+		"_exporter_id": "45489944"
 	},
 	"item": [
 		{
 			"name": "USER",
 			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"pm.environment.set(\"jwt_token\", jsonData.tokenJWT);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"mickyj\",\n    \"password\": \"SenhaForte123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/users/login"
+					},
+					"response": []
+				},
 				{
 					"name": "POST users",
 					"event": [
@@ -111,7 +142,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Lucas Pereira\",\n  \"email\": \"lucas.pereira@email.com\",\n  \"login\": \"lucasp\",\n  \"address\": [\n    {\n      \"zipcode\": \"98765-432\",\n      \"street\": \"Rua das Palmeiras\",\n      \"number\": 112,\n      \"complement\": \"Apto 402\",\n      \"neighborhood\": \"Boa Vista\",\n      \"city\": \"São Paulo\",\n      \"state\": \"SP\"\n    }\n  ]\n}",
+							"raw": "{\n  \"name\": \"Lucas Pereira\",\n  \"email\": \"lucas.per234234eira@email.com\",\n  \"login\": \"luca234234sp\",\n  \"address\": [\n    {\n      \"zipcode\": \"98765-432\",\n      \"street\": \"Rua das Palmeiras\",\n      \"number\": 112,\n      \"complement\": \"Apto 402\",\n      \"neighborhood\": \"Boa Vista\",\n      \"city\": \"São Paulo\",\n      \"state\": \"SP\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -346,35 +377,345 @@
 			]
 		},
 		{
-			"name": "Login",
+			"name": "USER TYPE",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"// Protege contra erro se user ou tokenJWT estiverem ausentes",
+									"if (jsonData.id) {",
+									"    pm.environment.set(\"userTypeId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"9999\",\n\t\"description\": \"9999\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/usertypes"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"9999\",\n\t\"description\": \"9999\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/usertypes/{{userTypeId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/usertypes?size=10&offset=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usertypes"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/usertypes/{{userTypeId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate/Deactivate",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usertypes/{{userTypeId}}/activation?activate=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usertypes",
+								"{{userTypeId}}",
+								"activation"
+							],
+							"query": [
+								{
+									"key": "activate",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{authToken}}"
+				}
+			},
 			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
 				{
 					"listen": "test",
 					"script": {
-						"exec": [
-							"let jsonData = pm.response.json();",
-							"pm.environment.set(\"jwt_token\", jsonData.tokenJWT);"
-						],
 						"type": "text/javascript",
-						"packages": {}
+						"packages": {},
+						"exec": [
+							""
+						]
 					}
 				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"login\": \"mickyj\",\n    \"password\": \"SenhaForte123!\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			]
+		},
+		{
+			"name": "Menu Items - CRUD",
+			"item": [
+				{
+					"name": "Create Menu Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"if (jsonData.id) {",
+									"    pm.environment.set(\"menuItemId\", jsonData.id);",
+									"} else {",
+									"    console.warn(\"Resposta não contém 'id'\");",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
-					}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Pizza Margherita\",\n  \"description\": \"Delicious classic pizza with tomato and cheese\",\n  \"price\": 29.90,\n  \"availableOnlyOnSite\": true,\n  \"imagePath\": \"pizza.jpg\",\n  \"restaurantId\": \"{{restaurantId}}\"\n}"
+						},
+						"url": "{{base_url}}/menu-items"
+					},
+					"response": []
 				},
-				"url": "{{base_url}}/users/login"
-			},
-			"response": []
+				{
+					"name": "Get Menu Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": "{{base_url}}/menu-items/{{menuItemId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Menu Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": "{{base_url}}/menu-items/all"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Paginated Menu Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/menu-items?size=5&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"menu-items"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Menu Item",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Pizza Margherita Updated\",\n  \"description\": \"Updated description with fresh basil and premium mozzarella\",\n  \"price\": 34.99,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"updated_pizza.png\"\n}"
+						},
+						"url": "{{base_url}}/menu-items/{{menuItemId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Menu Item",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": "{{base_url}}/menu-items/{{menuItemId}}"
+					},
+					"response": []
+				}
+			],
+			"description": "Operações básicas de CRUD para itens do menu"
+		},
+		{
+			"name": "Menu Items - Availability",
+			"item": [
+				{
+					"name": "Change Availability",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "true"
+						},
+						"url": "{{base_url}}/menu-items/{{menuItemId}}/change-availability"
+					},
+					"response": []
+				}
+			],
+			"description": "Operações relacionadas à disponibilidade para pedir os itens do cardápio apenas no restaurante"
 		}
 	]
 }

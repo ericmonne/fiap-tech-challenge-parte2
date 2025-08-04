@@ -60,7 +60,8 @@ class DeleteMenuItemUseCaseImplTest {
         // Arrange
         UUID id = UUID.randomUUID();
         when(menuItemGateway.existsById(id)).thenReturn(true);
-        doThrow(new DataAccessException("Database error") {}).when(menuItemGateway).deleteById(id);
+        doThrow(new DataAccessException("Database error") {
+        }).when(menuItemGateway).deleteById(id);
 
         // Act & Assert
         DataAccessException thrown = assertThrows(DataAccessException.class,

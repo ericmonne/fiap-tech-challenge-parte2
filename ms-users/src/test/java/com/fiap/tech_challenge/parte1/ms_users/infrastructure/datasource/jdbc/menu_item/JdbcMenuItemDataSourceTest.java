@@ -85,16 +85,13 @@ class JdbcMenuItemDataSourceTest {
                 .thenThrow(new RuntimeException("Database error"));
 
         // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            dataSource.save(menuItem);
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> dataSource.save(menuItem));
 
         assertThat(exception).hasMessageContaining("Database error");
 
         verify(menuItemMapper).toJdbcMenuItemEntity(menuItem);
         verify(jdbcMenuItemRepository).save(jdbcEntity);
     }
-
 
 
     @Test

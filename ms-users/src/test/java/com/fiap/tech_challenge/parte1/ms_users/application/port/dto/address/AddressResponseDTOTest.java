@@ -19,11 +19,11 @@ class AddressResponseDTOTest {
         String neighborhood = "Downtown";
         String city = "New York";
         String state = "NY";
-        
+
         // Act
         AddressResponseDTO addressResponse = new AddressResponseDTO(
                 id, zipcode, street, number, complement, neighborhood, city, state);
-        
+
         // Assert
         assertThat(addressResponse.id()).isEqualTo(id);
         assertThat(addressResponse.zipcode()).isEqualTo(zipcode);
@@ -34,7 +34,7 @@ class AddressResponseDTOTest {
         assertThat(addressResponse.city()).isEqualTo(city);
         assertThat(addressResponse.state()).isEqualTo(state);
     }
-    
+
     @Test
     void testEqualsAndHashCode() {
         // Arrange
@@ -46,7 +46,7 @@ class AddressResponseDTOTest {
         String neighborhood = "Downtown";
         String city = "New York";
         String state = "NY";
-        
+
         // Act
         AddressResponseDTO addressResponse1 = new AddressResponseDTO(
                 id, zipcode, street, number, complement, neighborhood, city, state);
@@ -54,15 +54,14 @@ class AddressResponseDTOTest {
                 id, zipcode, street, number, complement, neighborhood, city, state);
         AddressResponseDTO differentAddress = new AddressResponseDTO(
                 id, zipcode, "Different Street", number, complement, neighborhood, city, state);
-        
+
         // Assert
         assertThat(addressResponse1).isEqualTo(addressResponse2);
-        assertThat(addressResponse1.hashCode()).isEqualTo(addressResponse2.hashCode());
-        
+        assertThat(addressResponse1).hasSameHashCodeAs(addressResponse2);
         assertThat(addressResponse1).isNotEqualTo(differentAddress);
         assertThat(addressResponse1.hashCode()).isNotEqualTo(differentAddress.hashCode());
     }
-    
+
     @Test
     void testToString() {
         // Arrange
@@ -74,11 +73,11 @@ class AddressResponseDTOTest {
         String neighborhood = "Downtown";
         String city = "New York";
         String state = "NY";
-        
+
         // Act
         AddressResponseDTO addressResponse = new AddressResponseDTO(
                 id, zipcode, street, number, complement, neighborhood, city, state);
-        
+
         // Assert
         String toString = addressResponse.toString();
         assertThat(toString).contains("AddressResponseDTO");
@@ -91,7 +90,7 @@ class AddressResponseDTOTest {
         assertThat(toString).contains(city);
         assertThat(toString).contains(state);
     }
-    
+
     @Test
     void testWithNullComplement() {
         // Arrange
@@ -103,11 +102,11 @@ class AddressResponseDTOTest {
         String neighborhood = "Downtown";
         String city = "New York";
         String state = "NY";
-        
+
         // Act
         AddressResponseDTO addressResponse = new AddressResponseDTO(
                 id, zipcode, street, number, complement, neighborhood, city, state);
-        
+
         // Assert
         assertThat(addressResponse.id()).isEqualTo(id);
         assertThat(addressResponse.zipcode()).isEqualTo(zipcode);

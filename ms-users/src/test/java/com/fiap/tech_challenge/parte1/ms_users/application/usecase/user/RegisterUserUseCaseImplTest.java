@@ -48,11 +48,11 @@ class RegisterUserUseCaseImplTest {
         tokenProvider = mock(TokenProvider.class);
         userMapper = mock(IUserMapper.class);
         userValidators = new ArrayList<>();
-        
+
         // Add a mock validator
         UserValidator validator = mock(UserValidator.class);
         userValidators.add(validator);
-        
+
         useCase = new RegisterUserUseCaseImpl(
                 userGateway,
                 userTypeGateway,
@@ -71,20 +71,20 @@ class RegisterUserUseCaseImplTest {
         String rawPassword = "password123";
         String encodedPassword = "encodedPassword";
         String token = "jwt.token.here";
-        
+
         User user = new User();
         user.setName("John Doe");
         user.setEmail("john.doe@example.com");
         user.setLogin("johndoe");
         user.setPassword(rawPassword);
-        
+
         UserType userType = new UserType();
         userType.setId(1L);
         userType.setName("CUSTOMER");
         userType.setDescription("Regular customer");
         userType.setActive(true);
         user.setUserType(userType);
-        
+
         List<Address> addresses = new ArrayList<>();
         Address address = new Address();
         address.setStreet("Main Street");
@@ -94,9 +94,9 @@ class RegisterUserUseCaseImplTest {
         address.setZipcode("12345-678");
         addresses.add(address);
         user.setAddress(addresses);
-        
+
         UsersResponseDTO responseDTO = mock(UsersResponseDTO.class);
-        
+
         when(passwordEncoder.encode(rawPassword)).thenReturn(encodedPassword);
         when(userTypeGateway.findByName("CUSTOMER")).thenReturn(Optional.of(userType));
         when(userGateway.createUser(any(User.class))).thenReturn(userId);
@@ -104,80 +104,80 @@ class RegisterUserUseCaseImplTest {
         when(addressGateway.findAllByUserId(userId)).thenReturn(addresses);
         when(userMapper.toResponseDTO(any(User.class))).thenReturn(responseDTO);
         when(tokenProvider.generateToken(anyString())).thenReturn(token);
-        
+
         // Act
         CreateUserDTO result = useCase.execute(user);
-        
+
         // Assert
         verify(userValidators.get(0)).validate(user);
         verify(passwordEncoder).encode(rawPassword);
         verify(userTypeGateway).findByName("CUSTOMER");
-        
+
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userGateway).createUser(userCaptor.capture());
         User capturedUser = userCaptor.getValue();
         assertThat(capturedUser.getPassword()).isEqualTo(encodedPassword);
-        
+
         verify(addressGateway).saveUserAddress(eq(addresses), eq(userId));
         verify(userGateway).findById(userId);
         verify(addressGateway).findAllByUserId(userId);
         verify(userMapper).toResponseDTO(user);
         verify(tokenProvider).generateToken(user.getLogin());
-        
+
         assertThat(result.user()).isEqualTo(responseDTO);
         assertThat(result.tokenJWT()).isEqualTo(token);
     }
-    
+
     @Test
     void execute_shouldThrowException_whenUserTypeNotFound() {
         // Arrange
         String rawPassword = "password123";
         String encodedPassword = "encodedPassword";
-        
+
         User user = new User();
         user.setName("John Doe");
         user.setEmail("john.doe@example.com");
         user.setLogin("johndoe");
         user.setPassword(rawPassword);
-        
+
         UserType userType = new UserType();
         userType.setName("NONEXISTENT_TYPE");
         user.setUserType(userType);
-        
+
         when(passwordEncoder.encode(rawPassword)).thenReturn(encodedPassword);
         when(userTypeGateway.findByName("NONEXISTENT_TYPE")).thenReturn(Optional.empty());
-        
+
         // Act & Assert
         assertThatThrownBy(() -> useCase.execute(user))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessageContaining("User type NONEXISTENT_TYPE not found");
-        
+
         verify(userValidators.get(0)).validate(user);
         verify(passwordEncoder).encode(rawPassword);
         verify(userTypeGateway).findByName("NONEXISTENT_TYPE");
         verify(userGateway, never()).createUser(any(User.class));
     }
-    
+
     @Test
     void execute_shouldThrowException_whenUserNotFoundAfterCreation() {
         // Arrange
         UUID userId = UUID.randomUUID();
         String rawPassword = "password123";
         String encodedPassword = "encodedPassword";
-        
+
         User user = new User();
         user.setName("John Doe");
         user.setEmail("john.doe@example.com");
         user.setLogin("johndoe");
         user.setPassword(rawPassword);
-        
+
         UserType userType = new UserType();
         userType.setId(1L);
         userType.setName("CUSTOMER");
         userType.setDescription("Regular customer");
         userType.setActive(true);
         user.setUserType(userType);
-        
+
         List<Address> addresses = new ArrayList<>();
         Address address = new Address();
         address.setStreet("Main Street");
@@ -187,17 +187,17 @@ class RegisterUserUseCaseImplTest {
         address.setZipcode("12345-678");
         addresses.add(address);
         user.setAddress(addresses);
-        
+
         when(passwordEncoder.encode(rawPassword)).thenReturn(encodedPassword);
         when(userTypeGateway.findByName("CUSTOMER")).thenReturn(Optional.of(userType));
         when(userGateway.createUser(any(User.class))).thenReturn(userId);
         when(userGateway.findById(userId)).thenReturn(Optional.empty());
-        
+
         // Act & Assert
         assertThatThrownBy(() -> useCase.execute(user))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessageContaining("User with id " + userId + " not found");
-        
+
         verify(userValidators.get(0)).validate(user);
         verify(passwordEncoder).encode(rawPassword);
         verify(userTypeGateway).findByName("CUSTOMER");
@@ -206,7 +206,7 @@ class RegisterUserUseCaseImplTest {
         verify(userGateway).findById(userId);
         verify(addressGateway, never()).findAllByUserId(any(UUID.class));
     }
-    
+
     @Test
     void execute_shouldPropagateExceptions_fromDependencies() {
         // Arrange
@@ -215,19 +215,19 @@ class RegisterUserUseCaseImplTest {
         user.setEmail("john.doe@example.com");
         user.setLogin("johndoe");
         user.setPassword("password123");
-        
+
         UserType userType = new UserType();
         userType.setName("CUSTOMER");
         user.setUserType(userType);
-        
+
         // Mock validator to throw exception
         doThrow(new RuntimeException("Validation error")).when(userValidators.get(0)).validate(user);
-        
+
         // Act & Assert
         assertThatThrownBy(() -> useCase.execute(user))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Validation error");
-        
+
         verify(userValidators.get(0)).validate(user);
         verify(passwordEncoder, never()).encode(anyString());
         verify(userTypeGateway, never()).findByName(anyString());

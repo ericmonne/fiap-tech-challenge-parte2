@@ -1,7 +1,7 @@
 package com.fiap.tech_challenge.parte1.ms_users.domain.model;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class UserTest {
 
     private UserType userType;
-    
+
     @BeforeEach
     void setUp() {
         userType = new UserType();
@@ -30,10 +30,10 @@ class UserTest {
         String email = "john.doe@example.com";
         String login = "johndoe";
         String password = "password123";
-        
+
         // Act
         User user = new User(name, email, login, password, userType);
-        
+
         // Assert
         assertThat(user.getName()).isEqualTo(name);
         assertThat(user.getEmail()).isEqualTo(email);
@@ -43,12 +43,12 @@ class UserTest {
         assertThat(user.getActive()).isTrue();
         assertThat(user.getUserType()).isEqualTo(userType);
     }
-    
+
     @Test
     void testDefaultConstructor() {
         // Act
         User user = new User();
-        
+
         // Assert
         assertThat(user.getId()).isNull();
         assertThat(user.getName()).isNull();
@@ -60,7 +60,7 @@ class UserTest {
         assertThat(user.getUserType()).isNull();
         assertThat(user.getAddress()).isNull();
     }
-    
+
     @Test
     void testGettersAndSetters() {
         // Arrange
@@ -72,7 +72,7 @@ class UserTest {
         String password = "securepass";
         Date dateLastChange = new Date();
         Boolean active = true;
-        
+
         // Act
         user.setId(id);
         user.setName(name);
@@ -82,7 +82,7 @@ class UserTest {
         user.setDateLastChange(dateLastChange);
         user.setActive(active);
         user.setUserType(userType);
-        
+
         // Assert
         assertThat(user.getId()).isEqualTo(id);
         assertThat(user.getName()).isEqualTo(name);
@@ -93,13 +93,13 @@ class UserTest {
         assertThat(user.getActive()).isEqualTo(active);
         assertThat(user.getUserType()).isEqualTo(userType);
     }
-    
+
     @Test
     void testAddressManagement() {
         // Arrange
         User user = new User();
         List<Address> addresses = new ArrayList<>();
-        
+
         Address address1 = new Address();
         address1.setId(UUID.randomUUID());
         address1.setStreet("Main Street");
@@ -107,7 +107,7 @@ class UserTest {
         address1.setCity("New York");
         address1.setState("NY");
         address1.setZipcode("10001");
-        
+
         Address address2 = new Address();
         address2.setId(UUID.randomUUID());
         address2.setStreet("Second Street");
@@ -115,37 +115,37 @@ class UserTest {
         address2.setCity("Los Angeles");
         address2.setState("CA");
         address2.setZipcode("90001");
-        
+
         addresses.add(address1);
         addresses.add(address2);
-        
+
         // Act
         user.setAddress(addresses);
-        
+
         // Assert
         assertThat(user.getAddress()).isEqualTo(addresses);
         assertThat(user.getAddresses()).isEqualTo(addresses);
         assertThat(user.getMainAddress()).isEqualTo(address1);
     }
-    
+
     @Test
     void testGetMainAddress_shouldThrowException_whenNoAddressesExist() {
         // Arrange
         User user = new User();
         user.setAddress(new ArrayList<>());
-        
+
         // Act & Assert
-        assertThatThrownBy(() -> user.getMainAddress())
+        assertThatThrownBy(user::getMainAddress)
                 .isInstanceOf(IndexOutOfBoundsException.class);
     }
-    
+
     @Test
     void testGetMainAddress_shouldThrowException_whenAddressIsNull() {
         // Arrange
         User user = new User();
-        
+
         // Act & Assert
-        assertThatThrownBy(() -> user.getMainAddress())
+        assertThatThrownBy(user::getMainAddress)
                 .isInstanceOf(NullPointerException.class);
     }
 }

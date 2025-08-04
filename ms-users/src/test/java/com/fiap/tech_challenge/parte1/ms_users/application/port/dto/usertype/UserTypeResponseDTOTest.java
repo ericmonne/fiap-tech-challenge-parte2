@@ -13,17 +13,17 @@ class UserTypeResponseDTOTest {
         String name = "CUSTOMER";
         String description = "Regular customer user";
         Boolean active = true;
-        
+
         // Act
         UserTypeResponseDTO userTypeResponse = new UserTypeResponseDTO(id, name, description, active);
-        
+
         // Assert
         assertThat(userTypeResponse.id()).isEqualTo(id);
         assertThat(userTypeResponse.name()).isEqualTo(name);
         assertThat(userTypeResponse.description()).isEqualTo(description);
         assertThat(userTypeResponse.active()).isEqualTo(active);
     }
-    
+
     @Test
     void testEqualsAndHashCode() {
         // Arrange
@@ -31,20 +31,20 @@ class UserTypeResponseDTOTest {
         String name = "CUSTOMER";
         String description = "Regular customer user";
         Boolean active = true;
-        
+
         // Act
         UserTypeResponseDTO userTypeResponse1 = new UserTypeResponseDTO(id, name, description, active);
         UserTypeResponseDTO userTypeResponse2 = new UserTypeResponseDTO(id, name, description, active);
         UserTypeResponseDTO differentResponse = new UserTypeResponseDTO(id, "ADMIN", description, active);
-        
+
         // Assert
         assertThat(userTypeResponse1).isEqualTo(userTypeResponse2);
         assertThat(userTypeResponse1.hashCode()).isEqualTo(userTypeResponse2.hashCode());
-        
+
         assertThat(userTypeResponse1).isNotEqualTo(differentResponse);
         assertThat(userTypeResponse1.hashCode()).isNotEqualTo(differentResponse.hashCode());
     }
-    
+
     @Test
     void testToString() {
         // Arrange
@@ -52,10 +52,10 @@ class UserTypeResponseDTOTest {
         String name = "CUSTOMER";
         String description = "Regular customer user";
         Boolean active = true;
-        
+
         // Act
         UserTypeResponseDTO userTypeResponse = new UserTypeResponseDTO(id, name, description, active);
-        
+
         // Assert
         String toString = userTypeResponse.toString();
         assertThat(toString).contains("UserTypeResponseDTO");
@@ -64,7 +64,7 @@ class UserTypeResponseDTOTest {
         assertThat(toString).contains(description);
         assertThat(toString).contains(active.toString());
     }
-    
+
     @Test
     void testWithInactiveStatus() {
         // Arrange
@@ -72,10 +72,10 @@ class UserTypeResponseDTOTest {
         String name = "CUSTOMER";
         String description = "Regular customer user";
         Boolean active = false;
-        
+
         // Act
         UserTypeResponseDTO userTypeResponse = new UserTypeResponseDTO(id, name, description, active);
-        
+
         // Assert
         assertThat(userTypeResponse.id()).isEqualTo(id);
         assertThat(userTypeResponse.name()).isEqualTo(name);

@@ -34,33 +34,33 @@ class UpdateUserTypeUseCaseImplTest {
         String name = "CUSTOMER";
         String description = "Updated customer description";
         Boolean active = true;
-        
+
         UserType userType = new UserType();
         userType.setId(id);
         userType.setName(name);
         userType.setDescription(description);
         userType.setActive(active);
-        
+
         UserTypeResponseDTO responseDTO = new UserTypeResponseDTO(id, name, description, active);
-        
+
         when(userTypeGateway.findById(id)).thenReturn(Optional.of(userType));
         when(userTypeMapper.toUserTypeResponseDto(userType)).thenReturn(responseDTO);
-        
+
         // Act
         UserTypeResponseDTO result = useCase.execute(userType);
-        
+
         // Assert
         verify(userTypeGateway, times(2)).findById(id); // Called before and after update
         verify(userTypeGateway).update(userType);
         verify(userTypeMapper).toUserTypeResponseDto(userType);
-        
+
         assertThat(result).isEqualTo(responseDTO);
         assertThat(result.id()).isEqualTo(id);
         assertThat(result.name()).isEqualTo(name);
         assertThat(result.description()).isEqualTo(description);
         assertThat(result.active()).isEqualTo(active);
     }
-    
+
     @Test
     void execute_shouldThrowException_whenUserTypeNotFoundBeforeUpdate() {
         // Arrange
@@ -68,25 +68,25 @@ class UpdateUserTypeUseCaseImplTest {
         String name = "CUSTOMER";
         String description = "Updated customer description";
         Boolean active = true;
-        
+
         UserType userType = new UserType();
         userType.setId(id);
         userType.setName(name);
         userType.setDescription(description);
         userType.setActive(active);
-        
+
         when(userTypeGateway.findById(id)).thenReturn(Optional.empty());
-        
+
         // Act & Assert
         assertThatThrownBy(() -> useCase.execute(userType))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("User type not found");
-        
+
         verify(userTypeGateway).findById(id);
         verify(userTypeGateway, never()).update(any(UserType.class));
         verify(userTypeMapper, never()).toUserTypeResponseDto(any(UserType.class));
     }
-    
+
     @Test
     void execute_shouldThrowException_whenUserTypeNotFoundAfterUpdate() {
         // Arrange
@@ -94,43 +94,43 @@ class UpdateUserTypeUseCaseImplTest {
         String name = "CUSTOMER";
         String description = "Updated customer description";
         Boolean active = true;
-        
+
         UserType userType = new UserType();
         userType.setId(id);
         userType.setName(name);
         userType.setDescription(description);
         userType.setActive(active);
-        
+
         // First findById returns the user type, second findById returns empty
         when(userTypeGateway.findById(id))
                 .thenReturn(Optional.of(userType))
                 .thenReturn(Optional.empty());
-        
+
         // Act & Assert
         assertThatThrownBy(() -> useCase.execute(userType))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("User type not found");
-        
+
         verify(userTypeGateway, times(2)).findById(id);
         verify(userTypeGateway).update(userType);
         verify(userTypeMapper, never()).toUserTypeResponseDto(any(UserType.class));
     }
-    
+
     @Test
     void execute_shouldPropagateExceptions_fromDependencies() {
         // Arrange
         Long id = 1L;
         UserType userType = new UserType();
         userType.setId(id);
-        
+
         // Mock gateway to throw exception
         when(userTypeGateway.findById(id)).thenThrow(new RuntimeException("Database error"));
-        
+
         // Act & Assert
         assertThatThrownBy(() -> useCase.execute(userType))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Database error");
-        
+
         verify(userTypeGateway).findById(id);
         verify(userTypeGateway, never()).update(any(UserType.class));
         verify(userTypeMapper, never()).toUserTypeResponseDto(any(UserType.class));

@@ -1,13 +1,11 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.usertype;
 
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
-import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.user.JdbcUserEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.KeyHolder;
 

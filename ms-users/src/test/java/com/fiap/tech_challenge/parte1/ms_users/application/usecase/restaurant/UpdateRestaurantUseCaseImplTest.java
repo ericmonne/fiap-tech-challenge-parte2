@@ -23,7 +23,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -107,9 +106,7 @@ class UpdateRestaurantUseCaseImplTest {
 
         when(restaurantGateway.existsById(restaurantId)).thenReturn(false);
 
-        RestaurantNotFoundException exception = assertThrows(RestaurantNotFoundException.class, () -> {
-            updateRestaurantUseCase.execute(restaurantId, userId, restaurant);
-        });
+        RestaurantNotFoundException exception = assertThrows(RestaurantNotFoundException.class, () -> updateRestaurantUseCase.execute(restaurantId, userId, restaurant));
 
         assertEquals("Restaurante não encontrado", exception.getMessage());
         verify(restaurantGateway).existsById(restaurantId);
@@ -126,9 +123,7 @@ class UpdateRestaurantUseCaseImplTest {
         when(restaurantGateway.existsById(restaurantId)).thenReturn(true);
         when(restaurantGateway.isRestaurantOwnedByUser(restaurantId, userId)).thenReturn(false);
 
-        ForbiddenOperationException exception = assertThrows(ForbiddenOperationException.class, () -> {
-            updateRestaurantUseCase.execute(restaurantId, userId, restaurant);
-        });
+        ForbiddenOperationException exception = assertThrows(ForbiddenOperationException.class, () -> updateRestaurantUseCase.execute(restaurantId, userId, restaurant));
 
         assertEquals("Você não tem permissão para atualizar este restaurante.", exception.getMessage());
         verify(restaurantGateway).existsById(restaurantId);

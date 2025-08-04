@@ -16,11 +16,11 @@ class AddressRequestDTOTest {
         String neighborhood = "Downtown";
         String city = "New York";
         String state = "NY";
-        
+
         // Act
         AddressRequestDTO addressRequest = new AddressRequestDTO(
                 zipcode, street, number, complement, neighborhood, city, state);
-        
+
         // Assert
         assertThat(addressRequest.zipcode()).isEqualTo(zipcode);
         assertThat(addressRequest.street()).isEqualTo(street);
@@ -30,7 +30,7 @@ class AddressRequestDTOTest {
         assertThat(addressRequest.city()).isEqualTo(city);
         assertThat(addressRequest.state()).isEqualTo(state);
     }
-    
+
     @Test
     void testEqualsAndHashCode() {
         // Arrange
@@ -41,7 +41,7 @@ class AddressRequestDTOTest {
         String neighborhood = "Downtown";
         String city = "New York";
         String state = "NY";
-        
+
         // Act
         AddressRequestDTO addressRequest1 = new AddressRequestDTO(
                 zipcode, street, number, complement, neighborhood, city, state);
@@ -49,15 +49,14 @@ class AddressRequestDTOTest {
                 zipcode, street, number, complement, neighborhood, city, state);
         AddressRequestDTO differentAddress = new AddressRequestDTO(
                 zipcode, "Different Street", number, complement, neighborhood, city, state);
-        
+
         // Assert
         assertThat(addressRequest1).isEqualTo(addressRequest2);
-        assertThat(addressRequest1.hashCode()).isEqualTo(addressRequest2.hashCode());
-        
+        assertThat(addressRequest1).hasSameHashCodeAs(addressRequest2);
         assertThat(addressRequest1).isNotEqualTo(differentAddress);
         assertThat(addressRequest1.hashCode()).isNotEqualTo(differentAddress.hashCode());
     }
-    
+
     @Test
     void testToString() {
         // Arrange
@@ -68,11 +67,11 @@ class AddressRequestDTOTest {
         String neighborhood = "Downtown";
         String city = "New York";
         String state = "NY";
-        
+
         // Act
         AddressRequestDTO addressRequest = new AddressRequestDTO(
                 zipcode, street, number, complement, neighborhood, city, state);
-        
+
         // Assert
         String toString = addressRequest.toString();
         assertThat(toString).contains("AddressRequestDTO");
@@ -84,7 +83,7 @@ class AddressRequestDTOTest {
         assertThat(toString).contains(city);
         assertThat(toString).contains(state);
     }
-    
+
     @Test
     void testWithNullComplement() {
         // Arrange
@@ -95,11 +94,11 @@ class AddressRequestDTOTest {
         String neighborhood = "Downtown";
         String city = "New York";
         String state = "NY";
-        
+
         // Act
         AddressRequestDTO addressRequest = new AddressRequestDTO(
                 zipcode, street, number, complement, neighborhood, city, state);
-        
+
         // Assert
         assertThat(addressRequest.zipcode()).isEqualTo(zipcode);
         assertThat(addressRequest.street()).isEqualTo(street);
@@ -109,7 +108,7 @@ class AddressRequestDTOTest {
         assertThat(addressRequest.city()).isEqualTo(city);
         assertThat(addressRequest.state()).isEqualTo(state);
     }
-    
+
     @Test
     void testWithDifferentStateFormats() {
         // Arrange
@@ -119,15 +118,15 @@ class AddressRequestDTOTest {
         String complement = "Apt 4B";
         String neighborhood = "Downtown";
         String city = "New York";
-        
+
         // Act - with lowercase state
         AddressRequestDTO addressRequest1 = new AddressRequestDTO(
                 zipcode, street, number, complement, neighborhood, city, "ny");
-        
+
         // Act - with uppercase state
         AddressRequestDTO addressRequest2 = new AddressRequestDTO(
                 zipcode, street, number, complement, neighborhood, city, "NY");
-        
+
         // Assert
         assertThat(addressRequest1).isNotEqualTo(addressRequest2);
         assertThat(addressRequest1.state()).isEqualTo("ny");

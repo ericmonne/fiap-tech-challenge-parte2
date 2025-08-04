@@ -4,6 +4,7 @@ import com.fiap.tech_challenge.parte1.ms_users.application.port.dto.usertype.Use
 import com.fiap.tech_challenge.parte1.ms_users.application.port.input.usertype.UpdateUserTypeUseCase;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.usertype.IUserTypeMapper;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.usertype.UserTypeGateway;
+import com.fiap.tech_challenge.parte1.ms_users.domain.exception.UserTypeNotFoundException;
 import com.fiap.tech_challenge.parte1.ms_users.domain.model.UserType;
 
 public class UpdateUserTypeUseCaseImpl implements UpdateUserTypeUseCase {
@@ -18,8 +19,8 @@ public class UpdateUserTypeUseCaseImpl implements UpdateUserTypeUseCase {
 
     @Override
     public UserTypeResponseDTO execute(UserType userType) {
-        userTypeGateway.findById(userType.getId()).orElseThrow(() -> new RuntimeException("User type not found"));
+        userTypeGateway.findById(userType.getId()).orElseThrow(() -> new UserTypeNotFoundException("User type not found"));
         this.userTypeGateway.update(userType);
-        return iUserTypeMapper.toUserTypeResponseDto(userTypeGateway.findById(userType.getId()).orElseThrow(() -> new RuntimeException("User type not found")));
+        return iUserTypeMapper.toUserTypeResponseDto(userTypeGateway.findById(userType.getId()).orElseThrow(() -> new UserTypeNotFoundException("User type not found")));
     }
 }

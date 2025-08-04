@@ -170,7 +170,7 @@ public class JdbcMenuItemRepository {
         int size = restaurantRequestDTO.size();
         int offset = restaurantRequestDTO.offset();
         final String sql = """
-                SELECT name, description, price, available_only_on_site, image_path, restaurant_id
+                SELECT id, name, description, price, available_only_on_site, image_path, restaurant_id
                 FROM menu_items
                 WHERE restaurant_id = :restaurant_id
                 ORDER BY name

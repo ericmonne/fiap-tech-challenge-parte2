@@ -1,0 +1,1191 @@
+{
+  "info": {
+    "name": "Menu Items - Error Scenarios",
+    "description": "Cenarios de erro para itens do menu",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "restaurantId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "menuItemId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "nonExistingMenuItemId",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "type": "string"
+    },
+    {
+      "key": "nonExistingRestaurantId",
+      "value": "99999999-9999-9999-9999-999999999999",
+      "type": "string"
+    },
+    {
+      "key": "invalidToken",
+      "value": "invalid.token.here",
+      "type": "string"
+    },
+    {
+      "key": "customerToken",
+      "value": "",
+      "description": "Token de cliente com permissões limitadas",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "404 - Not Found - Recurso Não Encontrado",
+      "description": "Cenários de erro para recursos que não existem",
+      "item": [
+        {
+          "name": "Buscar Item Inexistente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{nonExistingMenuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{nonExistingMenuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 404 para item não encontrado\", function() {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de item não encontrado\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('Menu item not found with id');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atualizar Item Inexistente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Item Atualizado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{nonExistingMenuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{nonExistingMenuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 404 ao tentar atualizar item inexistente\", function() {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Excluir Item Inexistente",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{nonExistingMenuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{nonExistingMenuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 404 ao tentar excluir item inexistente\", function() {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Restaurante Inexistente ao Criar Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Item em Restaurante Inexistente\",\n  \"description\": \"Este item referencia um restaurante que não existe\",\n  \"price\": 15.0,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"item.jpg\",\n  \"restaurantId\": \"{{nonExistingRestaurantId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 404 ao criar item com restaurante inexistente\", function() {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de restaurante não encontrado\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('Restaurant not found with id');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar Itens de Restaurante Inexistente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/restaurant/{{nonExistingRestaurantId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "restaurant",
+                "{{nonExistingRestaurantId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 404 ao buscar itens de restaurante inexistente\", function() {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "400 - Bad Request - Erros de Validação",
+      "description": "Cenários de erro relacionados a dados inválidos na requisição",
+      "item": [
+        {
+          "name": "Criar Item - Nome Vazio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"description\": \"Descrição do item\",\n  \"price\": 15.5,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"item.jpg\",\n  \"restaurantId\": \"{{restaurantId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 400\", function() {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Deve retornar erro de validação para nome vazio\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('fieldErrors');",
+                  "    pm.expect(jsonData.fieldErrors).to.have.property('name');",
+                  "    pm.expect(jsonData.fieldErrors.name).to.include('must have between 3 and 100 characters');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Criar Item - Preço Negativo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Item com preço inválido\",\n  \"description\": \"Descrição do item\",\n  \"price\": -10.0,\n  \"availableOnlyOnSite\": true,\n  \"imagePath\": \"item.jpg\",\n  \"restaurantId\": \"{{restaurantId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 400\", function() {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Deve retornar erro de validação para preço negativo\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('fieldErrors');",
+                  "    pm.expect(jsonData.fieldErrors).to.have.property('price');",
+                  "    pm.expect(jsonData.fieldErrors.price).to.include('must be greater than 0');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Criar Item - Formato de Imagem Inválido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Item com imagem inválida\",\n  \"description\": \"Descrição do item\",\n  \"price\": 25.0,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"arquivo.pdf\",\n  \"restaurantId\": \"{{restaurantId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 400\", function() {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Deve retornar erro de validação para formato de imagem inválido\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('fieldErrors');",
+                  "    pm.expect(jsonData.fieldErrors).to.have.property('imagePath');",
+                  "    pm.expect(jsonData.fieldErrors.imagePath).to.include('must be a JPG, JPEG, PNG, or GIF file');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar Itens - Paginação Inválida",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items?page=-1&size=0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "-1"
+                },
+                {
+                  "key": "size",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 400 para paginação inválida\", function() {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de erro para parâmetros de paginação inválidos\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('must be greater than or equal to 0');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atualizar Item - Nenhum Campo para Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}\n"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 400 para atualização sem campos\", function() {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de erro para atualização sem campos\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('At least one field must be provided for update');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "401 - Unauthorized - Autenticação Falhou",
+      "description": "Cenários de erro relacionados a problemas de autenticação",
+      "item": [
+        {
+          "name": "Acesso sem Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 401 para acesso sem token\", function() {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de erro para autenticação falha\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('Full authentication is required');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Token Inválido",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{invalidToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 401 para token inválido\", function() {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de token inválido\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('Invalid token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Token Expirado",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRva2VuIEV4cGlyYWRvIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.9XJ7fI9XzJ9XJ7fI9XzJ9XJ7fI9XzJ9XJ7fI9XzJ9"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 401 para token expirado\", function() {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de token expirado\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('JWT expired');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "403 - Forbidden - Acesso Negado",
+      "description": "Cenários de erro relacionados a permissões insuficientes",
+      "item": [
+        {
+          "name": "Cliente Tentando Criar Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Item Não Autorizado\",\n  \"description\": \"Cliente tentando criar item\",\n  \"price\": 10.0,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"item.jpg\",\n  \"restaurantId\": \"{{restaurantId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 403 para acesso não autorizado\", function() {",
+                  "    pm.response.to.have.status(403);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de acesso negado\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('Access Denied');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cliente Tentando Atualizar Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Item Atualizado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 403 para atualização não autorizada\", function() {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cliente Tentando Excluir Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 403 para exclusão não autorizada\", function() {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "405 - Method Not Allowed",
+      "description": "Cenários de erro para métodos HTTP não permitidos",
+      "item": [
+        {
+          "name": "Método PUT em /menu-items (deve ser POST)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Item Teste\",\"description\":\"Descrição\",\"price\":10.50,\"availableOnlyOnSite\":true,\"imagePath\":\"/img/item.jpg\",\"restaurantId\":\"{{restaurantId}}\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 405 para método não permitido\", function() {",
+                  "    pm.response.to.have.status(405);",
+                  "});",
+                  "pm.test(\"Deve retornar header Allow com métodos permitidos\", function() {",
+                  "    pm.expect(pm.response.headers.get(\"Allow\")).to.include(\"POST\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Método PATCH em /menu-items/{id} (não suportado)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Item Atualizado\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 405 para método PATCH não suportado\", function() {",
+                  "    pm.response.to.have.status(405);",
+                  "});",
+                  "pm.test(\"Deve retornar header Allow com métodos permitidos\", function() {",
+                  "    const allowedMethods = pm.response.headers.get(\"Allow\");",
+                  "    pm.expect(allowedMethods).to.include(\"GET\");",
+                  "    pm.expect(allowedMethods).to.include(\"PUT\");",
+                  "    pm.expect(allowedMethods).to.include(\"DELETE\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Método POST em /menu-items/{id} (deve ser PUT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Item Atualizado\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 405 para método não permitido\", function() {",
+                  "    pm.response.to.have.status(405);",
+                  "});",
+                  "pm.test(\"Deve retornar header Allow com métodos permitidos\", function() {",
+                  "    const allowedMethods = pm.response.headers.get(\"Allow\");",
+                  "    pm.expect(allowedMethods).to.include(\"GET\");",
+                  "    pm.expect(allowedMethods).to.include(\"PUT\");",
+                  "    pm.expect(allowedMethods).to.include(\"DELETE\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Método POST em /menu-items/{id}/change-availability (deve ser PUT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "false"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}/change-availability",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menuItemId}}",
+                "change-availability"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 405 para método não permitido\", function() {",
+                  "    pm.response.to.have.status(405);",
+                  "});",
+                  "pm.test(\"Deve retornar header Allow com método PUT\", function() {",
+                  "    pm.expect(pm.response.headers.get(\"Allow\")).to.include(\"PUT\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Método PUT em /menu-items/all (não suportado)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "all"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 405 para método não permitido\", function() {",
+                  "    pm.response.to.have.status(405);",
+                  "});",
+                  "pm.test(\"Deve retornar header Allow com método GET\", function() {",
+                  "    pm.expect(pm.response.headers.get(\"Allow\")).to.include(\"GET\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Create Menu Item - Already Exists (409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Coxinha\",\n  \"description\": \"Coxinha de frango com catupiry\",\n  \"price\": 7.5,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"coxinha.png\",\n  \"restaurantId\": \"{{restaurantId}}\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/menu-items",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "menu-items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Menu Item - Not Found (404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/menu-items/{{nonExistingMenuItemId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "menu-items",
+            "{{nonExistingMenuItemId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Menu Item - Persistence Error (500)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Item Inv\\u00e1lido\",\n  \"description\": \"Este item tem erro proposital para testar persist\\u00eancia\",\n  \"price\": 10.0,\n  \"availableOnlyOnSite\": true,\n  \"imagePath\": \"item.jpg\",\n  \"restaurantId\": \"00000000-0000-0000-0000-000000000000\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/menu-items",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "menu-items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Menu Item - Read Error (500)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/menu-items/erro-leitura",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "menu-items",
+            "erro-leitura"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "409 - Conflict - Conflito de Recursos",
+      "description": "Cenários de erro relacionados a conflitos de recursos",
+      "item": [
+        {
+          "name": "Criar Item com Nome Duplicado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Item Duplicado\",\n  \"description\": \"Item com nome já existente\",\n  \"price\": 15.5,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"item.jpg\",\n  \"restaurantId\": \"{{restaurantId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 409 para item duplicado\", function() {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test(\"Deve retornar mensagem de conflito\", function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData.message).to.include('already exists');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atualizar Item para Nome Duplicado",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Item Duplicado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menuItemId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code é 409 ao tentar atualizar para nome duplicado\", function() {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,73 +1,166 @@
 package com.fiap.tech_challenge.parte1.ms_users.infrastructure.bean.config.restaurant;
 
-import com.fiap.tech_challenge.parte1.ms_users.application.port.mapper.restaurant.IRestaurantMapper;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.restaurant.*;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.restaurant.controller.RestaurantControllerInputPort;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.FindByIdUserUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.input.user.GetUserIdByLoginUseCase;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.address.AddressGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openinghour.OpeningHourGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.openinghour.OpeningHourValidator;
 import com.fiap.tech_challenge.parte1.ms_users.application.port.output.restaurant.RestaurantDataSource;
-import com.fiap.tech_challenge.parte1.ms_users.domain.model.Restaurant;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.restaurant.RestaurantGateway;
+import com.fiap.tech_challenge.parte1.ms_users.application.port.output.user.UserGateway;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.adapter.gateway.restaurant.RestaurantGatewayImpl;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant.JdbcRestaurantDataSource;
 import com.fiap.tech_challenge.parte1.ms_users.infrastructure.datasource.jdbc.restaurant.JdbcRestaurantRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.AddressMapper;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.OpeningHourMapper;
+import com.fiap.tech_challenge.parte1.ms_users.infrastructure.mapper.RestaurantMapper;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 
-@ExtendWith(MockitoExtension.class)
 class RestaurantBeanConfigTest {
 
-    @Mock
-    private JdbcRestaurantRepository jdbcRestaurantRepository;
+    private final RestaurantBeanConfig config = new RestaurantBeanConfig();
 
-    @Mock
-    private IRestaurantMapper restaurantMapper;
+    @Test
+    void testRegisterRestaurantDataSource() {
+        JdbcRestaurantRepository repo = mock(JdbcRestaurantRepository.class);
+        RestaurantMapper mapper = new RestaurantMapper(new AddressMapper(), new OpeningHourMapper());
 
-    @Mock
-    private RestaurantDataSource restaurantDataSource;
+        RestaurantDataSource dataSource = config.registerRestaurantDataSource(repo, mapper);
 
-    private RestaurantGatewayImpl restaurantGateway;
-
-    @BeforeEach
-    void setUp() {
-        restaurantGateway = new RestaurantGatewayImpl(restaurantDataSource);
+        assertNotNull(dataSource);
+        assertInstanceOf(JdbcRestaurantDataSource.class, dataSource);
     }
 
     @Test
-    void testSaveShouldCallDataSourceAndReturnRestaurantId() {
-        Restaurant restaurant = mock(Restaurant.class);
-        UUID expectedId = UUID.randomUUID();
-        when(restaurantDataSource.createRestaurant(restaurant)).thenReturn(expectedId);
+    void testRegisterRestaurantGateway() {
+        RestaurantDataSource dataSource = mock(RestaurantDataSource.class);
 
-        UUID resultId = restaurantGateway.createRestaurant(restaurant);
+        RestaurantGateway gateway = config.registerRestaurantGateway(dataSource);
 
-        assertThat(resultId).isEqualTo(expectedId);
-        verify(restaurantDataSource).createRestaurant(restaurant);
+        assertNotNull(gateway);
+        assertInstanceOf(RestaurantGatewayImpl.class, gateway);
     }
 
     @Test
-    void testFindByIdShouldCallDataSourceAndReturnRestaurant() {
-        UUID restaurantId = UUID.randomUUID();
-        Restaurant expectedRestaurant = mock(Restaurant.class);
-        when(restaurantDataSource.findById(restaurantId))
-                .thenReturn(Optional.of(expectedRestaurant));
+    void testRegisterGetUserIdByLoginUseCase() {
+        UserGateway userGateway = mock(UserGateway.class);
 
-        Optional<Restaurant> result = restaurantGateway.findById(restaurantId);
+        GetUserIdByLoginUseCase useCase = config.registerGetUserIdByLoginUseCase(userGateway);
 
-        assertThat(result).isPresent().contains(expectedRestaurant);
-        verify(restaurantDataSource).findById(restaurantId);
+        assertNotNull(useCase);
     }
 
     @Test
-    void testDeleteShouldCallDataSource() {
-        UUID restaurantId = UUID.randomUUID();
-        doNothing().when(restaurantDataSource).delete(restaurantId);
+    void testRegisterRestaurantControllerInputPort() {
+        FindByIdRestaurantUseCase findById = mock(FindByIdRestaurantUseCase.class);
+        FindAllByUserIdRestaurantUseCase findAllByUserId = mock(FindAllByUserIdRestaurantUseCase.class);
+        RegisterRestaurantUseCase registerUseCase = mock(RegisterRestaurantUseCase.class);
+        UpdateRestaurantUseCase updateUseCase = mock(UpdateRestaurantUseCase.class);
+        DeleteRestaurantUseCase deleteUseCase = mock(DeleteRestaurantUseCase.class);
+        FindByIdUserUseCase findByIdUserUseCase = mock(FindByIdUserUseCase.class);
+        GetUserIdByLoginUseCase getUserIdByLoginUseCase = mock(GetUserIdByLoginUseCase.class);
+        RestaurantMapper mapper = new RestaurantMapper(new AddressMapper(), new OpeningHourMapper());
 
-        restaurantGateway.delete(restaurantId);
+        RestaurantControllerInputPort controllerInputPort = config.registerRestaurantControllerInputPort(
+                findById,
+                findAllByUserId,
+                registerUseCase,
+                updateUseCase,
+                deleteUseCase,
+                findByIdUserUseCase,
+                getUserIdByLoginUseCase,
+                mapper
+        );
 
-        verify(restaurantDataSource).delete(restaurantId);
+        assertNotNull(controllerInputPort);
+    }
+
+    @Test
+    void testRegisterDeleteRestaurantUseCase() {
+        RestaurantGateway gateway = mock(RestaurantGateway.class);
+
+        DeleteRestaurantUseCase useCase = config.registerDeleteRestaurantUseCase(gateway);
+
+        assertNotNull(useCase);
+    }
+
+    @Test
+    void testRegisterFindAllByUserIdRestaurantUseCase() {
+        RestaurantGateway restaurantGateway = mock(RestaurantGateway.class);
+        AddressGateway addressGateway = mock(AddressGateway.class);
+        OpeningHourGateway openingHourGateway = mock(OpeningHourGateway.class);
+        RestaurantMapper mapper = new RestaurantMapper(new AddressMapper(), new OpeningHourMapper());
+
+        FindAllByUserIdRestaurantUseCase useCase = config.registerFindAllByUserIdRestaurantUseCase(
+                restaurantGateway,
+                addressGateway,
+                openingHourGateway,
+                mapper
+        );
+
+        assertNotNull(useCase);
+    }
+
+    @Test
+    void testRegisterFindByIdRestaurantUseCase() {
+        RestaurantGateway restaurantGateway = mock(RestaurantGateway.class);
+        AddressGateway addressGateway = mock(AddressGateway.class);
+        OpeningHourGateway openingHourGateway = mock(OpeningHourGateway.class);
+        RestaurantMapper mapper = new RestaurantMapper(new AddressMapper(), new OpeningHourMapper());
+
+        FindByIdRestaurantUseCase useCase = config.registerFindByIdRestaurantUseCase(
+                restaurantGateway,
+                addressGateway,
+                openingHourGateway,
+                mapper
+        );
+
+        assertNotNull(useCase);
+    }
+
+    @Test
+    void testRegisterRegisterRestaurantUseCase() {
+        RestaurantGateway restaurantGateway = mock(RestaurantGateway.class);
+        AddressGateway addressGateway = mock(AddressGateway.class);
+        OpeningHourGateway openingHourGateway = mock(OpeningHourGateway.class);
+        RestaurantMapper mapper = new RestaurantMapper(new AddressMapper(), new OpeningHourMapper());
+        List<OpeningHourValidator> validators = List.of();
+
+        RegisterRestaurantUseCase useCase = config.registerRegisterRestaurantUseCase(
+                restaurantGateway,
+                addressGateway,
+                openingHourGateway,
+                mapper,
+                validators
+        );
+
+        assertNotNull(useCase);
+    }
+
+    @Test
+    void testRegisterUpdateRestaurantUseCase() {
+        RestaurantGateway restaurantGateway = mock(RestaurantGateway.class);
+        AddressGateway addressGateway = mock(AddressGateway.class);
+        OpeningHourGateway openingHourGateway = mock(OpeningHourGateway.class);
+        RestaurantMapper mapper = new RestaurantMapper(new AddressMapper(), new OpeningHourMapper());
+        List<OpeningHourValidator> validators = List.of();
+
+        UpdateRestaurantUseCase useCase = config.registerUpdateRestaurantUseCase(
+                restaurantGateway,
+                addressGateway,
+                openingHourGateway,
+                mapper,
+                validators
+        );
+
+        assertNotNull(useCase);
     }
 }

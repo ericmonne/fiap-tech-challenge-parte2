@@ -82,7 +82,7 @@ public class JdbcUserRepository {
     public boolean emailAlreadyExistsForDifferentUsers(String email, UUID userId) {
         return jdbcClient.sql("""
                             SELECT 1 FROM users
-                            WHERE email = :login AND id <> :id
+                            WHERE email = :email AND id <> :id
                             LIMIT 1
                         """)
                 .param("email", email)

@@ -1,334 +1,120 @@
-# 🧩 ms-users
+# Tech Challenge 2 - Sistema de Gestão para Restaurantes
 
-Este projeto é um microsserviço backend desenvolvido em Spring Boot, responsável pelo gerenciamento de usuários dentro da arquitetura do sistema proposto no Tech Challenge - Fase 1 da FIAP.
+## 📌 Descrição do Problema
 
-A aplicação tem como objetivo oferecer suporte ao cadastro, atualização, exclusão, autenticação e validação de usuários, permitindo operações fundamentais para o sistema compartilhado de gestão de restaurantes da região. O backend foi estruturado para ser modular, escalável e seguro, atendendo aos critérios de boas práticas de desenvolvimento.
+Na região, um grupo de restaurantes decidiu se unir para desenvolver um sistema de gestão compartilhada, visando reduzir os altos custos de soluções individuais. Com isso, os clientes poderão escolher os restaurantes pela qualidade da comida, não pela tecnologia usada. A entrega do sistema será feita em fases, permitindo melhorias contínuas com base no uso real e no feedback dos usuários.
 
----
+## 🎯 Objetivo do Projeto
 
-## 📦 Tecnologias utilizadas
+O projeto busca criar um sistema centralizado e robusto para gerenciamento dos restaurantes e interação com os clientes. Nesta fase, serão implementadas:
 
-- Java 17
-- Spring Boot 3.4.4
-- PostgreSQL
-- Flyway (migração de banco de dados)
-- Spring Security
-- JWT (Java Web Token)
-- Docker
-- Docker Compose
-- Maven
+- Gestão de tipos de usuários  
+- Cadastro de restaurantes  
+- Cadastro de itens para o menu  
+- Aplicação de boas práticas de código limpo  
+- Integração com testes automatizados, documentação e uso de Docker para facilitar a execução e implantação do sistema
 
 ---
 
-## 🚀 Executando localmente
+## 🏛️ Arquitetura do Sistema
 
-### Pré-requisitos
+O projeto segue os princípios da **Clean Architecture**, promovendo desacoplamento, testabilidade e flexibilidade. As principais camadas são:
 
-- Docker
-- Docker Compose
+- **Domain**: entidades e regras de negócio  
+- **Application**: casos de uso (use cases)  
+- **Infrastructure**: persistência de dados, integrações externas  
+- **API Routes**: endpoints expostos via HTTP  
 
-### Variáveis de ambiente
-
-É necessário criar um arquivo ".env" na pasta ms-users, com o acesso ao banco de dados:
-
-```
-DB_USER=
-DB_PASS=
-```
-
-Como o sistema será executado localmente, não há credencial fixa para o projeto. 
-
-### Subindo os serviços
-
-```bash
-docker compose up --build
-```
+A aplicação utiliza **Spring Boot**, mas está preparada para permitir substituições tecnológicas sem impactos nas regras de negócio.
 
 ---
 
-## 🧪 Executando testes
+## **Pré-requisitos**
 
-Você pode executar os testes unitários manualmente com:
+Antes de começar, certifique-se de que as seguintes ferramentas estão instaladas e configuradas corretamente em sua máquina local:
 
-```bash
-docker run --rm -v $(pwd):/app -w /app -v $HOME/.m2:/root/.m2 maven:3.9.6-eclipse-temurin-17 mvn test
-```
+1. **Minikube**: Utilizado para criar e gerenciar um cluster Kubernetes local.  
+   - Instalação do Minikube: [Guia de Instalação do Minikube](https://minikube.sigs.k8s.io/docs/)
 
-Ou usando o script de CI local (explicado abaixo).
+2. **kubectl**: Ferramenta de linha de comando para interagir com seu cluster Kubernetes.  
+   - Instalação do kubectl: [Guia de Instalação do kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
----
+3. **Docker**: Utilizado para construir e enviar imagens Docker.  
+   - Instalação do Docker: [Guia de Instalação do Docker](https://docs.docker.com/get-docker/)
 
-## 🛠️ Scripts de automação
-
-### `local-continuous-integration.sh`
-
-Este script realiza um processo completo de CI local:
-
-- Para os serviços com Docker Compose
-- Executa os testes automatizados com Maven
-- Constrói a imagem Docker com versionamento semântico
-- Sobe novamente os serviços
-
-#### Uso
-
-```bash
-./local-continuous-integration.sh [patch|minor|major] [--skip-tests] [--no-cache]
-```
-
-- `patch`, `minor`, `major`: nível de incremento de versão (padrão: `patch`)
-- `--skip-tests`: pula os testes Maven
-- `--no-cache`: força build do Maven sem cache local (`~/.m2`)
+4. **Imagem Docker do PostgreSQL**: Utilizaremos a imagem oficial do PostgreSQL.
 
 ---
 
-### `app-build.sh`
+## 🧪 Cobertura de Testes
 
-Script responsável por gerar novas imagens Docker com controle de versão semântico:
+O projeto adota uma estratégia de testes bem definida, composta por diferentes níveis de validação automatizada do sistema:
 
-- Detecta a última versão existente (ex: `0.1.5`)
-- Incrementa a versão com base no parâmetro (patch/minor/major)
-- Gera imagem com nova tag + `latest`
+### ✅ Testes Unitários
 
-#### Uso:
+Foram implementados testes unitários com foco nas **regras de negócio**, com o objetivo de atingir pelo menos **80% de cobertura de código**. Esses testes validam o comportamento de métodos isolados, sem dependências externas, garantindo precisão e robustez na lógica central do sistema.
 
-```bash
-./app-build.sh [patch|minor|major]
-```
+### 🔗 Testes de Integração
+
+Além dos testes unitários, foram desenvolvidos **testes de integração** para verificar o funcionamento conjunto entre os componentes do sistema — como as camadas **Application**, **Infrastructure**, e o **banco de dados**.
 
 ---
 
-## 🐘 Banco de Dados
+## ✅ Validação da Cobertura
 
-- PostgreSQL
-- Flyway é usado para migração automática de scripts SQL.
-- Scripts de versão ficam em: `src/main/resources/db/migration`
+A cobertura dos testes é monitorada com o auxílio do **JaCoCo**, que gera relatórios em formato HTML após a execução da suíte de testes.
 
 ---
 
-## 🔒 Autenticação
+## 🌐 Endpoints da API
 
-- Utiliza JWT (`com.auth0:java-jwt`)
-- Spring Security gerencia endpoints seguros
+### 🔐 Tipos de Usuário (`/usertypes`)
 
----
-
-## 🧪 Testes
-
-- Testes com Spring Boot Test, JUnit
-- Banco de dados H2 em memória usado para testes
-- Dependência de teste:
-
-```xml
-<dependency>
-  <groupId>com.h2database</groupId>
-  <artifactId>h2</artifactId>
-  <scope>test</scope>
-</dependency>
-```
+| Método | Descrição | Autorização |
+|--------|-----------|-------------|
+| GET    | Lista tipos de usuário | Autenticado |
+| POST   | Cria novo tipo de usuário | OWNER |
+| GET `/id` | Retorna tipo específico | Autenticado |
+| PUT `/id` | Atualiza tipo existente | OWNER |
+| PATCH `/id?activate=` | Ativa/desativa tipo | OWNER |
 
 ---
 
-## 📄 Documentação e Testes - Postman
+### 🍽️ Restaurantes (`/restaurants`)
 
-Todos os endpoints da API estão documentados seguindo boas práticas REST.
-
-Arquivos de coleções do Postman estão disponíveis para testar os endpoints([Coleção Postman - MS-USERS](./ms-users/guides/postman_collection/ms-users.postman_collection.json)).
-
-Assim como as configurações de ambiente([Ambiente Postman - MS-USERS](./ms-users/guides/postman_collection/MS-USERS.postman_environment.json)).
-
----
-
-## 🐳 Docker
-
-Imagens Docker seguem o padrão de versionamento semântico:
-
-- `tech-challenge-fiap-01:0.0.1`, `tech-challenge-fiap-01:latest`, etc.
-
-Scripts automatizados cuidam da construção e versionamento.
+| Método | Descrição | Autorização |
+|--------|-----------|-------------|
+| GET    | Lista restaurantes | Autenticado |
+| POST   | Cria novo restaurante | OWNER |
+| GET `/id` | Retorna restaurante por ID | Autenticado |
+| PUT `/id` | Atualiza restaurante | OWNER |
+| PATCH `/id?activate=` | Ativa/desativa restaurante | OWNER |
 
 ---
 
-## 🧹 Limpeza de imagens antigas
+### 📋 Itens do Cardápio (`/menu-items`)
 
-O CI local remove automaticamente imagens **dangling**:
-
-```bash
-docker image prune -f
-```
-
----
-
-## 🧪 Endpoints
-
-Base path: `/users`
+| Método | Descrição | Autorização |
+|--------|-----------|-------------|
+| GET    | Lista itens de um restaurante | Autenticado |
+| POST   | Cria item no cardápio (com imagem) | OWNER |
+| PUT `/id` | Atualiza item existente | OWNER |
+| DELETE `/id` | Remove item do cardápio | OWNER |
 
 ---
 
-## 🔹 GET `/users/{id}`
+## ⚙️ Tecnologias e Ferramentas
 
-### 📥 Path Parameter:
-- `id` (UUID): ID do usuário.
-
-### 📤 Response:
-- **200 OK**: `UsersResponseDTO`
-```json
-{
-  "id": "UUID",
-  "name": "string",
-  "email": "string",
-  "login": "string",
-  "role": "OWNER | CLIENT",
-  "address": []
-}
-```
+| Ferramenta | Finalidade |
+|------------|------------|
+| **Spring Boot** | Framework principal |
+| **H2 Database** | Banco em memória para testes |
+| **Springdoc OpenAPI** | Geração de documentação Swagger |
+| **JUnit 5 + AssertJ + Mockito** | Testes unitários |
+| **Cucumber + Gherkin** | Testes BDD |
+| **Allure** | Relatórios de testes |
+| **Rest-Assured** | Testes de API |
+| **Jacoco** | Cobertura de testes |
+| **Docker** | Containerização da aplicação |
 
 ---
-
-## 🔹 GET `/users?size={size}&page={page}`
-
-### 📥 Query Parameters:
-- `size` (int): Número de usuários por página.
-- `page` (int): Número da página.
-
-### 📤 Response:
-- **200 OK**: `List<UsersResponseDTO>`
-
----
-
-## 🔹 POST `/users`
-
-### 📥 Request Body: `UsersRequestDTO`
-```json
-{
-  "name": "string",
-  "email": "string",
-  "login": "string",
-  "password": "string",
-  "role": "OWNER | CLIENT",
-  "address": [
-    {
-      "zipcode": "string",
-      "street": "string",
-      "number": 123,
-      "complement": "optional",
-      "neighborhood": "string",
-      "city": "string",
-      "state": "SP"
-    }
-  ]
-}
-```
-
-### 📤 Response:
-- **200 OK**: `CreateUserDTO`
-```json
-{
-  "user": {
-    "id": "UUID",
-    "name": "string",
-    "email": "string",
-    "login": "string",
-    "role": "OWNER | CLIENT",
-    "address": []
-  },
-  "tokenJWT": "string"
-}
-```
-
----
-
-## 🔹 POST `/users/login`
-
-### 📥 Request Body: `AuthenticationDataDTO`
-```json
-{
-  "login": "string",
-  "password": "string"
-}
-```
-
-### 📤 Response:
-- **200 OK**: `TokenJWTInfoDTO`
-```json
-{
-  "tokenJWT": "string"
-}
-```
-
----
-
-## 🔹 PATCH `/users/{id}?activate={true|false}`
-
-### 📥 Path Parameter:
-- `id` (UUID)
-
-### 📥 Query Parameter:
-- `activate` (boolean)
-
-### 📤 Response:
-- **200 OK**:
-    - `"Usuário ativado com sucesso!"` ou `"Usuário desativado com sucesso!"`
-
----
-
-## 🔹 PATCH `/users/{id}/password`
-
-### 📥 Path Parameter:
-- `id` (UUID)
-
-### 📥 Request Body: `ChangePasswordRequestDTO`
-```json
-{
-  "oldPassword": "string",
-  "newPassword": "string"
-}
-```
-
-### 📤 Response:
-- **200 OK**: `"Senha alterada com sucesso!"`
-
----
-
-## 🔹 PUT `/users/{id}`
-
-### 📥 Path Parameter:
-- `id` (UUID)
-
-### 📥 Request Body: `UpdateUserDTO`
-```json
-{
-  "name": "string",
-  "email": "string",
-  "login": "string",
-  "address": [
-    {
-      "zipcode": "string",
-      "street": "string",
-      "number": 123,
-      "complement": "optional",
-      "neighborhood": "string",
-      "city": "string",
-      "state": "SP"
-    }
-  ]
-}
-```
-
-### 📤 Response:
-- **200 OK**: `UsersResponseDTO`
-
----
-
-## 📄 Licença
-
-Este projeto é parte de um desafio educacional da FIAP. Uso livre para fins acadêmicos.
-
-## Java Docs
-
-[Documentação Java Docs](https://anacarolcortez.github.io/tech-challenge-fiap-parte1/)
-
-## Open API
-
-Após executar o sistema localmente, via Docker, é possível acessar a documentação das APIs também pelo Open API, em adição ao Postman.
-O link de acesso é:
-http://localhost:8080/swagger-ui/index.html

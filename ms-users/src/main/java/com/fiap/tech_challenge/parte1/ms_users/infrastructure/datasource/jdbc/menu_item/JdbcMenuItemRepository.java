@@ -48,7 +48,6 @@ public class JdbcMenuItemRepository {
                              image_path
                          FROM
                              menu_items
-                         ;
                  LIMIT :size
                  OFFSET :offset
                 """;

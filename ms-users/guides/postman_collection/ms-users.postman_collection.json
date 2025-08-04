@@ -296,7 +296,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Madonna\",\r\n  \"email\": \"madonna@email.com\",\r\n  \"login\": \"madonna\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"role\": \"OWNER\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"name\": \"Madonna\",\r\n  \"email\": \"madonna@email.com\",\r\n  \"login\": \"madonna\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"userType\": \"OWNER\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -363,7 +363,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Mick Jagger\",\r\n  \"email\": \"micky@email.com\",\r\n  \"login\": \"mickyj\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"role\": \"OWNER\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
+					"raw": "{\r\n  \"name\": \"Mick Jagger\",\r\n  \"email\": \"micky@email.com\",\r\n  \"login\": \"mickyj\",\r\n  \"password\": \"SenhaForte123!\",\r\n  \"userType\": \"OWNER\",\r\n  \"address\": [\r\n    {\r\n      \"zipcode\": \"12345-678\",\r\n      \"street\": \"Av. Brasil\",\r\n      \"number\": 250,\r\n      \"complement\": \"Casa 1\",\r\n      \"neighborhood\": \"Centro\",\r\n      \"city\": \"Rio de Janeiro\",\r\n      \"state\": \"RJ\"\r\n    }\r\n  ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

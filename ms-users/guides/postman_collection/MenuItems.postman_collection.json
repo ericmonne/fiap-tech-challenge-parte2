@@ -1,0 +1,196 @@
+{
+  "info": {
+    "name": "Menu Items API",
+    "description": "API para gerenciamento de itens do cardápio do restaurante. Esta coleção contém todos os endpoints necessários para operações CRUD completas em itens do menu, incluindo gerenciamento de disponibilidade apenas no restaurante.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "d12a0c52-a2c0-49ef-8611-7a8b8d379fbd"
+  },
+  "item": [
+    {
+      "name": "Menu Items - CRUD",
+      "description": "Operações básicas de CRUD para itens do menu",
+      "item": [
+        {
+          "name": "Create Menu Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pizza Margherita\",\n  \"description\": \"Delicious classic pizza with tomato and cheese\",\n  \"price\": 29.90,\n  \"availableOnlyOnSite\": true,\n  \"imagePath\": \"pizza.jpg\",\n  \"restaurantId\": \"{{restaurantId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items",
+              "host": ["{{baseUrl}}"],
+              "path": ["menu-items"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Menu Item by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["menu-items", "{{menuItemId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Menu Items",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["menu-items", "all"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Paginated Menu Items",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items?size=5&offset=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["menu-items"],
+              "query": [
+                { "key": "size", "value": "5" },
+                { "key": "offset", "value": "0" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Menu Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pizza Margherita Updated\",\n  \"description\": \"Updated description with fresh basil and premium mozzarella\",\n  \"price\": 34.99,\n  \"availableOnlyOnSite\": false,\n  \"imagePath\": \"updated_pizza.png\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["menu-items", "{{menuItemId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Menu Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["menu-items", "{{menuItemId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Menu Items - Availability",
+      "description": "Operações relacionadas à disponibilidade para pedir os itens do cardápio apenas no restaurante",
+      "item": [
+        {
+          "name": "Change Availability",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "false"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/menu-items/{{menuItemId}}/change-availability",
+              "host": ["{{baseUrl}}"],
+              "path": ["menu-items", "{{menuItemId}}", "change-availability"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          "// Testes básicos para todas as respostas",
+          "pm.test(\"Status code is 2xx\", function() {\n            pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);\n          });"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string",
+      "description": "URL base da API"
+    },
+    {
+      "key": "authToken",
+      "value": "seu_token_aqui",
+      "type": "string",
+      "description": "Token de autenticação JWT"
+    },
+    {
+      "key": "restaurantId",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "type": "string",
+      "description": "ID do restaurante para testes"
+    },
+    {
+      "key": "menuItemId",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "type": "string",
+      "description": "ID do item do menu para testes"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  }
+}
+
+

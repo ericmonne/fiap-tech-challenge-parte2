@@ -68,15 +68,28 @@ A cobertura dos testes é monitorada com o auxílio do **JaCoCo**, que gera rela
 
 ## 🌐 Endpoints da API
 
+### 👤 Usuários (`/users`)
+
+| **Método**                | **Descrição**                    | **Autorização**     |
+|---------------------------|----------------------------------|---------------------|
+| GET `/users?page=1&size=5` | Lista todos os usuários         | Todos os usuários   |
+| POST `/users`             | Cria novo usuário                | Todos os usuários   |
+| GET `/users/{{id}}`         | Retorna usuário por ID           | Todos os usuários   |
+| PUT `/users/{{id}}`              | Atualiza dados do usuário   |     ADMIN           |
+| PATCH `/users/{{id}}?activate=`   | Ativa/desativa usuário     |       ADMIN         |
+| PATCH `/users/{{id}}/password` | Trocar a senha                 |   Autenticado       |
+
+---
+
 ### 🔐 Tipos de Usuário (`/usertypes`)
 
 | Método | Descrição | Autorização |
 |--------|-----------|-------------|
-| GET    | Lista tipos de usuário | Autenticado |
-| POST   | Cria novo tipo de usuário | OWNER |
-| GET `/id` | Retorna tipo específico | Autenticado |
-| PUT `/id` | Atualiza tipo existente | OWNER |
-| PATCH `/id?activate=` | Ativa/desativa tipo | OWNER |
+| GET `/usertypes?size=10&offset=1` | Lista tipos de usuário | Todos os usuários  |
+| POST `/usertypes` | Cria novo tipo de usuário | ADMIN |
+| GET `/usertypes/{{userTypeId}}` | Retorna tipo específico | Todos os usuários  |
+| PUT `/usertypes/{{userTypeId}}` | Atualiza tipo existente | ADMIN |
+| PATCH `/usertypes/{{userTypeId}}/activation?activate=` | Ativa/desativa tipo | ADMIN |
 
 ---
 
@@ -84,11 +97,11 @@ A cobertura dos testes é monitorada com o auxílio do **JaCoCo**, que gera rela
 
 | Método | Descrição | Autorização |
 |--------|-----------|-------------|
-| GET    | Lista restaurantes | Autenticado |
-| POST   | Cria novo restaurante | OWNER |
-| GET `/id` | Retorna restaurante por ID | Autenticado |
-| PUT `/id` | Atualiza restaurante | OWNER |
-| PATCH `/id?activate=` | Ativa/desativa restaurante | OWNER |
+| GET `/restaurants?page=1&size=5` | Lista restaurantes | Todos os usuários |
+| POST `/restaurants` | Cria novo restaurante | OWNER |
+| GET `/restaurants/{{restaurantId}}` | Retorna restaurante por ID | Todos os usuários |
+| PUT `/restaurants/{{restaurantId}}` | Atualiza restaurante | OWNER |
+| DELETE  `/restaurants/{{restaurantId}}` | Deletar restaurante | OWNER |
 
 ---
 
@@ -96,10 +109,10 @@ A cobertura dos testes é monitorada com o auxílio do **JaCoCo**, que gera rela
 
 | Método | Descrição | Autorização |
 |--------|-----------|-------------|
-| GET    | Lista itens de um restaurante | Autenticado |
-| POST   | Cria item no cardápio (com imagem) | OWNER |
-| PUT `/id` | Atualiza item existente | OWNER |
-| DELETE `/id` | Remove item do cardápio | OWNER |
+| GET `/menu-items/all` | Lista itens de um restaurante | Todos os usuários |
+| POST `/menu-items` | Cria item no cardápio (com imagem) | OWNER |
+| PUT `/menu-items/{{menuItemId}}` | Atualiza item existente | OWNER |
+| DELETE `/menu-items/{{menuItemId}}` | Remove item do cardápio | OWNER |
 
 ---
 
@@ -107,7 +120,13 @@ A cobertura dos testes é monitorada com o auxílio do **JaCoCo**, que gera rela
 
 | Ferramenta | Finalidade |
 |------------|------------|
-| **Spring Boot** | Framework principal |
+| **Java 17** | Linguagem principal|
+| **Spring Boot 3.4.4** | Framework principal |
+| **PostgreSQL** | Banco de dados relacional|
+| **Flyway** | Migração de banco de dados |
+| **JWT** | Autenticação via tokens |
+| **Spring Security** | Segurança e controle de acesso |
+| **Maven** | Gerenciador de dependências |
 | **H2 Database** | Banco em memória para testes |
 | **Springdoc OpenAPI** | Geração de documentação Swagger |
 | **JUnit 5 + AssertJ + Mockito** | Testes unitários |
@@ -116,5 +135,11 @@ A cobertura dos testes é monitorada com o auxílio do **JaCoCo**, que gera rela
 | **Rest-Assured** | Testes de API |
 | **Jacoco** | Cobertura de testes |
 | **Docker** | Containerização da aplicação |
+
+---
+
+## 📄 Licença
+
+Este projeto é parte de um desafio educacional da FIAP. Uso livre para fins acadêmicos.
 
 ---

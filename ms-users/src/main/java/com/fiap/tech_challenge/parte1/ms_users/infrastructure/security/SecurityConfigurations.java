@@ -75,10 +75,15 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("OWNER")
-//                        .requestMatchers(HttpMethod.GET, "/restaurants").hasRole("OWNER")
-//                        .requestMatchers(HttpMethod.POST, "/restaurants").hasRole("OWNER")
-//                        .requestMatchers(HttpMethod.PUT, "/restaurants").hasRole("OWNER")
-//                        .requestMatchers(HttpMethod.DELETE, "/restaurants").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.POST, "/restaurants").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.PUT, "/restaurants/**").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.DELETE, "/restaurants/**").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.POST, "/menu-items").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.PUT, "/menu-items/**").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.DELETE, "/menu-items/**").hasRole("OWNER")
+                        .requestMatchers(HttpMethod.GET, "/usertypes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/usertypes").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/usertypes/**").hasRole("ADMIN")
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

@@ -54,10 +54,10 @@ public class UserTypeControllerInputPortImpl implements UserTypeControllerInputP
     public String toggleActivationUserType(Long id, boolean activate) {
         if (activate) {
             this.reactivateUserTypeUserCase.execute(id);
-            return "User activated!";
+            return "Usertype activated!";
         } else {
             this.deactivateUserTypeUseCase.execute(id);
-            return "User deactivated!";
+            return "Usertype deactivated!";
         }
     }
 
